@@ -13,10 +13,19 @@
 namespace Konekt\Witser\Providers;
 
 
-use Illuminate\Support\Facades\Route;
 use Konekt\Concord\BaseBoxServiceProvider;
+use Konekt\Witser\Models\Issue;
+use Konekt\Witser\Models\IssueType;
+use Konekt\Witser\Models\Project;
+use Konekt\Witser\Models\Severity;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
 {
+    protected $models = [
+        Project::class,
+        IssueType::class,
+        Severity::class,
+        Issue::class
+    ];
 
 }
