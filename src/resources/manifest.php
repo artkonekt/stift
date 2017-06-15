@@ -3,7 +3,7 @@
 use Konekt\Concord\Module\Kind;
 
 return [
-    'name'    => 'Witser Box',
+    'name'    => 'Stift Box',
     'version' => '0.1.0',
     'kind'    => Kind::BOX()
 ];

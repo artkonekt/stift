@@ -1,6 +1,6 @@
 {
-    "name": "konekt/witser",
-    "description": "Witser is a Concord box that handles projects, issues & time tracking",
+    "name": "konekt/stift",
+    "description": "Stift is a Concord box that handles projects, issues & time tracking",
     "type": "library",
     "minimum-stability": "dev",
     "keywords": ["laravel", "concord", "concord-box"],
@@ -12,7 +12,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/artkonekt/witser"
+        "issues": "https://github.com/artkonekt/stift"
     },
     "require": {
         "php": ">=7.0.0",
@@ -23,11 +23,11 @@
         "phpunit/phpunit" : "^6.0"
     },
     "autoload": {
-        "psr-4": { "Konekt\\Witser\\": "src"}
+        "psr-4": { "Konekt\\Stift\\": "src"}
     },
     "autoload-dev": {
         "psr-4": {
-            "Konekt\\Witser\\Tests\\": "tests"
+            "Konekt\\Stift\\Tests\\": "tests"
         }
     },
     "scripts": {

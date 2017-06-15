@@ -10,14 +10,14 @@
  */
 
 
-namespace Konekt\Witser\Tests\Feature;
+namespace Konekt\Stift\Tests\Feature;
 
 
-use Konekt\Witser\Contracts\Project;
-use Konekt\Witser\Contracts\Severity;
-use Konekt\Witser\Models\ProjectProxy;
-use Konekt\Witser\Models\SeverityProxy;
-use Konekt\Witser\Tests\TestCase;
+use Konekt\Stift\Contracts\Project;
+use Konekt\Stift\Contracts\Severity;
+use Konekt\Stift\Models\ProjectProxy;
+use Konekt\Stift\Models\SeverityProxy;
+use Konekt\Stift\Tests\TestCase;
 
 class ProjectSeveritiesTest extends TestCase
 {

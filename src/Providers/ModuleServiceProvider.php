@@ -10,14 +10,14 @@
  */
 
 
-namespace Konekt\Witser\Providers;
+namespace Konekt\Stift\Providers;
 
 
 use Konekt\Concord\BaseBoxServiceProvider;
-use Konekt\Witser\Models\Issue;
-use Konekt\Witser\Models\IssueType;
-use Konekt\Witser\Models\Project;
-use Konekt\Witser\Models\Severity;
+use Konekt\Stift\Models\Issue;
+use Konekt\Stift\Models\IssueType;
+use Konekt\Stift\Models\Project;
+use Konekt\Stift\Models\Severity;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
 {

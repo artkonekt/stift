@@ -10,11 +10,11 @@
  */
 
 
-namespace Konekt\Witser\Models;
+namespace Konekt\Stift\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
-use Konekt\Witser\Contracts\Project as ProjectContract;
+use Konekt\Stift\Contracts\Project as ProjectContract;
 
 class Project extends Model implements ProjectContract
 {

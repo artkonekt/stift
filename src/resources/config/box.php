@@ -4,11 +4,11 @@ return [
     'modules' => [],
     'event_listeners' => true,
     'views' => [
-        'namespace' => 'witser'
+        'namespace' => 'stift'
     ],
     'routes' => [
-        'prefix'     => 'witser',
-        'as'         => 'witser.',
+        'prefix'     => 'stift',
+        'as'         => 'stift.',
         'middleware' => ['web', 'auth', 'acl'],
         'files'      => ['web']
     ],

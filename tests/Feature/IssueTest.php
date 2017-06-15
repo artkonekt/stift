@@ -10,19 +10,19 @@
  */
 
 
-namespace Konekt\Witser\Tests\Feature;
+namespace Konekt\Stift\Tests\Feature;
 
 
 use Konekt\AppShell\Models\User;
 use Konekt\User\Models\UserProxy;
-use Konekt\Witser\Models\IssueProxy;
-use Konekt\Witser\Models\IssueType;
-use Konekt\Witser\Models\IssueTypeProxy;
-use Konekt\Witser\Models\Project;
-use Konekt\Witser\Models\ProjectProxy;
-use Konekt\Witser\Models\Severity;
-use Konekt\Witser\Models\SeverityProxy;
-use Konekt\Witser\Tests\TestCase;
+use Konekt\Stift\Models\IssueProxy;
+use Konekt\Stift\Models\IssueType;
+use Konekt\Stift\Models\IssueTypeProxy;
+use Konekt\Stift\Models\Project;
+use Konekt\Stift\Models\ProjectProxy;
+use Konekt\Stift\Models\Severity;
+use Konekt\Stift\Models\SeverityProxy;
+use Konekt\Stift\Tests\TestCase;
 
 class IssueTest extends TestCase
 {

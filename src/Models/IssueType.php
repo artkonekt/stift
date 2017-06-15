@@ -10,11 +10,11 @@
  */
 
 
-namespace Konekt\Witser\Models;
+namespace Konekt\Stift\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
-use Konekt\Witser\Contracts\IssueType as IssueTypeContract;
+use Konekt\Stift\Contracts\IssueType as IssueTypeContract;
 
 class IssueType extends Model implements IssueTypeContract
 {

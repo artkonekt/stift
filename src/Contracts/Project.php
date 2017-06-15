@@ -10,7 +10,7 @@
  */
 
 
-namespace Konekt\Witser\Contracts;
+namespace Konekt\Stift\Contracts;
 
 
 interface Project

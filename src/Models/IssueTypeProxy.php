@@ -10,7 +10,7 @@
  */
 
 
-namespace Konekt\Witser\Models;
+namespace Konekt\Stift\Models;
 
 
 use Konekt\Concord\Proxies\ModelProxy;

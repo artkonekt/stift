@@ -10,13 +10,13 @@
  */
 
 
-namespace Konekt\Witser\Tests\Feature;
+namespace Konekt\Stift\Tests\Feature;
 
 
-use Konekt\Witser\Contracts\Severity as SeverityContract;
-use Konekt\Witser\Models\Severity;
-use Konekt\Witser\Models\SeverityProxy;
-use Konekt\Witser\Tests\TestCase;
+use Konekt\Stift\Contracts\Severity as SeverityContract;
+use Konekt\Stift\Models\Severity;
+use Konekt\Stift\Models\SeverityProxy;
+use Konekt\Stift\Tests\TestCase;
 
 class SeverityTest extends TestCase
 {

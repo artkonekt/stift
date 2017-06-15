@@ -10,7 +10,7 @@
  */
 
 
-namespace Konekt\Witser\Tests;
+namespace Konekt\Stift\Tests;
 
 
 use Illuminate\Database\Eloquent\Model;

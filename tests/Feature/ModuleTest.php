@@ -10,11 +10,11 @@
  */
 
 
-namespace Konekt\Witser\Tests\Feature;
+namespace Konekt\Stift\Tests\Feature;
 
 
 use Konekt\Concord\Module\Kind;
-use Konekt\Witser\Tests\TestCase;
+use Konekt\Stift\Tests\TestCase;
 
 class ModuleTest extends TestCase
 {
@@ -26,11 +26,11 @@ class ModuleTest extends TestCase
                 return $module->getId();
             });
 
-        $this->assertTrue($modules->has('konekt.witser'), 'Witser module should be registered');
+        $this->assertTrue($modules->has('konekt.stift'), 'Stift module should be registered');
         $this->assertTrue($modules->has('konekt.app_shell'), 'AppShell module should be registered');
 
         $this->assertTrue(
-            $modules->get('konekt.witser')
+            $modules->get('konekt.stift')
                     ->getManifest()
                     ->getKind()
                     ->equals(Kind::BOX()),

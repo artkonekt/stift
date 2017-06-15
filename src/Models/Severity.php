@@ -10,11 +10,11 @@
  */
 
 
-namespace Konekt\Witser\Models;
+namespace Konekt\Stift\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
-use Konekt\Witser\Contracts\Severity as SeverityContract;
+use Konekt\Stift\Contracts\Severity as SeverityContract;
 
 class Severity extends Model implements SeverityContract
 {

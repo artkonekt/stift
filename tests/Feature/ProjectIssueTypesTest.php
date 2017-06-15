@@ -10,14 +10,14 @@
  */
 
 
-namespace Konekt\Witser\Tests\Feature;
+namespace Konekt\Stift\Tests\Feature;
 
 
-use Konekt\Witser\Contracts\IssueType;
-use Konekt\Witser\Contracts\Project;
-use Konekt\Witser\Models\IssueTypeProxy;
-use Konekt\Witser\Models\ProjectProxy;
-use Konekt\Witser\Tests\TestCase;
+use Konekt\Stift\Contracts\IssueType;
+use Konekt\Stift\Contracts\Project;
+use Konekt\Stift\Models\IssueTypeProxy;
+use Konekt\Stift\Models\ProjectProxy;
+use Konekt\Stift\Tests\TestCase;
 
 class ProjectIssueTypesTest extends TestCase
 {

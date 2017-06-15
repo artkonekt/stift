@@ -10,11 +10,11 @@
  */
 
 
-namespace Konekt\Witser\Tests;
+namespace Konekt\Stift\Tests;
 
 use Konekt\AppShell\Providers\ModuleServiceProvider as AppShell;
 use Konekt\Concord\Contracts\Concord;
-use Konekt\Witser\Providers\ModuleServiceProvider as Witser;
+use Konekt\Stift\Providers\ModuleServiceProvider as Stift;
 use Konekt\Concord\ConcordServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
@@ -70,15 +70,6 @@ class TestCase extends OrchestraTestCase
             'prefix'   => '',
         ]);
 
-//        $app['config']->set('database.default', 'test');
-//        $app['config']->set('database.connections.test', [
-//            'driver'   => 'mysql',
-//            'host'     => 'localhost',
-//            'database' => 'witser_test',
-//            'username' => 'root',
-//            'password' => 'sampler'
-//        ]);
-
         $app['config']->set('view.paths', [__DIR__.'/resources/views']);
     }
 
@@ -115,7 +106,7 @@ class TestCase extends OrchestraTestCase
         parent::resolveApplicationConfiguration($app);
         $app['config']->set('concord.modules', [
             AppShell::class,
-            Witser::class
+            Stift::class
         ]);
     }
 

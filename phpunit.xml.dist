@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Witser Library Test Suite">
+        <testsuite name="Stift Library Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
