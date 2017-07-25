@@ -18,6 +18,7 @@ use Konekt\Stift\Models\Issue;
 use Konekt\Stift\Models\IssueType;
 use Konekt\Stift\Models\Project;
 use Konekt\Stift\Models\Severity;
+use Menu;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
 {
@@ -27,5 +28,15 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         Severity::class,
         Issue::class
     ];
+
+    public function boot()
+    {
+        parent::boot();
+
+        if ($menu = Menu::get('appshell')) {
+            $menu->addItem('issues', __('Issues'), ['route' => 'stift.issue.index'])->data('icon', 'check-circle-u');
+        }
+    }
+
 
 }
