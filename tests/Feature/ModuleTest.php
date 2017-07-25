@@ -27,6 +27,7 @@ class ModuleTest extends TestCase
             });
 
         $this->assertTrue($modules->has('konekt.stift'), 'Stift module should be registered');
+        $this->assertTrue($modules->has('konekt.client'), 'Client module should be registered');
         $this->assertTrue($modules->has('konekt.app_shell'), 'AppShell module should be registered');
 
         $this->assertTrue(

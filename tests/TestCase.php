@@ -13,8 +13,10 @@
 namespace Konekt\Stift\Tests;
 
 use Konekt\AppShell\Providers\ModuleServiceProvider as AppShell;
+use Konekt\Client\Models\ClientProxy;
 use Konekt\Concord\Contracts\Concord;
 use Konekt\Stift\Providers\ModuleServiceProvider as Stift;
+use Konekt\Client\Providers\ModuleServiceProvider as ClientModule;
 use Konekt\Concord\ConcordServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
@@ -39,9 +41,9 @@ class TestCase extends OrchestraTestCase
 
     protected function createTestClients()
     {
-        $this->clientOne   = Client::create(['name' => 'Client 1']);
-        $this->clientTwo   = Client::create(['name' => 'Client 2']);
-        $this->clientThree = Client::create(['name' => 'Client 3']);
+        $this->clientOne   = ClientProxy::create(['name' => 'Client 1']);
+        $this->clientTwo   = ClientProxy::create(['name' => 'Client 2']);
+        $this->clientThree = ClientProxy::create(['name' => 'Client 3']);
     }
 
     /**
@@ -89,12 +91,6 @@ class TestCase extends OrchestraTestCase
             $table->timestamps();
         });
 
-        // Client table faked until module gets implemented
-        $app['db']->connection()->getSchemaBuilder()->create('clients', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-        });
-
         $this->artisan('migrate', ['--database' => 'test']);
     }
 
@@ -106,6 +102,7 @@ class TestCase extends OrchestraTestCase
         parent::resolveApplicationConfiguration($app);
         $app['config']->set('concord.modules', [
             AppShell::class,
+            ClientModule::class,
             Stift::class
         ]);
     }
