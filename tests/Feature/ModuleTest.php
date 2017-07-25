@@ -21,7 +21,7 @@ class ModuleTest extends TestCase
     public function testModulesArePresent()
     {
         $modules = $this->concord
-            ->getModules()
+            ->getModules(true)
             ->keyBy(function($module) {
                 return $module->getId();
             });

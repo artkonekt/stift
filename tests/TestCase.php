@@ -16,7 +16,6 @@ use Konekt\AppShell\Providers\ModuleServiceProvider as AppShell;
 use Konekt\Client\Models\ClientProxy;
 use Konekt\Concord\Contracts\Concord;
 use Konekt\Stift\Providers\ModuleServiceProvider as Stift;
-use Konekt\Client\Providers\ModuleServiceProvider as ClientModule;
 use Konekt\Concord\ConcordServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
@@ -102,7 +101,6 @@ class TestCase extends OrchestraTestCase
         parent::resolveApplicationConfiguration($app);
         $app['config']->set('concord.modules', [
             AppShell::class,
-            ClientModule::class,
             Stift::class
         ]);
     }
