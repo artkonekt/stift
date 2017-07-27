@@ -18,12 +18,30 @@ class CreateBaseStiftTables extends Migration
             $table->integer('client_id')->unsigned();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary('id');
 
             $table->foreign('client_id')
+                ->references('id')
+                ->on('clients');
+
+        });
+
+        Schema::create('project_users', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('project_id');
+            $table->integer('user_id')->unsigned();
+            $table->timestamps();
+
+            $table->foreign('project_id')
                   ->references('id')
-                  ->on('clients');
+                  ->on('projects')
+                  ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users');
 
         });
 
@@ -88,6 +106,7 @@ class CreateBaseStiftTables extends Migration
             $table->integer('created_by')->unsigned();
             $table->integer('assigned_to')->unsigned()->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('project_id')
                   ->references('id')
@@ -120,6 +139,7 @@ class CreateBaseStiftTables extends Migration
         Schema::drop('project_issue_types');
         Schema::drop('severities');
         Schema::drop('issue_types');
+        Schema::drop('project_users');
         Schema::drop('projects');
     }
 }
