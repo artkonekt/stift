@@ -47,6 +47,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         parent::boot();
 
         if ($menu = Menu::get('appshell')) {
+            $menu->addItem('stift', __('Stift'));
             $menu->addItem('projects', __('Projects'), ['route' => 'stift.project.index'])->data('icon', 'folder-star');
             $menu->addItem('issues', __('Issues'), ['route' => 'stift.issue.index'])->data('icon', 'check-circle-u');
         }
