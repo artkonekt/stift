@@ -10,32 +10,32 @@
     @endif
 </div>
 
-<div class="form-group{{ $errors->has('id') ? ' has-danger' : '' }}">
-    {{ Form::text('id', null, ['class' => 'form-control form-control-sm', 'placeholder' => __('Project key (also its URI)')]) }}
-    @if ($errors->has('id'))
-        <div class="form-control-feedback">{{ $errors->first('id') }}</div>
+<div class="form-group{{ $errors->has('slug') ? ' has-danger' : '' }}">
+    {{ Form::text('slug', null, ['class' => 'form-control form-control-sm', 'placeholder' => __('Project key (leave empty to auto-generate)')]) }}
+    @if ($errors->has('slug'))
+        <div class="form-control-feedback">{{ $errors->first('slug') }}</div>
     @endif
 </div>
 
 <div class="form-group{{ $errors->has('project_id') ? ' has-danger' : '' }}">
-    @if($clients->count() > 1)
-        {{ Form::select('client_id', $clients, null, ['class' => 'form-control form-control-lg', 'placeholder' => __('Project')]) }}
-    @elseif($clients->count() == 0)
+    @if($customers->count() > 1)
+        {{ Form::select('customer_id', $customers->pluck('name','id'), null, ['class' => 'form-control', 'placeholder' => __('Customer')]) }}
+    @elseif($customers->count() == 0)
         <div class="alert alert-warning">
-            <strong>{{ __("There's no client in the system.") }}</strong>
-            @can('create clients')
-                <a href="{{ route('stift.client.create') }}" class="btn btn-sm btn-outline-success float-right">
+            <strong>{{ __("There's no customer in the system.") }}</strong>
+            @can('create customers')
+                <a href="{{ route('appshell.customer.create') }}" class="btn btn-sm btn-outline-success float-right">
                     <i class="zmdi zmdi-plus"></i>
-                    {{ __('Create client') }}
+                    {{ __('Create customer') }}
                 </a>
             @else
                 <i class="zmdi zmdi-mood-bad"></i> {{ __("Unfortunately you can't create one") }}
             @endcan
         </div>
     @else
-        <?php $client = $clients->first(); ?>
-        {{ Form::hidden('client_id', $client->id) }}
-        <label class="text-muted">{{ __('Client') }}: {{ $client->name() }}</label>
+        <?php $customer = $customers->first(); ?>
+        {{ Form::hidden('customer_id', $customer->id) }}
+        <label class="text-muted">{{ __('Customer') }}: {{ $customer->getName() }}</label>
     @endif
 
     @if ($errors->has('project_id'))
@@ -65,7 +65,7 @@
     <legend>{{ __('Visible for users') }}</legend>
 
     @foreach($users as $user)
-        {{ Form::checkbox("users[{$user->id}]", 1, $project->visibleFor($user), ['id' => 'users_' . $user->id]) }}
+        {{ Form::checkbox("users[]", $user->id, $project->visibleFor($user), ['id' => 'users_' . $user->id]) }}
         <label for="users_{{$user->id}}">{{ $user->name }}</label>
     @endforeach
 

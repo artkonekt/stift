@@ -12,7 +12,7 @@
 
 <div class="form-group{{ $errors->has('project_id') ? ' has-danger' : '' }}">
     @if($projects->count() > 1)
-        {{ Form::select('project_id', $projects, null, ['class' => 'form-control form-control-lg', 'placeholder' => __('Project')]) }}
+        {{ Form::select('project_id', $projects->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Project')]) }}
     @elseif($projects->count() == 0)
         <div class="alert alert-warning">
             <strong>{{ __("There's no project in the system.") }}</strong>
@@ -36,6 +36,41 @@
     @endif
 </div>
 
+<div class="form-group row">
+    <label class="form-control-label col-md-2">{{ __('Status') }}</label>
+    <div class="col-md-10">
+        @foreach($statuses as $status)
+            <label class="radio-inline" for="status_{{ $status }}">
+                {{ Form::radio('status', $status, $issue->status == $status, ['id' => "status_$status"]) }}
+                {{ $status }}
+                &nbsp;
+            </label>
+        @endforeach
+
+        @if ($errors->has('status'))
+            <div class="invalid-feedback">{{ $errors->first('status') }}</div>
+        @endif
+    </div>
+</div>
+
+<div class="form-group{{ $errors->has('issue_type_id') ? ' has-danger' : '' }}">
+    {{ Form::hidden('issue_type_id', 'task') }}
+    <label class="text-muted">{{ __('Type') }}: Task</label>
+
+    @if ($errors->has('issue_type_id'))
+        <div class="form-control-feedback">{{ $errors->first('issue_type_id') }}</div>
+    @endif
+</div>
+
+<div class="form-group{{ $errors->has('severity_id') ? ' has-danger' : '' }}">
+    {{ Form::hidden('severity_id', 'normal') }}
+        <label class="text-muted">{{ __('Severity') }}: Normal</label>
+
+    @if ($errors->has('severity_id'))
+        <div class="form-control-feedback">{{ $errors->first('severity_id') }}</div>
+    @endif
+</div>
+
 {{--<div class="form-group row {{ $errors->has('permissions') ? ' has-danger' : '' }}">--}}
 
     {{--@foreach($permissions as $permission)--}}
@@ -54,5 +89,3 @@
     {{--@endif--}}
 
 {{--</div>--}}
-
-

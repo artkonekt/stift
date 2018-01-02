@@ -13,20 +13,18 @@
 namespace Konekt\Stift\Models;
 
 
-use Illuminate\Database\Eloquent\Collection;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
-use Konekt\Client\Models\ClientProxy;
+use Konekt\Customer\Models\CustomerProxy;
 use Konekt\Stift\Contracts\Project as ProjectContract;
 use Konekt\User\Contracts\User;
+use Konekt\User\Models\UserProxy;
 
 class Project extends Model implements ProjectContract
 {
-    /**
-     * @var bool Project id's are non-numeric, they're the project slug
-     */
-    public $incrementing = false;
+    use Sluggable;
 
-    protected $fillable = ['id', 'name', 'client_id', 'is_active'];
+    protected $fillable = ['name', 'slug', 'customer_id', 'is_active'];
 
     /**
      * Every project has several issue types enabled for it
@@ -35,10 +33,7 @@ class Project extends Model implements ProjectContract
      */
     public function issueTypes()
     {
-        return $this->belongsToMany(
-            IssueTypeProxy::modelClass(),
-            'project_issue_types'
-        );
+        return $this->belongsToMany(IssueTypeProxy::modelClass(), 'project_issue_types');
     }
 
     /**
@@ -48,15 +43,27 @@ class Project extends Model implements ProjectContract
      */
     public function severities()
     {
-        return $this->belongsToMany(
-            SeverityProxy::modelClass(),
-            'project_severities'
-        );
+        return $this->belongsToMany(SeverityProxy::modelClass(), 'project_severities');
     }
 
-    public function client()
+    /**
+     * Users who have access to the project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
     {
-        return $this->hasOne(ClientProxy::modelClass(), 'id', 'client_id');
+        return $this->belongsToMany(UserProxy::modelClass(), 'project_users');
+    }
+
+    /**
+     * The customer the project belongs to
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function customer()
+    {
+        return $this->hasOne(CustomerProxy::modelClass(), 'id', 'customer_id');
     }
 
     /**
@@ -75,5 +82,12 @@ class Project extends Model implements ProjectContract
         );
     }
 
-
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 }

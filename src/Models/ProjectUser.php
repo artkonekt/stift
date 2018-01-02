@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Konekt\Stift\Contracts\ProjectUser as ProjectUserContract;
 use Konekt\User\Contracts\User;
+use Konekt\User\Models\UserProxy;
 
 class ProjectUser extends Model implements ProjectUserContract
 {
@@ -28,7 +29,7 @@ class ProjectUser extends Model implements ProjectUserContract
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(UserProxy::modelClass());
     }
 
     /**
@@ -38,7 +39,7 @@ class ProjectUser extends Model implements ProjectUserContract
      */
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(ProjectProxy::modelClass());
     }
 
     /**

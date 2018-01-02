@@ -45,7 +45,7 @@
                                 <span class="badge badge-warning">{{ __('Inactive') }}</span>
                             @endunless
                         </td>
-                        <td>{{ $project->client->name() }}</td>
+                        <td>{{ $project->customer->name }}</td>
                         <td>{{ $project->created_at->diffForHumans() }}</td>
                     </tr>
                 @endforeach

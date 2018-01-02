@@ -24,13 +24,12 @@ class UpdateIssue extends FormRequest implements UpdateIssueContract
     {
         return [
             'subject'       => 'required|min:2|max:255',
-            'project_id'    => 'required|alpha_dash',
+            'project_id'    => 'required|integer',
             'issue_type_id' => 'required|alpha_dash',
             'severity_id'   => 'required|alpha_dash',
             'status'        => 'required|alpha_dash',
             'priority'      => 'sometimes|integer',
             'due_on'        => 'sometimes|date_format:Y-m-d',
-            'created_by'    => 'required|integer',
             'assigned_to'   => 'sometimes|integer'
         ];
     }

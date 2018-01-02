@@ -23,9 +23,9 @@ class CreateProject extends FormRequest implements CreateProjectContract
     public function rules()
     {
         return [
-            'id'        => 'sometimes|alpha_dash',
-            'name'      => 'required|min:2|max:255',
-            'client_id' => 'required|integer'
+            'slug'        => 'sometimes|nullable|alpha_dash',
+            'name'        => 'required|min:2|max:255',
+            'customer_id' => 'required|integer'
         ];
     }
 

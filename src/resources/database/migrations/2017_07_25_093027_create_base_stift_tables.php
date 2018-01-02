@@ -13,24 +13,23 @@ class CreateBaseStiftTables extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->string('id');
+            $table->increments('id');
             $table->string('name');
-            $table->integer('client_id')->unsigned();
+            $table->string('slug')->nullable();
+            $table->integer('customer_id')->unsigned();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
 
-            $table->primary('id');
-
-            $table->foreign('client_id')
+            $table->foreign('customer_id')
                 ->references('id')
-                ->on('clients');
+                ->on('customers');
 
         });
 
         Schema::create('project_users', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('project_id');
+            $table->integer('project_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 
@@ -65,7 +64,7 @@ class CreateBaseStiftTables extends Migration
         Schema::create('project_issue_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('issue_type_id');
-            $table->string('project_id');
+            $table->integer('project_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('issue_type_id')
@@ -80,7 +79,7 @@ class CreateBaseStiftTables extends Migration
         Schema::create('project_severities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('severity_id');
-            $table->string('project_id');
+            $table->integer('project_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('severity_id')
@@ -94,7 +93,7 @@ class CreateBaseStiftTables extends Migration
 
         Schema::create('issues', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('project_id');
+            $table->integer('project_id')->unsigned();
             $table->string('issue_type_id');
             $table->string('severity_id');
             $table->string('subject');

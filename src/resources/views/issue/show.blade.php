@@ -1,7 +1,7 @@
 @extends('appshell::layouts.default')
 
 @section('title')
-    {{ __('The :name Project', ['name' => $project->name]) }}
+    {{  $issue->subject }}
 @stop
 
 @section('content')
@@ -10,18 +10,11 @@
         <div class="col-sm-6 col-md-3">
             @component('appshell::widgets.card_with_icon', [
                     'icon' => 'folder-star',
-                    'type' => $project->is_active ? 'success' : null
+                    'type' => $issue->status == 'done' ? 'success' : null
             ])
-                {{ $project->name }}
-                @if (!$project->is_active)
-                    <small>
-                        <span class="badge badge-default">
-                            {{ __('inactive') }}
-                        </span>
-                    </small>
-                @endif
+                {{ $issue->project->name }}
                 @slot('subtitle')
-                    {{ $project->customer->name }}
+                    {{ $issue->project->customer->name }}
                 @endslot
             @endcomponent
         </div>
@@ -78,8 +71,8 @@
 
     <div class="card">
         <div class="card-block">
-            @can('edit projects')
-                <a href="{{ route('stift.project.edit', $project) }}" class="btn btn-outline-primary">{{ __('Edit project') }}</a>
+            @can('edit issues')
+                <a href="{{ route('stift.issue.edit', $issue) }}" class="btn btn-outline-primary">{{ __('Edit issue') }}</a>
             @endcan
         </div>
     </div>
