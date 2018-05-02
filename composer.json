@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=7.0.0",
-        "konekt/appshell": "dev-master"
+        "konekt/appshell": ">=0.9.6"
     },
     "require-dev": {
         "orchestra/testbench": "~3.4.2",
