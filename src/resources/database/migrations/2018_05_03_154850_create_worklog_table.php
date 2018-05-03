@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateWorklogTable extends Migration
@@ -18,7 +19,7 @@ class CreateWorklogTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('issue_id')->unsigned()->nullable();
             $table->enum('state', ['running', 'paused', 'finished', 'approved', 'rejected', 'billed'])->default('running');
-            $table->dateTime('started_at');
+            $table->dateTime('started_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('finished_at')->nullable();
             $table->integer('duration')->unsigned()->nullable();
             $table->text('description')->nullable();

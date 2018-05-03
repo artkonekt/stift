@@ -15,11 +15,12 @@ use Konekt\Stift\Contracts\Worklog as WorklogContract;
 use Konekt\Stift\Models\Worklog;
 use Konekt\Stift\Models\WorklogProxy;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestUsers;
 use Konekt\Stift\Tests\TestCase;
 
 class WorklogTest extends TestCase
 {
-    use CreatesTestClients;
+    use CreatesTestClients, CreatesTestUsers;
 
     public function testHasModel()
     {
@@ -44,27 +45,21 @@ class WorklogTest extends TestCase
         $this->assertEquals(Worklog::class, WorklogProxy::modelClass());
     }
 
-    public function stestWorklogCanBeCreated()
+    public function testWorklogCanBeCreated()
     {
-        $project = WorklogProxy::create([
-            'name' => 'Bells',
-            'customer_id' => $this->clientOne->id
+        $worklog = WorklogProxy::create([
+            'user_id' => $this->user1
         ]);
 
-        $this->assertEquals('Bells', $project->name);
-        $this->assertEquals($this->clientOne->id, $project->customer_id);
+        $this->assertInstanceOf(WorklogContract::class, $worklog);
+        $this->assertInstanceOf(Worklog::class, $worklog);
     }
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->createTestData();
-    }
-
-    private function createTestData()
-    {
+        $this->createTestUsers();
         $this->createTestClients();
-
     }
 }
