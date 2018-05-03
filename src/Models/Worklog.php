@@ -10,11 +10,25 @@
 
 namespace Konekt\Stift\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Konekt\Enum\Eloquent\CastsEnums;
 use Konekt\Stift\Contracts\Worklog as WorklogContract;
+use Konekt\User\Contracts\User;
 use Konekt\User\Models\UserProxy;
 
+/**
+ * @property integer $id
+ * @property string  $description
+ * @property integer $duration
+ * @property Carbon  $created_at
+ * @property Carbon  $updated_at
+ * @property Carbon  $started_at
+ * @property Carbon  $finished_at
+ * @property WorklogState $state
+ * @property User    $user
+ * @property Issue   $issue
+ */
 class Worklog extends Model implements WorklogContract
 {
     use CastsEnums;

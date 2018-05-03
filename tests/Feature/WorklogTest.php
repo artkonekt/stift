@@ -12,15 +12,21 @@
 namespace Konekt\Stift\Tests\Feature;
 
 use Konekt\Stift\Contracts\Worklog as WorklogContract;
+use Konekt\Stift\Models\Issue;
 use Konekt\Stift\Models\Worklog;
 use Konekt\Stift\Models\WorklogProxy;
+use Konekt\Stift\Models\WorklogState;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestIssueTypes;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestProjects;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestSeverities;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestUsers;
 use Konekt\Stift\Tests\TestCase;
+use Konekt\User\Contracts\User;
 
 class WorklogTest extends TestCase
 {
-    use CreatesTestClients, CreatesTestUsers;
+    use CreatesTestClients, CreatesTestUsers, CreatesTestIssueTypes, CreatesTestSeverities, CreatesTestProjects;
 
     public function testHasModel()
     {
@@ -48,11 +54,54 @@ class WorklogTest extends TestCase
     public function testWorklogCanBeCreated()
     {
         $worklog = WorklogProxy::create([
-            'user_id' => $this->user1
+            'user_id' => $this->user1->id
         ]);
 
         $this->assertInstanceOf(WorklogContract::class, $worklog);
         $this->assertInstanceOf(Worklog::class, $worklog);
+    }
+
+    public function testStateFieldIsAnEnum()
+    {
+        $worklog = WorklogProxy::create([
+            'user_id' => $this->user1->id
+        ]);
+
+        $this->assertInstanceOf(WorklogState::class, $worklog->state);
+        $this->assertTrue(WorklogState::create()->equals($worklog->state));
+    }
+
+    public function testItHasAUser()
+    {
+        $worklog = WorklogProxy::create([
+            'user_id' => $this->user2->id
+        ]);
+
+        $this->assertInstanceOf(User::class, $worklog->user);
+        $this->assertEquals($this->user2->id, $worklog->user->id);
+    }
+
+    public function testItCanHaveAnIssue()
+    {
+        $this->createTestSeverities();
+        $this->createTestIssueTypes();
+        $this->createTestProjects();
+
+        $issue = Issue::create([
+            'project_id' => $this->project1->id,
+            'issue_type_id' => $this->task->id,
+            'severity_id' => $this->medium->id,
+            'subject' => 'My Funky Issue',
+            'status' => 'new',
+            'created_by' => $this->user1->id
+        ]);
+        $worklog = WorklogProxy::create([
+            'user_id' => $this->user2->id,
+            'issue_id' => $issue->id
+        ]);
+
+        $this->assertInstanceOf(Issue::class, $worklog->issue);
+        $this->assertEquals($issue->id, $worklog->issue->id);
     }
 
     public function setUp()
