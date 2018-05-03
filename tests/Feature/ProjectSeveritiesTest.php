@@ -17,35 +17,14 @@ use Konekt\Stift\Contracts\Project;
 use Konekt\Stift\Contracts\Severity;
 use Konekt\Stift\Models\ProjectProxy;
 use Konekt\Stift\Models\SeverityProxy;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestProjects;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestSeverities;
 use Konekt\Stift\Tests\TestCase;
 
 class ProjectSeveritiesTest extends TestCase
 {
-    const TEST_PROJECT1_KEY = 'volvo';
-    const TEST_PROJECT2_KEY = 'hyundai';
-
-    const TEST_LOW_KEY      = 'low';
-    const TEST_MEDIUM_KEY   = 'medium';
-    const TEST_HIGH_KEY     = 'high';
-    const TEST_CRITICAL_KEY = 'critical';
-
-    /** @var  Project */
-    private $project1;
-
-    /** @var  Project */
-    private $project2;
-
-    /** @var  Severity */
-    private $low;
-
-    /** @var  Severity */
-    private $medium;
-
-    /** @var  Severity */
-    private $high;
-
-    /** @var  Severity */
-    private $critical;
+    use CreatesTestClients, CreatesTestProjects, CreatesTestSeverities;
 
     public function testSeverityCanBeAssignedToProject()
     {
@@ -115,15 +94,15 @@ class ProjectSeveritiesTest extends TestCase
         $this->assertCount(4, $project2->severities);
 
         $project1Severities = $project1->severities->keyBy('id')->all();
-        $this->assertArrayHasKey(self::TEST_LOW_KEY, $project1Severities);
-        $this->assertArrayHasKey(self::TEST_MEDIUM_KEY, $project1Severities);
-        $this->assertArrayHasKey(self::TEST_HIGH_KEY, $project1Severities);
+        $this->assertArrayHasKey(self::$TEST_LOW_KEY, $project1Severities);
+        $this->assertArrayHasKey(self::$TEST_MEDIUM_KEY, $project1Severities);
+        $this->assertArrayHasKey(self::$TEST_HIGH_KEY, $project1Severities);
 
         $project2Severities = $project2->severities->keyBy('id')->all();
-        $this->assertArrayHasKey(self::TEST_LOW_KEY, $project2Severities);
-        $this->assertArrayHasKey(self::TEST_MEDIUM_KEY, $project2Severities);
-        $this->assertArrayHasKey(self::TEST_HIGH_KEY, $project2Severities);
-        $this->assertArrayHasKey(self::TEST_CRITICAL_KEY, $project2Severities);
+        $this->assertArrayHasKey(self::$TEST_LOW_KEY, $project2Severities);
+        $this->assertArrayHasKey(self::$TEST_MEDIUM_KEY, $project2Severities);
+        $this->assertArrayHasKey(self::$TEST_HIGH_KEY, $project2Severities);
+        $this->assertArrayHasKey(self::$TEST_CRITICAL_KEY, $project2Severities);
     }
 
     public function testSeveritiesAreAwareOfProjectsTheyAreAssignedTo()
@@ -160,58 +139,14 @@ class ProjectSeveritiesTest extends TestCase
 
         $this->assertCount(2, $this->project1->severities);
 
-        $this->assertArrayNotHasKey(self::TEST_CRITICAL_KEY, $this->project1->severities->keyBy('id')->all());
+        $this->assertArrayNotHasKey(self::$TEST_CRITICAL_KEY, $this->project1->severities->keyBy('id')->all());
     }
 
-    /**
-     * Creates clients (with base test case) and two projects (local to this class)
-     */
-    protected function createTestProjects()
+    public function setUp()
     {
+        parent::setUp();
+
         $this->createTestClients();
-
-        $this->project1 = ProjectProxy::create([
-            'id'        => self::TEST_PROJECT1_KEY,
-            'name'      => 'Volvo, Sweden',
-            'customer_id' => $this->clientOne->id
-        ]);
-
-        $this->project2 = ProjectProxy::create([
-            'id'        => self::TEST_PROJECT2_KEY,
-            'name'      => 'Hyundai, Korea',
-            'customer_id' => $this->clientTwo->id
-        ]);
+        $this->createTestProjects();
     }
-
-    /**
-     * Creates the 4 local test severities: low, medium, high, critical
-     */
-    protected function createTestSeverities()
-    {
-        $this->low = SeverityProxy::create([
-            'id'     => self::TEST_LOW_KEY,
-            'name'   => 'Low',
-            'weight' => 1
-        ]);
-
-        $this->medium = SeverityProxy::create([
-            'id'     => self::TEST_MEDIUM_KEY,
-            'name'   => 'Medium',
-            'weight' => 5
-        ]);
-
-        $this->high = SeverityProxy::create([
-            'id'     => self::TEST_HIGH_KEY,
-            'name'   => 'High',
-            'weight' => 8
-        ]);
-
-        $this->critical = SeverityProxy::create([
-            'id'     => self::TEST_CRITICAL_KEY,
-            'name'   => 'Critical',
-            'weight' => 10
-        ])->fresh();
-
-    }
-
 }

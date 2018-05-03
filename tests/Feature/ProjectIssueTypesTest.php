@@ -9,41 +9,20 @@
  *
  */
 
-
 namespace Konekt\Stift\Tests\Feature;
 
-
-use Konekt\Stift\Contracts\IssueType;
-use Konekt\Stift\Contracts\Project;
-use Konekt\Stift\Models\IssueTypeProxy;
 use Konekt\Stift\Models\ProjectProxy;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestIssueTypes;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestProjects;
 use Konekt\Stift\Tests\TestCase;
 
 class ProjectIssueTypesTest extends TestCase
 {
-    const TEST_EPIC_KEY     = 'epic';
-    const TEST_STORY_KEY    = 'story';
-    const TEST_TASK_KEY     = 'task';
-
-    /** @var  Project */
-    private $project1;
-
-    /** @var  Project */
-    private $project2;
-
-    /** @var  IssueType */
-    private $epic;
-
-    /** @var  IssueType */
-    private $story;
-
-    /** @var  IssueType */
-    private $task;
+    use CreatesTestClients, CreatesTestProjects, CreatesTestIssueTypes;
 
     public function testIssueTypeCanBeAssignedToProject()
     {
-        $this->createTestProjects();
-
         $this->project1->issueTypes()->create([
             'id' => 'bug',
             'name' => 'Microsoft Bug'
@@ -61,8 +40,6 @@ class ProjectIssueTypesTest extends TestCase
 
     public function testSeveralIssueTypesCanBeAssignedToAProject()
     {
-        $this->createTestProjects();
-
         $this->project1->issueTypes()->create([
             'id' => 'fly',
             'name' => 'Microsoft Fly Bug'
@@ -86,14 +63,13 @@ class ProjectIssueTypesTest extends TestCase
 
     public function testIssueTypeCanBeAssignedToMultipleProjects()
     {
-        $this->createTestProjects();
         $this->createTestIssueTypes();
 
         $this->project1->issueTypes()->save($this->task);
-        $this->project1->issueTypes()->save($this->story);
+        $this->project1->issueTypes()->save($this->ticket);
 
-        $this->project2->issueTypes()->save($this->epic);
-        $this->project2->issueTypes()->save($this->story);
+        $this->project2->issueTypes()->save($this->bug);
+        $this->project2->issueTypes()->save($this->ticket);
         $this->project2->issueTypes()->save($this->task);
 
         // Refetch a separate instance
@@ -104,90 +80,55 @@ class ProjectIssueTypesTest extends TestCase
         $this->assertCount(3, $project2->issueTypes);
 
         $project1Types = $project1->issueTypes->keyBy('id')->all();
-        $this->assertArrayHasKey(self::TEST_TASK_KEY, $project1Types);
-        $this->assertArrayHasKey(self::TEST_STORY_KEY, $project1Types);
+        $this->assertArrayHasKey(self::$TEST_TASK_KEY, $project1Types);
+        $this->assertArrayHasKey(self::$TEST_TICKET_KEY, $project1Types);
 
         $project2Types = $project2->issueTypes->keyBy('id')->all();
-        $this->assertArrayHasKey(self::TEST_TASK_KEY, $project2Types);
-        $this->assertArrayHasKey(self::TEST_STORY_KEY, $project2Types);
-        $this->assertArrayHasKey(self::TEST_EPIC_KEY, $project2Types);
+        $this->assertArrayHasKey(self::$TEST_TASK_KEY, $project2Types);
+        $this->assertArrayHasKey(self::$TEST_BUG_KEY, $project2Types);
+        $this->assertArrayHasKey(self::$TEST_TICKET_KEY, $project2Types);
     }
 
     public function testIssueTypesAreAwareOfProjectsTheyAreAssignedTo()
     {
-        $this->createTestProjects();
         $this->createTestIssueTypes();
 
         $this->project1->issueTypes()->save($this->task);
         $this->project2->issueTypes()->save($this->task);
-        $this->project2->issueTypes()->save($this->epic);
+        $this->project2->issueTypes()->save($this->bug);
 
         $this->assertCount(2, $this->task->projects);
-        $this->assertCount(1, $this->epic->projects);
+        $this->assertCount(1, $this->bug->projects);
 
         $this->assertArrayHasKey($this->project1->id, $this->task->projects->keyBy('id')->all());
         $this->assertArrayHasKey($this->project2->id, $this->task->projects->keyBy('id')->all());
-        $this->assertArrayHasKey($this->project2->id, $this->epic->projects->keyBy('id')->all());
+        $this->assertArrayHasKey($this->project2->id, $this->bug->projects->keyBy('id')->all());
     }
 
     public function testIssueTypeCanBeRevokedFromProject()
     {
-        $this->createTestProjects();
         $this->createTestIssueTypes();
 
         $this->project1->issueTypes()->save($this->task);
-        $this->project1->issueTypes()->save($this->epic);
-        $this->project1->issueTypes()->save($this->story);
+        $this->project1->issueTypes()->save($this->bug);
+        $this->project1->issueTypes()->save($this->ticket);
 
         $this->assertCount(3, $this->project1->issueTypes);
 
-        $this->project1->issueTypes()->detach($this->epic);
+        $this->project1->issueTypes()->detach($this->bug);
         // Must reload, since detach doesn't remove it from the collection
         $this->project1->load('issueTypes');
 
         $this->assertCount(2, $this->project1->issueTypes);
 
-        $this->assertArrayNotHasKey(self::TEST_EPIC_KEY, $this->project1->issueTypes->keyBy('id')->all());
+        $this->assertArrayNotHasKey(self::$TEST_BUG_KEY, $this->project1->issueTypes->keyBy('id')->all());
     }
 
-    /**
-     * Creates clients (with base test case) and two projects (local to this class)
-     */
-    protected function createTestProjects()
+    public function setUp()
     {
+        parent::setUp();
+
         $this->createTestClients();
-
-        $this->project1 = ProjectProxy::create([
-            'name'      => 'Microsoft',
-            'customer_id' => $this->clientOne->id
-        ])->fresh();
-
-        $this->project2 = ProjectProxy::create([
-            'name'      => 'Atlassian',
-            'customer_id' => $this->clientTwo->id
-        ])->fresh();
+        $this->createTestProjects();
     }
-
-    /**
-     * Creates the 3 local test issue types: epic, story, task
-     */
-    protected function createTestIssueTypes()
-    {
-        $this->epic = IssueTypeProxy::create([
-            'id'   => self::TEST_EPIC_KEY,
-            'name' => 'Epic Shit'
-        ]);
-
-        $this->story = IssueTypeProxy::create([
-            'id'   => self::TEST_STORY_KEY,
-            'name' => 'Story'
-        ]);
-
-        $this->task = IssueTypeProxy::create([
-            'id'   => self::TEST_TASK_KEY,
-            'name' => 'Task'
-        ]);
-
-    }
-
 }

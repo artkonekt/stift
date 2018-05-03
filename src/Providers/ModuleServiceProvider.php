@@ -23,6 +23,8 @@ use Konekt\Stift\Models\IssueType;
 use Konekt\Stift\Models\Project;
 use Konekt\Stift\Models\ProjectUser;
 use Konekt\Stift\Models\Severity;
+use Konekt\Stift\Models\Worklog;
+use Konekt\Stift\Models\WorklogState;
 use Menu;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
@@ -32,7 +34,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         ProjectUser::class,
         IssueType::class,
         Severity::class,
-        Issue::class
+        Issue::class,
+        Worklog::class
     ];
 
     protected $requests = [
@@ -40,6 +43,10 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         UpdateProject::class,
         CreateIssue::class,
         UpdateIssue::class
+    ];
+
+    protected $enums = [
+        WorklogState::class
     ];
 
     public function boot()

@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class CreateBaseStiftTables extends Migration
+class CreateWorklogTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,117 +13,24 @@ class CreateBaseStiftTables extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('worklogs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('slug')->nullable();
-            $table->integer('customer_id')->unsigned();
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('customer_id')
-                ->references('id')
-                ->on('customers');
-
-        });
-
-        Schema::create('project_users', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('project_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->integer('issue_id')->unsigned()->nullable();
+            $table->enum('state', ['running', 'paused', 'finished', 'approved', 'rejected', 'billed'])->default('running');
+            $table->dateTime('started_at');
+            $table->dateTime('finished_at')->nullable();
+            $table->integer('duration')->unsigned()->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
-
-            $table->foreign('project_id')
-                  ->references('id')
-                  ->on('projects')
-                  ->onDelete('cascade');
 
             $table->foreign('user_id')
-                  ->references('id')
-                  ->on('users');
+                ->references('id')
+                ->on('users');
 
-        });
-
-        Schema::create('issue_types', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('name');
-            $table->timestamps();
-
-            $table->primary('id');
-        });
-
-        Schema::create('severities', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('name');
-            $table->integer('weight')->unsigned();
-            $table->timestamps();
-
-            $table->primary('id');
-        });
-
-        Schema::create('project_issue_types', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('issue_type_id');
-            $table->integer('project_id')->unsigned();
-            $table->timestamps();
-
-            $table->foreign('issue_type_id')
-                  ->references('id')
-                  ->on('issue_types');
-
-            $table->foreign('project_id')
-                  ->references('id')
-                  ->on('projects');
-        });
-
-        Schema::create('project_severities', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('severity_id');
-            $table->integer('project_id')->unsigned();
-            $table->timestamps();
-
-            $table->foreign('severity_id')
-                  ->references('id')
-                  ->on('severities');
-
-            $table->foreign('project_id')
-                  ->references('id')
-                  ->on('projects');
-        });
-
-        Schema::create('issues', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('project_id')->unsigned();
-            $table->string('issue_type_id');
-            $table->string('severity_id');
-            $table->string('subject');
-            $table->text('description')->nullable();
-            $table->string('status');
-            $table->integer('priority')->nullable();
-            $table->integer('original_estimate')->nullable();
-            $table->date('due_on')->nullable();
-            $table->integer('created_by')->unsigned();
-            $table->integer('assigned_to')->unsigned()->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('project_id')
-                  ->references('id')
-                  ->on('projects');
-
-            $table->foreign('issue_type_id')
-                  ->references('id')
-                  ->on('issue_types');
-
-            $table->foreign('severity_id')
-                  ->references('id')
-                  ->on('severities');
-
-            $table->foreign('created_by')
-                  ->references('id')
-                  ->on('users');
-
+            $table->foreign('issue_id')
+                ->references('id')
+                ->on('issues');
         });
     }
 
@@ -133,12 +41,6 @@ class CreateBaseStiftTables extends Migration
      */
     public function down()
     {
-        Schema::drop('issues');
-        Schema::drop('project_severities');
-        Schema::drop('project_issue_types');
-        Schema::drop('severities');
-        Schema::drop('issue_types');
-        Schema::drop('project_users');
-        Schema::drop('projects');
+        Schema::drop('worklogs');
     }
 }

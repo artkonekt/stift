@@ -16,10 +16,12 @@ namespace Konekt\Stift\Tests\Feature;
 use Konekt\Stift\Contracts\Project as ProjectContract;
 use Konekt\Stift\Models\Project;
 use Konekt\Stift\Models\ProjectProxy;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
 use Konekt\Stift\Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
+    use CreatesTestClients;
 
     public function testHasModel()
     {

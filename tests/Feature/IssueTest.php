@@ -14,70 +14,17 @@ namespace Konekt\Stift\Tests\Feature;
 
 
 use Carbon\Carbon;
-use Konekt\AppShell\Models\User;
-use Konekt\User\Models\UserProxy;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestIssueTypes;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestProjects;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestSeverities;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestUsers;
 use Konekt\Stift\Models\IssueProxy;
-use Konekt\Stift\Models\IssueType;
-use Konekt\Stift\Models\IssueTypeProxy;
-use Konekt\Stift\Models\Project;
-use Konekt\Stift\Models\ProjectProxy;
-use Konekt\Stift\Models\Severity;
-use Konekt\Stift\Models\SeverityProxy;
 use Konekt\Stift\Tests\TestCase;
 
 class IssueTest extends TestCase
 {
-    //Project keys
-    const TEST_PROJECT1_KEY = 'ruby';
-    const TEST_PROJECT2_KEY = 'go';
-
-    // Severity keys
-    const TEST_LOW_KEY      = 'low';
-    const TEST_MEDIUM_KEY   = 'medium';
-    const TEST_HIGH_KEY     = 'high';
-    const TEST_CRITICAL_KEY = 'critical';
-
-    // Issue Type keys
-    const TEST_BUG_KEY      = 'bug';
-    const TEST_TASK_KEY     = 'task';
-    const TEST_TICKET_KEY   = 'ticket';
-
-    // Test Users
-    const TEST_USER1_EMAIL   = 'kube@rnetes.io';
-    const TEST_USER2_EMAIL   = 'java@sun.com';
-
-    /** @var  Project */
-    private $project1;
-
-    /** @var  Project */
-    private $project2;
-
-    /** @var  Severity */
-    private $low;
-
-    /** @var  Severity */
-    private $medium;
-
-    /** @var  Severity */
-    private $high;
-
-    /** @var  Severity */
-    private $critical;
-
-    /** @var  IssueType */
-    private $bug;
-
-    /** @var  IssueType */
-    private $task;
-
-    /** @var  IssueType */
-    private $ticket;
-
-    /** @var  User */
-    private $user1;
-
-    /** @var  User */
-    private $user2;
+    use CreatesTestIssueTypes, CreatesTestSeverities, CreatesTestUsers, CreatesTestClients, CreatesTestProjects;
 
     public function setUp()
     {
@@ -190,89 +137,7 @@ class IssueTest extends TestCase
         $this->createTestUsers();
         $this->createTestIssueTypes();
         $this->createTestSeverities();
+        $this->createTestClients();
         $this->createTestProjects();
     }
-
-    /**
-     * Creates the two projects. Also creates the clients (from parent TestCase)
-     */
-    private function createTestProjects()
-    {
-        $this->createTestClients();
-
-        $this->project1 = ProjectProxy::create([
-            'id'        => self::TEST_PROJECT1_KEY,
-            'name'      => 'R Like Ruby',
-            'customer_id' => $this->clientOne->id
-        ])->fresh();
-
-        $this->project2 = ProjectProxy::create([
-            'id'        => self::TEST_PROJECT2_KEY,
-            'name'      => 'Go Lang',
-            'customer_id' => $this->clientTwo->id
-        ])->fresh();
-    }
-
-    /**
-     * Creates the 4 local test severities: low, medium, high, critical
-     */
-    private function createTestSeverities()
-    {
-        $this->low = SeverityProxy::create([
-            'id'     => self::TEST_LOW_KEY,
-            'name'   => 'Low',
-            'weight' => 1
-        ]);
-
-        $this->medium = SeverityProxy::create([
-            'id'     => self::TEST_MEDIUM_KEY,
-            'name'   => 'Medium',
-            'weight' => 5
-        ]);
-
-        $this->high = SeverityProxy::create([
-            'id'     => self::TEST_HIGH_KEY,
-            'name'   => 'High',
-            'weight' => 8
-        ]);
-
-        $this->critical = SeverityProxy::create([
-            'id'     => self::TEST_CRITICAL_KEY,
-            'name'   => 'Critical',
-            'weight' => 10
-        ]);
-
-    }
-
-    /**
-     * Creates the 3 local test issue types: bug, task, ticket
-     */
-    private function createTestIssueTypes()
-    {
-        $this->bug = IssueTypeProxy::create([
-            'id'   => self::TEST_BUG_KEY,
-            'name' => 'Bug'
-        ]);
-
-        $this->ticket = IssueTypeProxy::create([
-            'id'   => self::TEST_TICKET_KEY,
-            'name' => 'Ticket'
-        ]);
-
-        $this->task = IssueTypeProxy::create([
-            'id'   => self::TEST_TASK_KEY,
-            'name' => 'Task'
-        ]);
-
-    }
-
-    /**
-     * Creates the 2 test users
-     */
-    private function createTestUsers()
-    {
-        $this->user1 = UserProxy::create(['email' => self::TEST_USER1_EMAIL]);
-        $this->user2 = UserProxy::create(['email' => self::TEST_USER2_EMAIL]);
-    }
-
 }
