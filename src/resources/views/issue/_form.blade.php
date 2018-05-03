@@ -53,23 +53,51 @@
     </div>
 </div>
 
-<div class="form-group{{ $errors->has('issue_type_id') ? ' has-danger' : '' }}">
-    {{ Form::hidden('issue_type_id', 'task') }}
-    <label class="text-muted">{{ __('Type') }}: Task</label>
+<div class="form-group row">
 
-    @if ($errors->has('issue_type_id'))
-        <div class="form-control-feedback">{{ $errors->first('issue_type_id') }}</div>
-    @endif
+    <label class="form-control-label col-md-2">{{ __('Type') }}</label>
+    <div class="col-md-10">
+        @foreach($issueTypes as $type)
+            <label class="radio-inline" for="type_{{ $type->id }}">
+                {{ Form::radio('issue_type_id', $type->id, ($issue->type && $issue->type->id == $type->id), ['id' => "type_{$type->id}"]) }}
+                {{ $type->name }}
+                &nbsp;
+            </label>
+        @endforeach
+
+        @if ($errors->has('issue_type_id'))
+            <div class="invalid-feedback">{{ $errors->first('issue_type_id') }}</div>
+        @endif
+    </div>
+
 </div>
 
-<div class="form-group{{ $errors->has('severity_id') ? ' has-danger' : '' }}">
-    {{ Form::hidden('severity_id', 'normal') }}
-        <label class="text-muted">{{ __('Severity') }}: Normal</label>
+<div class="form-group row">
+    <label class="form-control-label col-md-2">{{ __('Severity') }}</label>
+    <div class="col-md-10">
+        @foreach($severities as $severity)
+            <label class="radio-inline" for="severity_{{ $severity->id }}">
+                {{ Form::radio('severity_id', $severity->id, ($issue->severity && $issue->severity->id == $severity->id), ['id' => "{$severity}_{$severity->id}"]) }}
+                {{ $severity->name }}
+                &nbsp;
+            </label>
+        @endforeach
 
-    @if ($errors->has('severity_id'))
-        <div class="form-control-feedback">{{ $errors->first('severity_id') }}</div>
-    @endif
+        @if ($errors->has('severity_id'))
+            <div class="invalid-feedback">{{ $errors->first('severity_id') }}</div>
+        @endif
+    </div>
 </div>
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 {{--<div class="form-group row {{ $errors->has('permissions') ? ' has-danger' : '' }}">--}}
 
