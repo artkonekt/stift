@@ -27,12 +27,11 @@ class ModuleTest extends TestCase
             });
 
         $this->assertTrue($modules->has('konekt.stift'), 'Stift module should be registered');
-        $this->assertTrue($modules->has('konekt.client'), 'Client module should be registered');
+        $this->assertTrue($modules->has('konekt.customer'), 'Customer module should be registered');
         $this->assertTrue($modules->has('konekt.app_shell'), 'AppShell module should be registered');
 
         $this->assertTrue(
             $modules->get('konekt.stift')
-                    ->getManifest()
                     ->getKind()
                     ->equals(Kind::BOX()),
             'Concord Module Type Should be a box'

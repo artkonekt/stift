@@ -58,7 +58,7 @@ class ProjectSeveritiesTest extends TestCase
         ]);
 
         // Refetch from db
-        $project1 = ProjectProxy::find(self::TEST_PROJECT1_KEY);
+        $project1 = ProjectProxy::find($this->project1->id);
 
         $this->assertCount(1, $project1->severities);
         $this->assertArrayHasKey('galactic',
@@ -83,7 +83,7 @@ class ProjectSeveritiesTest extends TestCase
         ]);
 
         // Refetch from db
-        $project = ProjectProxy::find(self::TEST_PROJECT1_KEY);
+        $project = ProjectProxy::find($this->project1->id);
 
         // The project should have 2 assigned severities
         $this->assertCount(2, $project->severities);
@@ -108,8 +108,8 @@ class ProjectSeveritiesTest extends TestCase
         $this->project2->severities()->save($this->critical);
 
         // Refetch a separate instance
-        $project1 = ProjectProxy::find(self::TEST_PROJECT1_KEY);
-        $project2 = ProjectProxy::find(self::TEST_PROJECT2_KEY);
+        $project1 = ProjectProxy::find($this->project1->id);
+        $project2 = ProjectProxy::find($this->project2->id);
 
         $this->assertCount(3, $project1->severities);
         $this->assertCount(4, $project2->severities);
@@ -138,9 +138,9 @@ class ProjectSeveritiesTest extends TestCase
         $this->assertCount(2, $this->low->projects);
         $this->assertCount(1, $this->high->projects);
 
-        $this->assertArrayHasKey(self::TEST_PROJECT1_KEY, $this->low->projects->keyBy('id')->all());
-        $this->assertArrayHasKey(self::TEST_PROJECT2_KEY, $this->low->projects->keyBy('id')->all());
-        $this->assertArrayHasKey(self::TEST_PROJECT2_KEY, $this->high->projects->keyBy('id')->all());
+        $this->assertArrayHasKey($this->project1->id, $this->low->projects->keyBy('id')->all());
+        $this->assertArrayHasKey($this->project2->id, $this->low->projects->keyBy('id')->all());
+        $this->assertArrayHasKey($this->project2->id, $this->high->projects->keyBy('id')->all());
     }
 
     public function testSeverityCanBeRevokedFromProject()
@@ -173,13 +173,13 @@ class ProjectSeveritiesTest extends TestCase
         $this->project1 = ProjectProxy::create([
             'id'        => self::TEST_PROJECT1_KEY,
             'name'      => 'Volvo, Sweden',
-            'client_id' => $this->clientOne->id
+            'customer_id' => $this->clientOne->id
         ]);
 
         $this->project2 = ProjectProxy::create([
             'id'        => self::TEST_PROJECT2_KEY,
             'name'      => 'Hyundai, Korea',
-            'client_id' => $this->clientTwo->id
+            'customer_id' => $this->clientTwo->id
         ]);
     }
 

@@ -21,9 +21,6 @@ use Konekt\Stift\Tests\TestCase;
 
 class ProjectIssueTypesTest extends TestCase
 {
-    const TEST_PROJECT1_KEY = 'microsoft';
-    const TEST_PROJECT2_KEY = 'atlassian';
-
     const TEST_EPIC_KEY     = 'epic';
     const TEST_STORY_KEY    = 'story';
     const TEST_TASK_KEY     = 'task';
@@ -53,7 +50,7 @@ class ProjectIssueTypesTest extends TestCase
         ]);
 
         // Refetch from db
-        $project1 = ProjectProxy::find(self::TEST_PROJECT1_KEY);
+        $project1 = ProjectProxy::find($this->project1->id);
 
         // The project should only have one assigned issue type
         $this->assertCount(1, $project1->issueTypes);
@@ -77,7 +74,7 @@ class ProjectIssueTypesTest extends TestCase
         ]);
 
         // Refetch from db
-        $project = ProjectProxy::find(self::TEST_PROJECT1_KEY);
+        $project = ProjectProxy::find($this->project1->id);
 
         // The project should have 2 assigned issue types
         $this->assertCount(2, $project->issueTypes);
@@ -100,8 +97,8 @@ class ProjectIssueTypesTest extends TestCase
         $this->project2->issueTypes()->save($this->task);
 
         // Refetch a separate instance
-        $project1 = ProjectProxy::find(self::TEST_PROJECT1_KEY);
-        $project2 = ProjectProxy::find(self::TEST_PROJECT2_KEY);
+        $project1 = ProjectProxy::find($this->project1->id);
+        $project2 = ProjectProxy::find($this->project2->id);
 
         $this->assertCount(2, $project1->issueTypes);
         $this->assertCount(3, $project2->issueTypes);
@@ -128,9 +125,9 @@ class ProjectIssueTypesTest extends TestCase
         $this->assertCount(2, $this->task->projects);
         $this->assertCount(1, $this->epic->projects);
 
-        $this->assertArrayHasKey(self::TEST_PROJECT1_KEY, $this->task->projects->keyBy('id')->all());
-        $this->assertArrayHasKey(self::TEST_PROJECT2_KEY, $this->task->projects->keyBy('id')->all());
-        $this->assertArrayHasKey(self::TEST_PROJECT2_KEY, $this->epic->projects->keyBy('id')->all());
+        $this->assertArrayHasKey($this->project1->id, $this->task->projects->keyBy('id')->all());
+        $this->assertArrayHasKey($this->project2->id, $this->task->projects->keyBy('id')->all());
+        $this->assertArrayHasKey($this->project2->id, $this->epic->projects->keyBy('id')->all());
     }
 
     public function testIssueTypeCanBeRevokedFromProject()
@@ -161,15 +158,13 @@ class ProjectIssueTypesTest extends TestCase
         $this->createTestClients();
 
         $this->project1 = ProjectProxy::create([
-            'id'        => self::TEST_PROJECT1_KEY,
             'name'      => 'Microsoft',
-            'client_id' => $this->clientOne->id
+            'customer_id' => $this->clientOne->id
         ])->fresh();
 
         $this->project2 = ProjectProxy::create([
-            'id'        => self::TEST_PROJECT2_KEY,
             'name'      => 'Atlassian',
-            'client_id' => $this->clientTwo->id
+            'customer_id' => $this->clientTwo->id
         ])->fresh();
     }
 

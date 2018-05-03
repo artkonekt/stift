@@ -203,13 +203,13 @@ class IssueTest extends TestCase
         $this->project1 = ProjectProxy::create([
             'id'        => self::TEST_PROJECT1_KEY,
             'name'      => 'R Like Ruby',
-            'client_id' => $this->clientOne->id
+            'customer_id' => $this->clientOne->id
         ])->fresh();
 
         $this->project2 = ProjectProxy::create([
             'id'        => self::TEST_PROJECT2_KEY,
             'name'      => 'Go Lang',
-            'client_id' => $this->clientTwo->id
+            'customer_id' => $this->clientTwo->id
         ])->fresh();
     }
 

@@ -13,7 +13,7 @@
 namespace Konekt\Stift\Tests;
 
 use Konekt\AppShell\Providers\ModuleServiceProvider as AppShell;
-use Konekt\Client\Models\ClientProxy;
+use Konekt\Customer\Models\CustomerProxy;
 use Konekt\Concord\Contracts\Concord;
 use Konekt\Stift\Providers\ModuleServiceProvider as Stift;
 use Konekt\Concord\ConcordServiceProvider;
@@ -40,9 +40,9 @@ class TestCase extends OrchestraTestCase
 
     protected function createTestClients()
     {
-        $this->clientOne   = ClientProxy::create(['name' => 'Client 1']);
-        $this->clientTwo   = ClientProxy::create(['name' => 'Client 2']);
-        $this->clientThree = ClientProxy::create(['name' => 'Client 3']);
+        $this->clientOne   = CustomerProxy::create(['company_name' => 'Client 1']);
+        $this->clientTwo   = CustomerProxy::create(['company_name' => 'Client 2']);
+        $this->clientThree = CustomerProxy::create(['company_name' => 'Client 3']);
     }
 
     /**

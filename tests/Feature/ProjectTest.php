@@ -49,36 +49,11 @@ class ProjectTest extends TestCase
         $this->createTestClients();
 
         $project = ProjectProxy::create([
-            'id'   => 'bells',
             'name' => 'Bells',
-            'client_id' => $this->clientOne->id
+            'customer_id' => $this->clientOne->id
         ]);
 
         $this->assertEquals('Bells', $project->name);
-        $this->assertEquals('bells', $project->id);
-        $this->assertEquals($this->clientOne->id, $project->client_id);
+        $this->assertEquals($this->clientOne->id, $project->customer_id);
     }
-
-    public function testProjectIdMustBeUnique()
-    {
-        $this->createTestClients();
-
-        $project1 = ProjectProxy::create([
-            'id'   => 'bells',
-            'name' => 'Bells',
-            'client_id' => $this->clientOne->id
-        ])->fresh();
-
-        $this->assertEquals('bells', $project1->id);
-
-        $this->expectException(\PDOException::class);
-        $this->expectExceptionMessageRegExp('/Integrity constraint violation/');
-
-        ProjectProxy::create([
-            'id'   => 'bells',
-            'name' => 'Bells 2',
-            'client_id' => $this->clientOne->id
-        ]);
-    }
-
 }
