@@ -37,7 +37,8 @@
                             {{ Form::hidden('state', 'finished') }}
                             {{ Form::text('duration', $worklog->started_at->diffInSeconds(), [
                                     'data-running' => '1', 'data-worklog_id' => $worklog->id,
-                                    'id' => 'worklog_' . $worklog->id . uniqid()
+                                    'autocomplete' => 'off',
+                                    'id' => 'worklog_' . $worklog->id
                             ]) }}
                             <button class="btn btn-xs btn-primary" title="{{ __('Stop work') }}">
                                 <i class="zmdi zmdi-stop"></i>
@@ -45,8 +46,10 @@
                             {!! Form::close() !!}
                         @endif
                     </td>
-                    <td>{{ $worklog->started_at }}</td>
-                    <td>{{ $worklog->duration ?: $worklog->started_at->diffInSeconds() }}s</td>
+                    <td>
+                        {{ $worklog->started_at }}
+                    </td>
+                    <td>{{ is_null($worklog->duration) ? '-' : duration_secs_to_human_readable($worklog->duration) }}</td>
                     <td>{!! nl2br($worklog->description) !!}</td>
                 </tr>
             @empty
@@ -64,10 +67,10 @@
     /* I know I know, jquery sucks in 2018, I promise it will be removed in 48 hours */
     $('document').ready(function () {
         setInterval(function() {
-            // $('[data-running=1]').each(function(index, item) {
-            //     $(item).val(parseInt($(item).val()) + 1);
-            // });
-        }, 4000);
+            $('[data-running=1]').each(function(index, item) {
+                $(item).val(parseInt($(item).val()) + 1);
+            });
+        }, 1000);
 
 
     });

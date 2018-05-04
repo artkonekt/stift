@@ -14,6 +14,7 @@ namespace Konekt\Stift\Providers;
 
 
 use Konekt\Concord\BaseBoxServiceProvider;
+use Konekt\Stift\Helpers\DurationHumanizer;
 use Konekt\Stift\Http\Requests\CreateIssue;
 use Konekt\Stift\Http\Requests\CreateProject;
 use Konekt\Stift\Http\Requests\CreateWorklog;
@@ -52,6 +53,16 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
     protected $enums = [
         WorklogState::class
     ];
+
+    public function register()
+    {
+        parent::register();
+
+        $this->app->singleton('stift.duration_humanizer', function() {
+            return new DurationHumanizer();
+        });
+
+    }
 
     public function boot()
     {

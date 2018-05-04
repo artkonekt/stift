@@ -22,7 +22,10 @@
         "phpunit/phpunit" : "6.2 - 7.0"
     },
     "autoload": {
-        "psr-4": { "Konekt\\Stift\\": "src"}
+        "psr-4": { "Konekt\\Stift\\": "src"},
+        "files": [
+            "src/Support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
