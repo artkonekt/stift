@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains the IssueController.php class.
+ * Contains the IssueController class.
  *
  * @copyright   Copyright (c) 2017 Attila Fulop
  * @author      Attila Fulop

@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains the UpdateIssue request class.
+ * Contains the CreateIssue request class.
  *
  * @copyright   Copyright (c) 2017 Attila Fulop
  * @author      Attila Fulop

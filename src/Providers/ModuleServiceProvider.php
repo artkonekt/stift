@@ -16,8 +16,10 @@ namespace Konekt\Stift\Providers;
 use Konekt\Concord\BaseBoxServiceProvider;
 use Konekt\Stift\Http\Requests\CreateIssue;
 use Konekt\Stift\Http\Requests\CreateProject;
+use Konekt\Stift\Http\Requests\CreateWorklog;
 use Konekt\Stift\Http\Requests\UpdateIssue;
 use Konekt\Stift\Http\Requests\UpdateProject;
+use Konekt\Stift\Http\Requests\UpdateWorklog;
 use Konekt\Stift\Models\Issue;
 use Konekt\Stift\Models\IssueType;
 use Konekt\Stift\Models\Project;
@@ -42,7 +44,9 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         CreateProject::class,
         UpdateProject::class,
         CreateIssue::class,
-        UpdateIssue::class
+        UpdateIssue::class,
+        CreateWorklog::class,
+        UpdateWorklog::class
     ];
 
     protected $enums = [

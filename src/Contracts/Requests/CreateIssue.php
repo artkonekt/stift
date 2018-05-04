@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains the CreateIssue request class.
+ * Contains the CreateIssue request interface.
  *
  * @copyright   Copyright (c) 2017 Attila Fulop
  * @author      Attila Fulop

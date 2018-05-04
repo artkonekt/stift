@@ -69,6 +69,8 @@
 
     </div>
 
+    @include('stift::issue._worklogs')
+
     <div class="card">
         <div class="card-block">
             @can('edit issues')
