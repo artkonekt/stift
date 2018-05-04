@@ -17,6 +17,7 @@ use Konekt\Stift\Models\Worklog;
 use Konekt\Stift\Models\WorklogProxy;
 use Konekt\Stift\Models\WorklogState;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
+use Konekt\Stift\Tests\Feature\Traits\CreatesTestIssues;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestIssueTypes;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestProjects;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestSeverities;
@@ -26,7 +27,8 @@ use Konekt\User\Contracts\User;
 
 class WorklogTest extends TestCase
 {
-    use CreatesTestClients, CreatesTestUsers, CreatesTestIssueTypes, CreatesTestSeverities, CreatesTestProjects;
+    use CreatesTestClients, CreatesTestUsers, CreatesTestIssueTypes, CreatesTestSeverities, CreatesTestProjects,
+        CreatesTestIssues;
 
     public function testHasModel()
     {
@@ -86,22 +88,59 @@ class WorklogTest extends TestCase
         $this->createTestSeverities();
         $this->createTestIssueTypes();
         $this->createTestProjects();
+        $this->createTestIssues();
 
-        $issue = Issue::create([
-            'project_id' => $this->project1->id,
-            'issue_type_id' => $this->task->id,
-            'severity_id' => $this->medium->id,
-            'subject' => 'My Funky Issue',
-            'status' => 'new',
-            'created_by' => $this->user1->id
-        ]);
         $worklog = WorklogProxy::create([
             'user_id' => $this->user2->id,
-            'issue_id' => $issue->id
+            'issue_id' => $this->taskMedium->id
         ]);
 
         $this->assertInstanceOf(Issue::class, $worklog->issue);
-        $this->assertEquals($issue->id, $worklog->issue->id);
+        $this->assertEquals($this->taskMedium->id, $worklog->issue->id);
+    }
+
+    /**
+     * @test
+     */
+    public function issues_have_their_related_worklogs()
+    {
+        $this->createTestSeverities();
+        $this->createTestIssueTypes();
+        $this->createTestProjects();
+        $this->createTestIssues();
+
+        $worklog1 = WorklogProxy::create([
+            'user_id'     => $this->user2->id,
+            'description' => 'I worked on this',
+            'issue_id'    => $this->taskLow->id
+        ]);
+
+        $worklog2 = WorklogProxy::create([
+            'user_id'     => $this->user2->id,
+            'description' => 'I worked on it again',
+            'issue_id'    => $this->taskLow->id
+        ]);
+
+        $this->assertCount(2, $this->taskLow->worklogs);
+    }
+
+    /**
+     * @test
+     */
+    public function worklogs_can_be_created_on_issues()
+    {
+        $this->createTestSeverities();
+        $this->createTestIssueTypes();
+        $this->createTestProjects();
+        $this->createTestIssues();
+
+        $worklog = $this->bugCritical->worklogs()->create([
+            'user_id'     => $this->user2->id,
+            'description' => 'I worked hard'
+        ])->fresh();
+
+        $this->assertCount(1, $this->bugCritical->worklogs);
+        $this->assertEquals($worklog->id, $this->bugCritical->worklogs->first()->id);
     }
 
     public function setUp()

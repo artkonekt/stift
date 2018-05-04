@@ -13,12 +13,19 @@
 namespace Konekt\Stift\Models;
 
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Konekt\AppShell\Models\User;
 use Konekt\Stift\Contracts\Issue as IssueContract;
 use Konekt\User\Models\UserProxy;
 
 /**
- * @property \Konekt\Stift\Contracts\Project $project
+ * @property Project    $project
+ * @property IssueType  $issueType
+ * @property Severity   $severity
+ * @property User       $createdBy
+ * @property User|null  $assignedTo
+ * @property Collection $worklogs
  */
 class Issue extends Model implements IssueContract
 {
@@ -87,5 +94,10 @@ class Issue extends Model implements IssueContract
     public function assignedTo()
     {
         return $this->hasOne(UserProxy::modelClass(), 'id', 'assigned_to');
+    }
+
+    public function worklogs()
+    {
+        return $this->hasMany(WorklogProxy::modelClass());
     }
 }
