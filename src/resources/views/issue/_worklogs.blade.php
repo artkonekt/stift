@@ -50,7 +50,7 @@
                                 <i class="zmdi zmdi-stop"></i>
                             </button>
 
-                            <span data-running="1" data-worklog_id="{{$worklog->id}}" data-duration="{{ $worklog->started_at->diffInSeconds() }}">
+                            <span data-running="1" data-worklog_id="{{$worklog->id}}" data-worklog-human-text="{{$worklog->id}}" data-duration="{{ $worklog->started_at->diffInSeconds() }}">
                                 {{ duration_secs_to_human_readable($worklog->runningDuration(), true) }}
                             </span>
                         @else
@@ -78,8 +78,10 @@
             $('[data-running=1]').each(function(index, item) {
                 var secs = parseInt($(item).data('duration')) + 1;
                 $(item).data('duration', secs);
-                $('#worklog-duration--' + $(item).data('worklog_id')).val(secs);
-                $(item).text(duration_secs_to_human_readable(secs, true));
+
+                var worklogId = $(item).data('worklog_id');
+                $('[data-worklog-human-text=' + worklogId + ']').text(duration_secs_to_human_readable(secs, true));
+                $('[data-worklog-human-val=' + worklogId + ']:hidden').val(duration_secs_to_human_readable(secs, true));
             });
         }, 1000);
     });

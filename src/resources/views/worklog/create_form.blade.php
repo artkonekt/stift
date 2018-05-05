@@ -20,11 +20,26 @@
                     <label class="col-form-label col-md-4">{{ __('Issue') }}</label>
                     <div class="col-md-8">
                         <div class="{{ $errors->has('issue_id') ? ' has-danger' : '' }}">
-                            {{ Form::hidden('issue_id', $issue->id) }}
-                            {{ Form::select('issue_id', $issue->project->issues()->open()->pluck('subject', 'id'), $issue->id) }}
-                            <label class="text-secondary">{{ $issue->subject }}</label>
+                            {{ Form::select(
+                                        'issue_id',
+                                        stift_open_issues($issue)->pluck('subject', 'id'),
+                                        $issue->id,
+                                        ['class' => 'form-control', 'autocomplete' => 'off']
+                            ) }}
                             @if ($errors->has('issue_id'))
                                 <div class="form-control-feedback">{{ $errors->first('issue_id') }}</div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4">{{ __('Start date') }}</label>
+                    <div class="col-md-8">
+                        <div class="{{ $errors->has('started_at') ? ' has-danger' : '' }}">
+                            {{ Form::datetime('started_at', Carbon\Carbon::now(), [ 'class' => 'form-control', 'type' => 'datetime-local']) }}
+                            @if ($errors->has('started_at'))
+                                <div class="form-control-feedback">{{ $errors->first('duration') }}</div>
                             @endif
                         </div>
                     </div>

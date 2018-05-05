@@ -18,7 +18,7 @@ use Konekt\Stift\Models\WorklogStateProxy;
 
 class UpdateWorklog extends FormRequest implements UpdateWorklogContract
 {
-    use HasPermissions;
+    use HasPermissions, ParsesWorklogRequests;
 
     /**
      * @inheritDoc

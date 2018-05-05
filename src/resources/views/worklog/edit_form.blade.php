@@ -15,7 +15,46 @@
                 @isset($state)
                 {{ Form::hidden('state', $state) }}
                 @endisset
-                {{ Form::hidden('duration', $worklog->runningDuration(), ['id' => 'worklog-duration--' . $worklog->id ]) }}
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4">{{ __('Issue') }}</label>
+                    <div class="col-md-8">
+                        <div class="{{ $errors->has('issue_id') ? ' has-danger' : '' }}">
+                            {{ Form::select(
+                                        'issue_id',
+                                        stift_open_issues($worklog->issue)->pluck('subject', 'id'),
+                                        $worklog->issue ? $worklog->issue->id : null,
+                                        [
+                                            'class'        => 'form-control',
+                                            'autocomplete' => 'off',
+                                            'placeholder'  => __('Select issue to log work to')
+                                        ]
+                            ) }}
+                            @if ($errors->has('issue_id'))
+                                <div class="form-control-feedback">{{ $errors->first('issue_id') }}</div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label col-md-4">{{ __('Duration') }}</label>
+                    <div class="col-md-8">
+                        <div class="{{ $errors->has('duration') ? ' has-danger' : '' }}">
+                            {{ Form::text('duration', duration_secs_to_human_readable($worklog->runningDuration(), true),
+                                [
+                                    'class' => 'form-control',
+                                    'placeholder' => __('Eg: 1h 15m'),
+                                    'data-worklog-human-val' => $worklog->id
+                                ]
+                            ) }}
+                            @if ($errors->has('duration'))
+                                <div class="form-control-feedback">{{ $errors->first('duration') }}</div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-form-label">{{ __('Description') }}</label>
                     <div class="{{ $errors->has('invoice_series_id') ? ' has-danger' : '' }}">
