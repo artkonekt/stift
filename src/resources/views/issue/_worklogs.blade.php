@@ -10,7 +10,8 @@
                     {{ __('Start work') }}
                 </button>
                 {!! Form::close() !!}
-                <button onclick="alert('Not yet dude');" class="btn btn-sm btn-outline-success float-right">
+                <button type="button" data-toggle="modal" data-target="#worklog_form--create"
+                        class="btn btn-sm btn-outline-success float-right">
                     <i class="zmdi zmdi-plus"></i>
                     {{ __('Log work') }}
                 </button>
@@ -18,6 +19,10 @@
         </div>
     </div>
     <div class="card-block">
+        @can('create worklogs')
+            @component('stift::worklog.create_form', ['issue' => $issue])
+            @endcomponent
+        @endcan
         <table class="table">
             <thead>
             <tr>
@@ -28,28 +33,32 @@
             </tr>
             </thead>
             <tbody>
-            @forelse($issue->worklogs as $worklog)
+            @forelse($issue->worklogs->sortByDesc('started_at') as $worklog)
                 <tr>
+                    <td>{{ $worklog->state->label() }}</td>
+                    <td>{{ $worklog->started_at }}</td>
                     <td>
-                        {{ $worklog->state->label() }}
-                        @if ($worklog->state->value() == 'running')
-                            {!! Form::model($worklog, ['route' => ['stift.worklog.update', $worklog], 'method' => 'PUT', 'style' => 'display: inline;']) !!}
-                            {{ Form::hidden('state', 'finished') }}
-                            {{ Form::text('duration', $worklog->started_at->diffInSeconds(), [
-                                    'data-running' => '1', 'data-worklog_id' => $worklog->id,
-                                    'autocomplete' => 'off',
-                                    'id' => 'worklog_' . $worklog->id
-                            ]) }}
-                            <button class="btn btn-xs btn-primary" title="{{ __('Stop work') }}">
+                        @if ($worklog->isRunning())
+                            @component('stift::worklog.edit_form', [
+                                            'worklog'  => $worklog,
+                                            'state'    => 'finished',
+                                            'btnTitle' => __('Stop Timer and log work')
+                                     ])
+                            @endcomponent
+                            <button type="button" data-toggle="modal" data-target="#worklog_form--{{ $worklog->id }}"
+                                    class="btn btn-xs btn-primary" title="{{ __('Stop work') }}">
                                 <i class="zmdi zmdi-stop"></i>
                             </button>
-                            {!! Form::close() !!}
+
+                            <span data-running="1" data-worklog_id="{{$worklog->id}}" data-duration="{{ $worklog->started_at->diffInSeconds() }}">
+                                {{ duration_secs_to_human_readable($worklog->runningDuration(), true) }}
+                            </span>
+                        @else
+                            <span>
+                                {{ duration_secs_to_human_readable((int)$worklog->duration) }}
+                            </span>
                         @endif
                     </td>
-                    <td>
-                        {{ $worklog->started_at }}
-                    </td>
-                    <td>{{ is_null($worklog->duration) ? '-' : duration_secs_to_human_readable($worklog->duration) }}</td>
                     <td>{!! nl2br($worklog->description) !!}</td>
                 </tr>
             @empty
@@ -64,15 +73,15 @@
 
 @section('scripts')
 <script>
-    /* I know I know, jquery sucks in 2018, I promise it will be removed in 48 hours */
     $('document').ready(function () {
         setInterval(function() {
             $('[data-running=1]').each(function(index, item) {
-                $(item).val(parseInt($(item).val()) + 1);
+                var secs = parseInt($(item).data('duration')) + 1;
+                $(item).data('duration', secs);
+                $('#worklog-duration--' + $(item).data('worklog_id')).val(secs);
+                $(item).text(duration_secs_to_human_readable(secs, true));
             });
         }, 1000);
-
-
     });
 </script>
 @stop

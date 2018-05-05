@@ -24,14 +24,30 @@ class DurationHumanizer
         $this->daysPerWeek = $daysPerWeek;
     }
 
-    public function secondsToHumanReadable(int $seconds)
+    public function secondsToHumanReadable(int $seconds, $withSeconds = false)
     {
-        return $this->minutesToHumanReadable((int)round($seconds/60));
+        $minutes = $withSeconds ? intdiv($seconds, 60) : (int)round($seconds/60);
+        $remSecs = $seconds % 60;
 
+        if (0 == $minutes) {
+            return sprintf('%ds', $remSecs);
+        }
+
+        $result = $this->minutesToHumanReadable($minutes);
+
+        if ($withSeconds && $remSecs) {
+            $result .= sprintf(' %ds', $remSecs);
+        }
+
+        return $result;
     }
 
     public function minutesToHumanReadable(int $minutes)
     {
+        if (0 == $minutes) {
+            return '0m';
+        }
+
         $values = $this->parseIntToArray($minutes);
 
         $result = '';

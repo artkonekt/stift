@@ -82,6 +82,11 @@ class Project extends Model implements ProjectContract
         );
     }
 
+    public function issues()
+    {
+        return $this->hasMany(IssueProxy::modelClass());
+    }
+
     public function sluggable(): array
     {
         return [

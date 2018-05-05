@@ -13,6 +13,7 @@
 namespace Konekt\Stift\Models;
 
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Konekt\AppShell\Models\User;
@@ -99,5 +100,11 @@ class Issue extends Model implements IssueContract
     public function worklogs()
     {
         return $this->hasMany(WorklogProxy::modelClass());
+    }
+
+    public function scopeOpen(Builder $query)
+    {
+        return $query->whereIn('status', ['todo', 'in-progress']);
+
     }
 }

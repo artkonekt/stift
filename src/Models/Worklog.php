@@ -60,4 +60,24 @@ class Worklog extends Model implements WorklogContract
     {
         return $this->hasOne(UserProxy::modelClass(), 'id', 'user_id');
     }
+
+    public function isRunning()
+    {
+        return $this->state->isRunning();
+    }
+
+    /**
+     * Returns the number of seconds since the worklog is running.
+     * Returns NULL for non running worklogs
+     *
+     * @return int|null
+     */
+    public function runningDuration()
+    {
+        if ($this->isRunning()) {
+            return $this->started_at->diffInSeconds();
+        }
+
+        return null;
+    }
 }
