@@ -63,7 +63,15 @@ class DurationHumanizer
 
     public function humanReadableToSeconds(string $value): int
     {
-        return $this->humanReadableToMinutes($value) * 60;
+        $seconds = 0;
+
+        foreach(explode(' ', $value) as $part) {
+            if (ends_with(trim($part), 's')) {
+                $seconds = intval(($part));
+            }
+        }
+
+        return $this->humanReadableToMinutes($value) * 60 + $seconds;
     }
 
     public function humanReadableToMinutes(string $value): int
