@@ -80,4 +80,9 @@ class Worklog extends Model implements WorklogContract
 
         return null;
     }
+
+    public function scopeRunning($q)
+    {
+        return $q->where('state', 'running');
+    }
 }
