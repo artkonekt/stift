@@ -85,4 +85,24 @@ class Worklog extends Model implements WorklogContract
     {
         return $q->where('state', 'running');
     }
+
+    public function scopeNotRunning($q)
+    {
+        return $q->where('state', '<>', 'running');
+    }
+
+    public function scopeOfUser($q, User $user)
+    {
+        return $q->where('user_id', $user->id);
+    }
+
+    public function scopeAfter($q, \DateTime $date)
+    {
+        return $q->where('started_at', '>=', $date->format('Y-m-d H:i:s'));
+    }
+
+    public function scopeBefore($q, \DateTime $date)
+    {
+        return $q->where('started_at', '<=', $date->format('Y-m-d H:i:s'));
+    }
 }
