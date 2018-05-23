@@ -12,6 +12,7 @@
 
 namespace Konekt\Stift\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Konekt\AppShell\Http\Controllers\BaseController;
 use Konekt\Stift\Contracts\Issue;
@@ -31,10 +32,13 @@ class IssueController extends BaseController
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $issue = app(Issue::class);
+        $issue->project_id = $request->get('forProject');
+
         return view('stift::issue.create', [
-            'issue'    => app(Issue::class),
+            'issue'    => $issue,
             'projects' => ProjectProxy::forUser(Auth::user())->get(),
             'statuses' => ['todo', 'in-progress', 'done'],
             'issueTypes' => IssueTypeProxy::all(),

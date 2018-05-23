@@ -76,6 +76,8 @@
 
     </div>
 
+    @include('stift::project._issues', ['issues' => $project->issues()->open()->get(), 'title' => __('Open Issues')])
+
     <div class="card">
         <div class="card-block">
             @can('edit projects')

@@ -102,6 +102,14 @@ class Issue extends Model implements IssueContract
         return $this->hasMany(WorklogProxy::modelClass());
     }
 
+    /**
+     * Returns the total duration (seconds) of work logged (excluding running)
+     */
+    public function worklogsTotalDuration()
+    {
+        return $this->worklogs()->notRunning()->sum('duration');
+    }
+
     public function scopeOpen(Builder $query)
     {
         return $query->whereIn('status', ['todo', 'in-progress']);

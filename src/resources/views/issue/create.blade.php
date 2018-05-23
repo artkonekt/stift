@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-block">
 
-                    {!! Form::open(['route' => 'stift.issue.store']) !!}
+                    {!! Form::model($issue, ['route' => 'stift.issue.store']) !!}
 
                     @include('stift::issue._form')
 

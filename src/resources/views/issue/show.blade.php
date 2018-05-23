@@ -7,6 +7,24 @@
 @section('content')
 
     <div class="row">
+
+        <div class="col-sm-6 col-md-3">
+            @component('appshell::widgets.card_with_icon', [
+                    'icon' => 'time-interval',
+                    'type' => $issue->worklogsTotalDuration() ? 'info' : 'warning'
+            ])
+                @if($issue->worklogsTotalDuration())
+                    {{ duration_secs_to_human_readable($issue->worklogsTotalDuration()) }}
+                @else
+                    {{ __('no work yet') }}
+                @endif
+
+                @slot('subtitle')
+                    {{ __('Total Work Logged') }}
+                @endslot
+            @endcomponent
+        </div>
+
         <div class="col-sm-6 col-md-3">
             @component('appshell::widgets.card_with_icon', [
                     'icon' => 'folder-star',
@@ -18,28 +36,6 @@
                 @endslot
             @endcomponent
         </div>
-
-        {{--<div class="col-sm-6 col-md-3">--}}
-            {{--@component('appshell::widgets.card_with_icon', [--}}
-                    {{--'icon' => 'shield-security',--}}
-                    {{--'type' => 'info'--}}
-            {{--])--}}
-                {{--{{ $user->type }}--}}
-
-                {{--@slot('subtitle')--}}
-                    {{--@if($user->roles->count())--}}
-                        {{--{{ __('Roles') }}:--}}
-                        {{--{{ $user->roles->take(3)->implode('name', ' | ') }}--}}
-                    {{--@else--}}
-                        {{--{{ __('no roles') }}--}}
-                    {{--@endif--}}
-
-                    {{--@if($user->roles->count() > 3)--}}
-                        {{--| {{ __('+ :num more...', ['num' => $user->roles->count() - 3]) }}--}}
-                    {{--@endif--}}
-                {{--@endslot--}}
-            {{--@endcomponent--}}
-        {{--</div>--}}
 
         {{--<div class="col-sm-6 col-md-3">--}}
             {{--@component('appshell::widgets.card_with_icon', ['icon' => 'time-countdown'])--}}
@@ -69,14 +65,22 @@
 
     </div>
 
-    @include('stift::issue._worklogs')
-
     <div class="card">
+        <div class="card-header">
+            {{ __('Description') }}
+
+            <div class="card-actionbar">
+                @can('edit issues')
+                    <a href="{{ route('stift.issue.edit', $issue) }}" class="btn btn-outline-primary">{{ __('Edit issue') }}</a>
+                @endcan
+            </div>
+
+        </div>
         <div class="card-block">
-            @can('edit issues')
-                <a href="{{ route('stift.issue.edit', $issue) }}" class="btn btn-outline-primary">{{ __('Edit issue') }}</a>
-            @endcan
+            {{ nl2br($issue->description) }}
         </div>
     </div>
+
+    @include('stift::issue._worklogs')
 
 @stop

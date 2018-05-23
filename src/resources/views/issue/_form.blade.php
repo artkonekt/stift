@@ -36,6 +36,18 @@
     @endif
 </div>
 
+<div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
+
+    <label class="form-control-label">{{ __('Description') }}</label>
+    {{ Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => __('Type issue details')]) }}
+
+    @if ($errors->has('description'))
+        <div class="form-control-feedback">{{ $errors->first('description') }}</div>
+    @endif
+</div>
+
+<hr>
+
 <div class="form-group row">
     <label class="form-control-label col-md-2">{{ __('Status') }}</label>
     <div class="col-md-10">
