@@ -22,13 +22,14 @@ use Konekt\Stift\Models\IssueProxy;
 use Konekt\Stift\Models\IssueTypeProxy;
 use Konekt\Stift\Models\ProjectProxy;
 use Konekt\Stift\Models\SeverityProxy;
+use Konekt\User\Models\UserProxy;
 
 class IssueController extends BaseController
 {
     public function index()
     {
         return view('stift::issue.index', [
-            'issues' => IssueProxy::all()
+            'issues' => IssueProxy::open()->get()
         ]);
     }
 
@@ -42,7 +43,8 @@ class IssueController extends BaseController
             'projects' => ProjectProxy::forUser(Auth::user())->get(),
             'statuses' => ['todo', 'in-progress', 'done'],
             'issueTypes' => IssueTypeProxy::all(),
-            'severities' => SeverityProxy::all()
+            'severities' => SeverityProxy::all(),
+            'allUsers' => UserProxy::active()->get()
         ]);
     }
 

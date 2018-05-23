@@ -7,12 +7,26 @@
 @section('content')
 
     <div class="row">
+
         <div class="col-sm-6 col-md-3">
             @component('appshell::widgets.card_with_icon', [
-                    'icon' => 'folder-star',
+                    'icon' => 'time-interval',
+                    'type' => 'info'
+            ])
+                {{ round($hoursCurrentMonth, 2) }}{{ __('h') }}
+
+                @slot('subtitle')
+                    {{ __('Work logged this month') }}
+                @endslot
+            @endcomponent
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            @component('appshell::widgets.card_with_icon', [
+                    'icon' => enum_icon($project->customer->type),
                     'type' => $project->is_active ? 'success' : null
             ])
-                {{ $project->name }}
+                {{ $project->customer->name }}
                 @if (!$project->is_active)
                     <small>
                         <span class="badge badge-default">
@@ -21,32 +35,10 @@
                     </small>
                 @endif
                 @slot('subtitle')
-                    {{ $project->customer->name }}
+                    {{ $project->customer->type->isOrganization() ? $project->customer->firstname . ' ' . $project->customer->lastname : ''  }}
                 @endslot
             @endcomponent
         </div>
-
-        {{--<div class="col-sm-6 col-md-3">--}}
-            {{--@component('appshell::widgets.card_with_icon', [--}}
-                    {{--'icon' => 'shield-security',--}}
-                    {{--'type' => 'info'--}}
-            {{--])--}}
-                {{--{{ $user->type }}--}}
-
-                {{--@slot('subtitle')--}}
-                    {{--@if($user->roles->count())--}}
-                        {{--{{ __('Roles') }}:--}}
-                        {{--{{ $user->roles->take(3)->implode('name', ' | ') }}--}}
-                    {{--@else--}}
-                        {{--{{ __('no roles') }}--}}
-                    {{--@endif--}}
-
-                    {{--@if($user->roles->count() > 3)--}}
-                        {{--| {{ __('+ :num more...', ['num' => $user->roles->count() - 3]) }}--}}
-                    {{--@endif--}}
-                {{--@endslot--}}
-            {{--@endcomponent--}}
-        {{--</div>--}}
 
         {{--<div class="col-sm-6 col-md-3">--}}
             {{--@component('appshell::widgets.card_with_icon', ['icon' => 'time-countdown'])--}}

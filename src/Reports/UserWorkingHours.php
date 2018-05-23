@@ -18,21 +18,10 @@ use Illuminate\Support\Facades\Auth;
 use Konekt\Stift\Models\WorklogProxy;
 use Konekt\User\Contracts\User;
 
-class UserWorkingHours
+class UserWorkingHours extends BaseReport
 {
-    const CURRENT_MONTH = 'current_month';
-    const LAST_MONTH    = 'last_month';
-    const TODAY         = 'today';
-    const YESTERDAY     = 'yesterday';
-    const THIS_WEEK     = 'this_week';
-    const LAST_WEEK     = 'last_week';
-
-
     /** @var User */
     private $user;
-
-    /** @var DatePeriod */
-    private $period;
 
     /** @var int|null */
     private $duration;
@@ -42,10 +31,11 @@ class UserWorkingHours
         return new static($user ?: Auth::user(), static::getPeriodFromString($period));
     }
 
-    public function __construct(User $user, DatePeriod $period)
+    public function __construct(User $project, DatePeriod $period)
     {
-        $this->user = $user;
-        $this->period = $period;
+        parent::__construct($period);
+
+        $this->user = $project;
     }
 
     public function getUser(): User
@@ -69,34 +59,5 @@ class UserWorkingHours
         }
 
         return round($this->duration / 3600, 2);
-    }
-
-    private static function getPeriodFromString($period): DatePeriod
-    {
-        $daily = new DateInterval('P1D');
-
-        switch($period) {
-            case static::CURRENT_MONTH: {
-                return new DatePeriod(Carbon::now()->startOfMonth(), $daily, Carbon::now()->endOfMonth());
-            }
-            case static::LAST_MONTH: {
-                return new DatePeriod(Carbon::parse('last month')->startOfMonth(), $daily, Carbon::parse('last month')->endOfMonth());
-            }
-            case static::THIS_WEEK: {
-                return new DatePeriod(Carbon::now()->startOfWeek(), $daily, Carbon::now()->endOfWeek());
-            }
-            case static::LAST_WEEK: {
-                return new DatePeriod(Carbon::parse('last week')->startOfWeek(), $daily, Carbon::parse('last week')->endOfWeek());
-            }
-            case static::TODAY: {
-                return new DatePeriod(Carbon::now()->startOfDay(), $daily, Carbon::now()->endOfDay());
-            }
-            case static::YESTERDAY: {
-                return new DatePeriod(Carbon::parse('yesterday')->startOfDay(), $daily, Carbon::parse('yesterday')->endOfDay());
-            }
-            default: {
-                throw new \InvalidArgumentException(sprintf('Invalid period `%s`', $period));
-            }
-        }
     }
 }

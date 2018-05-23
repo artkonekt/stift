@@ -13,6 +13,7 @@ namespace Konekt\Stift\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Konekt\Enum\Eloquent\CastsEnums;
+use Konekt\Stift\Contracts\Project;
 use Konekt\Stift\Contracts\Worklog as WorklogContract;
 use Konekt\User\Contracts\User;
 use Konekt\User\Models\UserProxy;
@@ -94,6 +95,11 @@ class Worklog extends Model implements WorklogContract
     public function scopeOfUser($q, User $user)
     {
         return $q->where('user_id', $user->id);
+    }
+
+    public function scopeOfProject($q, Project $project)
+    {
+        return $q->whereIn('issue_id', $project->issues->pluck('id'));
     }
 
     public function scopeAfter($q, \DateTime $date)

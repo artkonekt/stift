@@ -28,12 +28,25 @@
                     <tr>
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Client') }}</th>
-                        <th>{{ __('Since') }}</th>
+                        <th>{{ __('Hours This Month') }}</th>
+                        <th>{{ __('Open Issues') }}</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                <?php
+                    $totalHours = 0;
+                    $totalOpenIssues = 0;
+                ?>
                 @foreach($projects as $project)
+                    <?php $hours = \Konekt\Stift\Reports\ProjectWorkingHours::create(
+                            \Konekt\Stift\Reports\ProjectWorkingHours::CURRENT_MONTH,
+                            $project)->getWorkingHours();
+
+                        $totalHours += $hours;
+                        $openIssues = $project->issues()->open()->count();
+                        $totalOpenIssues += $openIssues;
+                    ?>
                     <tr>
                         <td>
                             @can('view projects')
@@ -46,10 +59,19 @@
                             @endunless
                         </td>
                         <td>{{ $project->customer->name }}</td>
-                        <td>{{ $project->created_at->diffForHumans() }}</td>
+                        <td>{{ $hours }}h</td>
+                        <td>{{ $project->issues()->open()->count() }}</td>
                     </tr>
                 @endforeach
                 </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th colspan="2" class="text-right">{{ __('Total') }}:</th>
+                        <th>{{ $totalHours }}h</th>
+                        <th>{{ $totalOpenIssues }}</th>
+                    </tr>
+                </tfoot>
 
             </table>
 

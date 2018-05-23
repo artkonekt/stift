@@ -9,7 +9,7 @@
     <div class="card card-accent-secondary">
 
         <div class="card-header">
-            @yield('title')
+            {{ __('Open Issues') }}
 
             <div class="card-actionbar">
                 @can('create issues')
@@ -26,9 +26,12 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>{{ __('What') }}</th>
-                    <th>{{ __('Who') }}</th>
-                    <th>{{ __('When') }}</th>
+                    <th>{{ __('Subject') }}</th>
+                    <th>{{ __('Project') }}</th>
+                    <th>{{ __('Status') }}</th>
+                    <th>{{ __('Assigned to') }}</th>
+                    <th>{{ __('Created at') }}</th>
+                    <th>{{ __('Worklogs') }}</th>
                 </tr>
                 </thead>
 
@@ -42,8 +45,11 @@
                                 {{ $issue->subject }}
                             @endcan
                         </td>
-                        <td>{{ $issue->createdBy->name }}</td>
+                        <td>{{ $issue->project->name }}</td>
+                        <td>{{ $issue->status }}</td>
+                        <td>{{ $issue->assignedTo ? $issue->assignedTo->name : '-' }}</td>
                         <td>{{ $issue->created_at->diffForHumans() }}</td>
+                        <td>{{ duration_secs_to_human_readable($issue->worklogsTotalDuration()) }}</td>
                     </tr>
                 @endforeach
                 </tbody>

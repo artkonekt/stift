@@ -26,6 +26,23 @@
         </div>
 
         <div class="col-sm-6 col-md-3">
+            @component('appshell::widgets.card_with_icon', ['icon' => 'account-circle'])
+                @if ($issue->assignedTo)
+                    <span title="{{ __('Assigned to :name', ['name' => $issue->assignedTo->name]) }}">
+                        {{ $issue->assignedTo->name }}
+                    </span>
+                @else
+                    {{ __('Unassigned') }}
+                @endif
+
+                @slot('subtitle')
+                    {{ __('Created by') }}
+                    {{ $issue->createdBy->name }}
+                @endslot
+            @endcomponent
+        </div>
+
+        <div class="col-sm-6 col-md-3">
             @component('appshell::widgets.card_with_icon', [
                     'icon' => 'folder-star',
                     'type' => $issue->status == 'done' ? 'success' : null
@@ -36,23 +53,6 @@
                 @endslot
             @endcomponent
         </div>
-
-        {{--<div class="col-sm-6 col-md-3">--}}
-            {{--@component('appshell::widgets.card_with_icon', ['icon' => 'time-countdown'])--}}
-                {{--@if ($user->last_login_at)--}}
-                    {{--{{ __('Last login') }}--}}
-                    {{--{{ $user->last_login_at->diffForHumans() }}--}}
-                {{--@else--}}
-                    {{--{{ __('never logged in') }}--}}
-                {{--@endif--}}
-
-                {{--@slot('subtitle')--}}
-                    {{--{{ __('Member since') }}--}}
-                    {{--{{ $user->created_at->format(__('Y-m-d H:i')) }}--}}
-
-                {{--@endslot--}}
-            {{--@endcomponent--}}
-        {{--</div>--}}
 
         {{--<div class="col-sm-6 col-md-3">--}}
             {{--@component('appshell::widgets.card_with_icon', ['icon' => 'star-circle'])--}}
@@ -77,7 +77,7 @@
 
         </div>
         <div class="card-block">
-            {{ nl2br($issue->description) }}
+            {!! nl2br($issue->description) !!}
         </div>
     </div>
 

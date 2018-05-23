@@ -36,6 +36,35 @@
     @endif
 </div>
 
+<div class="form-group{{ $errors->has('project_id') ? ' has-danger' : '' }}">
+    @if($issue->project)
+        @if($issue->project->users->count() > 1)
+            {{ Form::select('assigned_to', $issue->project->users->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Assignee')]) }}
+        @elseif($issue->project->users->count() == 0)
+            <div class="alert alert-warning">
+                <strong>{{ __("The project is not enabled for any user.") }}</strong>
+                @can('edit projects')
+                    <a href="{{ route('stift.project.edit', $issue->project) }}" class="btn btn-sm btn-outline-success float-right">
+                        {{ __('Edit project') }}
+                    </a>
+                @else
+                    <i class="zmdi zmdi-mood-bad"></i> {{ __("Unfortunately you have no permission to fix the situation") }}
+                @endcan
+            </div>
+        @else
+            <?php $user = $issue->project->users->first(); ?>
+            {{ Form::hidden('assigned_to', $user->id) }}
+            <label class="text-muted">{{ __('Assignee') }}: {{ $user->name }}</label>
+        @endif
+    @else
+        {{ Form::select('assigned_to', $allUsers->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Assignee')]) }}
+    @endif
+
+    @if ($errors->has('assigned_to'))
+        <div class="form-control-feedback">{{ $errors->first('assigned_to') }}</div>
+    @endif
+</div>
+
 <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
 
     <label class="form-control-label">{{ __('Description') }}</label>

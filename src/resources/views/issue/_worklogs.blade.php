@@ -26,17 +26,18 @@
         <table class="table">
             <thead>
             <tr>
-                <th>{{ __('State') }}</th>
                 <th>{{ __('Date') }}</th>
+                <th>{{ __('Who') }}</th>
                 <th>{{ __('Duration') }}</th>
                 <th>{{ __('Description') }}</th>
+                <th>{{ __('State') }}</th>
             </tr>
             </thead>
             <tbody>
             @forelse($issue->worklogs->sortByDesc('started_at') as $worklog)
                 <tr>
-                    <td>{{ $worklog->state->label() }}</td>
                     <td>{{ $worklog->started_at }}</td>
+                    <td>{{ $worklog->user->name }}</td>
                     <td>
                         @if ($worklog->isRunning())
                             @component('stift::worklog.edit_form', [
@@ -60,6 +61,7 @@
                         @endif
                     </td>
                     <td>{!! nl2br($worklog->description) !!}</td>
+                    <td>{{ $worklog->state->label() }}</td>
                 </tr>
             @empty
                 <tr>
