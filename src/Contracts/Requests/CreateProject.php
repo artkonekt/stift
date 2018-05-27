@@ -9,13 +9,10 @@
  *
  */
 
-
 namespace Konekt\Stift\Contracts\Requests;
 
-
-use Konekt\AppShell\Contracts\Requests\BaseRequest;
+use Konekt\Concord\Contracts\BaseRequest;
 
 interface CreateProject extends BaseRequest
 {
-
 }
