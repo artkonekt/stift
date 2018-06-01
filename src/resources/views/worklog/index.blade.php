@@ -1,7 +1,7 @@
 @extends('appshell::layouts.default')
 
 @section('title')
-    {{ __('Time Reports') }}
+    {{ __('Time Report') }}
 @stop
 
 @section('content')
@@ -9,7 +9,15 @@
     <div class="card card-accent-secondary">
 
         <div class="card-header">
-            {{ __('Worked Hours') }}
+            {{ $report->getPeriod()->getStartDate()->format('M d') }}
+            -
+            {{ $report->getPeriod()->getEndDate()->format('M d, Y') }}
+
+            @forelse($report->getProjects() as $project)
+                <span class="badge badge-dark font-weight-normal">{{ $project->name }}</span>
+            @empty
+                <span class="badge badge-dark font-weight-normal">{{ __('All projects') }}</span>
+            @endforelse
 
             <div class="card-actionbar">
                 <form action="{{ route('stift.worklog.index') }}" class="form-inline">
@@ -32,7 +40,7 @@
                             'icon' => 'time-interval',
                             'type' => 'info'
                     ])
-                        {{ show_duration_in_hours($totalDuration) }}
+                        {{ show_duration_in_hours($report->getDuration()) }}
 
                         @slot('subtitle')
                             {{ __('Total Work logged') }}
@@ -56,22 +64,23 @@
                     $project = null;
                     $issue = null;
                 ?>
-                @forelse($worklogs as $worklog)
+                @forelse($report->getWorklogs() as $worklog)
                     @if (!$project || $project->id != $worklog->issue->project->id)
-                        <tr>
-                            <th colspan="4">{{ $worklog->issue->project->name }}</th>
+                        <tr class="table-dark">
+                            <th colspan="3">{{ $worklog->issue->project->name }}</th>
+                            <th class="text-right">{{ show_duration_in_hours($report->projectTotal($worklog->issue->project)) }}</th>
                         </tr>
                     @endif
                     @if (!$issue || $issue->id != $worklog->issue->id)
                         <tr>
-                            <td colspan="4">&nbsp;<em>{{ $worklog->issue->issueType->name }}: {{ $worklog->issue->subject }}</em></td>
+                            <th colspan="4">{{ $worklog->issue->issueType->name }}: {{ $worklog->issue->subject }}</th>
                         </tr>
                     @endif
                         <tr>
                             <td>{{ $worklog->started_at }}</td>
                             <td>{!! nl2br($worklog->description) !!}</td>
                             <td>{{ $worklog->user->name }}</td>
-                            <td class="text-right">{{ duration_secs_to_human_readable((int)$worklog->duration) }}</td>
+                            <td class="text-right">{{ show_duration_in_hours($worklog->duration) }}</td>
                         </tr>
                     <?php
                         $project = $worklog->issue->project;
@@ -85,13 +94,33 @@
                 </tbody>
 
                 <tfoot>
-                    <tr>
-                        <th colspan="4"><hr></th>
+                    @if (count($report->getUsers()))
+                        <tr>
+                            <th colspan="4"><hr></th>
+                        </tr>
+                        <tr class="table-dark">
+                            <th colspan="4">{{ __('By User') }}</th>
+                        </tr>
+                        @foreach($report->getUsers() as $user)
+                            <tr>
+                                <td colspan="2">&nbsp;</td>
+                                <td>{{ $user->name }}:</td>
+                                <td class="text-right">{{ show_duration_in_hours($report->userTotal($user)) }}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <th colspan="4"><hr></th>
+                        </tr>
+                    @endif
+
+                    <tr class="table-dark">
+                        <th colspan="4">{{ __('All work') }}</th>
                     </tr>
                     <tr>
                         <th colspan="2">&nbsp;</th>
                         <th class="text-uppercase">{{ __('Total hours') }}:</th>
-                        <th class="text-right">{{ show_duration_in_hours($totalDuration) }}</th>
+                        <th class="text-right">{{ show_duration_in_hours($report->getDuration()) }}</th>
                     </tr>
                 </tfoot>
 

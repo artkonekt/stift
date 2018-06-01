@@ -25,11 +25,8 @@ class WorklogController extends BaseController
 {
     public function index(ListWorklogs $request)
     {
-        $timereport = TimeReport::create($request->getPeriod(), $request->getProjects());
-
         return view('stift::worklog.index', [
-            'worklogs' => $timereport->getWorklogs(),
-            'totalDuration' => $timereport->getDuration(),
+            'report' => TimeReport::create($request->getPeriod(), $request->getProjects()),
             'periods' => PredefinedPeriodProxy::choices(),
             'projects' => ProjectProxy::forUser(Auth::user())->get()->pluck('name', 'id')
         ]);
