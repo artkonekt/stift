@@ -2,4 +2,4 @@
 
 Route::resource('issue', 'IssueController');
 Route::resource('project', 'ProjectController');
-Route::resource('worklog', 'WorklogController')->except(['index']);
+Route::resource('worklog', 'WorklogController');

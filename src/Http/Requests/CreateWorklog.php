@@ -18,7 +18,7 @@ use Konekt\Stift\Models\WorklogStateProxy;
 
 class CreateWorklog extends FormRequest implements CreateWorklogContract
 {
-    use HasPermissions, ParsesWorklogRequests;
+    use ParsesWorklogRequests;
 
     /**
      * @inheritDoc

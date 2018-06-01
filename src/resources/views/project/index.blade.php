@@ -40,7 +40,7 @@
                 ?>
                 @foreach($projects as $project)
                     <?php $hours = \Konekt\Stift\Reports\ProjectWorkingHours::create(
-                            \Konekt\Stift\Reports\ProjectWorkingHours::CURRENT_MONTH,
+                            \Konekt\Stift\Models\PredefinedPeriodProxy::CURRENT_MONTH(),
                             $project)->getWorkingHours();
 
                         $totalHours += $hours;

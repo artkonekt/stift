@@ -11,10 +11,9 @@
 
 namespace Konekt\Stift\Reports;
 
-use DateInterval;
 use DatePeriod;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Konekt\Stift\Contracts\PredefinedPeriod;
 use Konekt\Stift\Models\WorklogProxy;
 use Konekt\User\Contracts\User;
 
@@ -26,9 +25,9 @@ class UserWorkingHours extends BaseReport
     /** @var int|null */
     private $duration;
 
-    public static function create(string $period, $user = null)
+    public static function create(PredefinedPeriod $period, $user = null)
     {
-        return new static($user ?: Auth::user(), static::getPeriodFromString($period));
+        return new static($user ?: Auth::user(), $period->getDatePeriod());
     }
 
     public function __construct(User $project, DatePeriod $period)
@@ -47,17 +46,21 @@ class UserWorkingHours extends BaseReport
     {
         return $this->period;
     }
-
-    public function getWorkingHours()
+    public function getDuration()
     {
         if (null === $this->duration) {
             $this->duration = WorklogProxy::ofUser($this->user)
-                      ->after($this->period->start)
-                      ->before($this->period->end)
-                      ->notRunning()
-                      ->sum('duration');
+                                          ->after($this->period->start)
+                                          ->before($this->period->end)
+                                          ->notRunning()
+                                          ->sum('duration');
         }
 
-        return round($this->duration / 3600, 2);
+        return $this->duration;
+    }
+
+    public function getWorkingHours()
+    {
+        return duration_in_hours($this->getDuration());
     }
 }

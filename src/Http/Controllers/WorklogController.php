@@ -13,16 +13,32 @@ namespace Konekt\Stift\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Konekt\AppShell\Http\Controllers\BaseController;
 use Konekt\Stift\Contracts\Requests\CreateWorklog;
+use Konekt\Stift\Contracts\Requests\ListWorklogs;
 use Konekt\Stift\Contracts\Requests\UpdateWorklog;
 use Konekt\Stift\Contracts\Worklog;
+use Konekt\Stift\Models\PredefinedPeriodProxy;
+use Konekt\Stift\Models\ProjectProxy;
 use Konekt\Stift\Models\WorklogProxy;
+use Konekt\Stift\Reports\TimeReport;
 
 class WorklogController extends BaseController
 {
+    public function index(ListWorklogs $request)
+    {
+        $timereport = TimeReport::create($request->getPeriod(), $request->getProjects());
+
+        return view('stift::worklog.index', [
+            'worklogs' => $timereport->getWorklogs(),
+            'totalDuration' => $timereport->getDuration(),
+            'periods' => PredefinedPeriodProxy::choices(),
+            'projects' => ProjectProxy::forUser(Auth::user())->get()->pluck('name', 'id')
+        ]);
+    }
+
     public function create()
     {
         return view('stift::worklog.create', [
-            'worklog'  => app(Worklog::class)
+            'worklog' => app(Worklog::class)
         ]);
     }
 

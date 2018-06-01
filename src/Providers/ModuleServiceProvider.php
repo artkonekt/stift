@@ -18,11 +18,13 @@ use Konekt\Stift\Helpers\DurationHumanizer;
 use Konekt\Stift\Http\Requests\CreateIssue;
 use Konekt\Stift\Http\Requests\CreateProject;
 use Konekt\Stift\Http\Requests\CreateWorklog;
+use Konekt\Stift\Http\Requests\ListWorklogs;
 use Konekt\Stift\Http\Requests\UpdateIssue;
 use Konekt\Stift\Http\Requests\UpdateProject;
 use Konekt\Stift\Http\Requests\UpdateWorklog;
 use Konekt\Stift\Models\Issue;
 use Konekt\Stift\Models\IssueType;
+use Konekt\Stift\Models\PredefinedPeriod;
 use Konekt\Stift\Models\Project;
 use Konekt\Stift\Models\ProjectUser;
 use Konekt\Stift\Models\Severity;
@@ -47,11 +49,13 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         CreateIssue::class,
         UpdateIssue::class,
         CreateWorklog::class,
-        UpdateWorklog::class
+        UpdateWorklog::class,
+        ListWorklogs::class
     ];
 
     protected $enums = [
-        WorklogState::class
+        WorklogState::class,
+        PredefinedPeriod::class
     ];
 
     public function register()
@@ -72,6 +76,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
             $menu->addItem('stift', __('Stift'));
             $menu->addItem('projects', __('Projects'), ['route' => 'stift.project.index'])->data('icon', 'folder-star');
             $menu->addItem('issues', __('Issues'), ['route' => 'stift.issue.index'])->data('icon', 'check-circle-u');
+            $menu->addItem('time_reports', __('Time Reports'), ['route' => 'stift.worklog.index'])->data('icon', 'collection-text');
         }
     }
 

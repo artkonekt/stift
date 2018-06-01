@@ -18,6 +18,7 @@ use Konekt\Customer\Models\CustomerProxy;
 use Konekt\Stift\Contracts\Project;
 use Konekt\Stift\Contracts\Requests\CreateProject;
 use Konekt\Stift\Contracts\Requests\UpdateProject;
+use Konekt\Stift\Models\PredefinedPeriodProxy;
 use Konekt\Stift\Models\ProjectProxy;
 use Konekt\Stift\Reports\ProjectWorkingHours;
 use Konekt\User\Models\UserProxy;
@@ -59,7 +60,7 @@ class ProjectController extends BaseController
     {
         return view('stift::project.show', [
             'project' => $project,
-            'hoursCurrentMonth' => ProjectWorkingHours::create(ProjectWorkingHours::CURRENT_MONTH, $project)->getWorkingHours()
+            'durationCurrentMonth' => ProjectWorkingHours::create(PredefinedPeriodProxy::CURRENT_MONTH(), $project)->getDuration()
         ]);
     }
 

@@ -13,7 +13,7 @@
                     'icon' => 'time-interval',
                     'type' => 'info'
             ])
-                {{ round($hoursCurrentMonth, 2) }}{{ __('h') }}
+                {{ show_duration_in_hours($durationCurrentMonth) }}
 
                 @slot('subtitle')
                     {{ __('Work logged this month') }}

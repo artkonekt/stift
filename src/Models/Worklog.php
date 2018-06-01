@@ -108,6 +108,16 @@ class Worklog extends Model implements WorklogContract
         return $q->whereIn('issue_id', $project->issues->pluck('id'));
     }
 
+    public function scopeOfProjects($q, array $projects)
+    {
+        $issueIds = collect();
+        foreach ($projects as $project) {
+            $issueIds = $issueIds->merge($project->issues->pluck('id'));
+        }
+
+        return $q->whereIn('issue_id', $issueIds);
+    }
+
     public function scopeAfter($q, \DateTime $date)
     {
         return $q->where('started_at', '>=', $date->format('Y-m-d H:i:s'));

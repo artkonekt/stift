@@ -14,7 +14,7 @@
                     'type' => $issue->worklogsTotalDuration() ? 'info' : 'warning'
             ])
                 @if($issue->worklogsTotalDuration())
-                    {{ duration_secs_to_human_readable($issue->worklogsTotalDuration()) }}
+                    {{ show_duration_in_hours($issue->worklogsTotalDuration()) }}
                 @else
                     {{ __('no work yet') }}
                 @endif
