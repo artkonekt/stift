@@ -47,6 +47,11 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
 
     public function getProjects(): array
     {
-        return $this->get('projects') ? [$this->get('projects')] : [];
+        $projects = $this->get('projects');
+        if (null === $projects) {
+            return [];
+        } else {
+            return is_array($projects) ? $projects : [$projects];
+        }
     }
 }
