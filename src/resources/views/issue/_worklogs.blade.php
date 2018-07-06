@@ -31,13 +31,24 @@
                 <th>{{ __('Duration') }}</th>
                 <th>{{ __('Description') }}</th>
                 <th>{{ __('State') }}</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
             @forelse($issue->worklogs->sortByDesc('started_at') as $worklog)
                 <tr>
-                    <td>{{ $worklog->started_at }}</td>
+                    <td>
+                        @if (!$worklog->isRunning())
+                            @component('stift::worklog.edit_form', [
+                                                'worklog'  => $worklog,
+                                                'btnTitle' => __('Save')
+                                         ])
+                            @endcomponent
+                            <a href="javascript:;" data-toggle="modal" title="{{ __('Edit worklog') }}"
+                               data-target="#worklog_form--{{ $worklog->id }}">{{ $worklog->started_at }}</a>
+                        @else
+                            {{ $worklog->started_at }}
+                        @endif
+                    </td>
                     <td>{{ $worklog->user->name }}</td>
                     <td>
                         @if ($worklog->isRunning())
@@ -63,20 +74,6 @@
                     </td>
                     <td>{!! nl2br($worklog->description) !!}</td>
                     <td>{{ $worklog->state->label() }}</td>
-
-                    <td class="text-right">
-                        @if (!$worklog->isRunning())
-                            @component('stift::worklog.edit_form', [
-                                                'worklog'  => $worklog,
-                                                'btnTitle' => __('Edit worklog')
-                                         ])
-                            @endcomponent
-
-                            <button data-toggle="modal" data-target="#worklog_form--{{ $worklog->id }}" class="btn btn-link btn-sm">
-                                {{ __('Edit worklog') }}
-                            </button>
-                        @endif
-                    </td>
                 </tr>
             @empty
                 <tr>

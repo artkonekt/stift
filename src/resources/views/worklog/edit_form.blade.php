@@ -41,7 +41,7 @@
                     <label class="col-form-label col-md-4">{{ __('Duration') }}</label>
                     <div class="col-md-8">
                         <div class="{{ $errors->has('duration') ? ' has-danger' : '' }}">
-                            {{ Form::text('duration', duration_secs_to_human_readable($worklog->runningDuration() ?? $worklog->duration, true),
+                            {{ Form::text('duration', duration_secs_to_human_readable($worklog->runningDuration() ?? (int) $worklog->duration, true),
                                 [
                                     'class' => 'form-control',
                                     'placeholder' => __('Eg: 1h 15m'),
