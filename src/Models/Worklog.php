@@ -118,6 +118,17 @@ class Worklog extends Model implements WorklogContract
         return $q->whereIn('issue_id', $issueIds);
     }
 
+    public function scopeUserHasAccessTo($query, User $user)
+    {
+        return $query
+            ->leftJoin('issues', 'worklogs.issue_id', '=', 'issues.id')
+            ->select('worklogs.*', 'issues.project_id')
+            ->whereIn(
+                'issues.project_id',
+                ProjectProxy::forUser($user)->get()->pluck('id')
+            );
+    }
+
     public function scopeAfter($q, \DateTime $date)
     {
         return $q->where('started_at', '>=', $date->format('Y-m-d H:i:s'));

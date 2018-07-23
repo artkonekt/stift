@@ -57,7 +57,7 @@
 
                 <div class="form-group">
                     <label class="col-form-label">{{ __('Description') }}</label>
-                    <div class="{{ $errors->has('invoice_series_id') ? ' has-danger' : '' }}">
+                    <div class="{{ $errors->has('description') ? ' has-danger' : '' }}">
                         {{ Form::textarea('description', $worklog->description, [ 'class' => 'form-control', 'placeholder' => __('Type worklog description...')]) }}
                         @if ($errors->has('description'))
                             <div class="form-control-feedback">{{ $errors->first('description') }}</div>
