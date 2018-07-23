@@ -9,7 +9,6 @@
  *
  */
 
-
 namespace Konekt\Stift\Contracts\Requests;
 
 use Konekt\Concord\Contracts\BaseRequest;

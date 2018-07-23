@@ -152,15 +152,12 @@ class TimeReport extends BaseReport
         $query = WorklogProxy::leftJoin('issues', 'worklogs.issue_id', '=', 'issues.id')
                     ->select('worklogs.*')
                     ->notRunning()
+                    ->ofProjects($this->projects)
                     ->after($this->period->start)
                     ->before($this->period->end)
                     ->orderBy('issues.project_id')
                     ->orderBy('issue_id')
                     ->orderBy('started_at');
-
-        if (!empty($this->projects)) {
-            $query->ofProjects($this->projects);
-        }
 
         return $query;
     }

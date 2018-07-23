@@ -74,7 +74,6 @@ class Project extends Model implements ProjectContract
         return ProjectUserProxy::forUser($user)->get()->contains('project_id', $this->id);
     }
 
-
     public function scopeForUser($query, User $user)
     {
         return $query->whereIn('id',

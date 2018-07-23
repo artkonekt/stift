@@ -113,6 +113,15 @@ class Issue extends Model implements IssueContract
     public function scopeOpen(Builder $query)
     {
         return $query->whereIn('status', ['todo', 'in-progress']);
+    }
 
+    public function visibleFor(User $user)
+    {
+        return ProjectUserProxy::forUser($user)->get()->contains('project_id', $this->project_id);
+    }
+
+    public function scopeUserHasAccessTo($query, User $user)
+    {
+        return $query->whereIn('project_id', ProjectProxy::forUser($user)->get()->pluck('id'));
     }
 }

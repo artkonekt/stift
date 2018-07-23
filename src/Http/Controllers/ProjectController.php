@@ -58,6 +58,10 @@ class ProjectController extends BaseController
 
     public function show(Project $project)
     {
+        if (!$project->visibleFor(Auth::user())) {
+            abort(403);
+        }
+
         return view('stift::project.show', [
             'project' => $project,
             'durationCurrentMonth' => ProjectWorkingHours::create(PredefinedPeriodProxy::CURRENT_MONTH(), $project)->getDuration()
@@ -66,6 +70,10 @@ class ProjectController extends BaseController
 
     public function edit(Project $project)
     {
+        if (!$project->visibleFor(Auth::user())) {
+            abort(403);
+        }
+
         return view('stift::project.edit', [
             'project'   => $project,
             'customers' => CustomerProxy::all(),
@@ -75,6 +83,10 @@ class ProjectController extends BaseController
 
     public function update(Project $project, UpdateProject $request)
     {
+        if (!$project->visibleFor(Auth::user())) {
+            abort(403);
+        }
+
         try {
             $project->update($request->all());
             //dd($request->get('users'));
@@ -91,6 +103,10 @@ class ProjectController extends BaseController
 
     public function destroy(Project $project)
     {
+        if (!$project->visibleFor(Auth::user())) {
+            abort(403);
+        }
+
         try {
             $name = $project->name;
             $project->delete();

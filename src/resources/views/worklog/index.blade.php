@@ -13,11 +13,15 @@
             -
             {{ $report->getPeriod()->getEndDate()->format('M d, Y') }}
 
-            @forelse($report->getProjects() as $project)
-                <span class="badge badge-dark font-weight-normal">{{ $project->name }}</span>
-            @empty
+            @if($reportsAllProjects)
                 <span class="badge badge-dark font-weight-normal">{{ __('All projects') }}</span>
-            @endforelse
+            @else
+                @forelse($report->getProjects() as $project)
+                    <span class="badge badge-dark font-weight-normal">{{ $project->name }}</span>
+                @empty
+                    <span class="badge badge-warning font-weight-normal">{{ __('No projects included in report') }}</span>
+                @endforelse
+            @endif
 
             <div class="card-actionbar">
                 <form action="{{ route('stift.worklog.index') }}" class="form-inline">

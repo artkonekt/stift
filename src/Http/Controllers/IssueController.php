@@ -29,7 +29,7 @@ class IssueController extends BaseController
     public function index()
     {
         return view('stift::issue.index', [
-            'issues' => IssueProxy::open()->get()
+            'issues' => IssueProxy::open()->userHasAccessTo(Auth::user())->get()
         ]);
     }
 
@@ -67,11 +67,19 @@ class IssueController extends BaseController
 
     public function show(Issue $issue)
     {
+        if (!$issue->visibleFor(Auth::user())) {
+            abort(403);
+        }
+
         return view('stift::issue.show', ['issue' => $issue]);
     }
 
     public function edit(Issue $issue)
     {
+        if (!$issue->visibleFor(Auth::user())) {
+            abort(403);
+        }
+
         return view('stift::issue.edit', [
             'issue'    => $issue,
             'projects' => ProjectProxy::forUser(Auth::user())->get(),
@@ -83,6 +91,10 @@ class IssueController extends BaseController
 
     public function update(Issue $issue, UpdateIssue $request)
     {
+        if (!$issue->visibleFor(Auth::user())) {
+            abort(403);
+        }
+
         try {
             $issue->update($request->all());
 
@@ -97,6 +109,10 @@ class IssueController extends BaseController
 
     public function destroy(Issue $issue)
     {
+        if (!$issue->visibleFor(Auth::user())) {
+            abort(403);
+        }
+
         try {
             $subject = $issue->subject;
             $issue->delete();
@@ -109,5 +125,4 @@ class IssueController extends BaseController
 
         return redirect(route('stift.issue.index'));
     }
-
 }

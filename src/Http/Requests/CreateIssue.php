@@ -9,7 +9,6 @@
  *
  */
 
-
 namespace Konekt\Stift\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
