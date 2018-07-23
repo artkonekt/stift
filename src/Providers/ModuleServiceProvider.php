@@ -74,9 +74,16 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
 
         if ($menu = Menu::get('appshell')) {
             $menu->addItem('stift', __('Stift'));
-            $menu->addItem('projects', __('Projects'), ['route' => 'stift.project.index'])->data('icon', 'folder-star');
-            $menu->addItem('issues', __('Issues'), ['route' => 'stift.issue.index'])->data('icon', 'check-circle-u');
-            $menu->addItem('time_reports', __('Time Reports'), ['route' => 'stift.worklog.index'])->data('icon', 'collection-text');
+            $menu->addItem('projects', __('Projects'), ['route' => 'stift.project.index'])
+                ->data('icon', 'folder-star')
+                ->allowIfUserCan('list projects');
+
+            $menu->addItem('issues', __('Issues'), ['route' => 'stift.issue.index'])
+                ->data('icon', 'check-circle-u')
+                ->allowIfUserCan('list issues');
+            $menu->addItem('time_reports', __('Time Reports'), ['route' => 'stift.worklog.index'])
+                ->data('icon', 'collection-text')
+                ->allowIfUserCan('list worklogs');
         }
     }
 
