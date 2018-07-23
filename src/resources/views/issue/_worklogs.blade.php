@@ -37,7 +37,7 @@
             @forelse($issue->worklogs->sortByDesc('started_at') as $worklog)
                 <tr>
                     <td>
-                        @if (!$worklog->isRunning())
+                        @if (!$worklog->isRunning() && Auth::user()->can('edit worklogs'))
                             @component('stift::worklog.edit_form', [
                                                 'worklog'  => $worklog,
                                                 'btnTitle' => __('Save')
@@ -52,16 +52,18 @@
                     <td>{{ $worklog->user->name }}</td>
                     <td>
                         @if ($worklog->isRunning())
-                            @component('stift::worklog.edit_form', [
-                                            'worklog'  => $worklog,
-                                            'state'    => 'finished',
-                                            'btnTitle' => __('Stop Timer and log work')
-                                     ])
-                            @endcomponent
-                            <button type="button" data-toggle="modal" data-target="#worklog_form--{{ $worklog->id }}"
-                                    class="btn btn-xs btn-primary" title="{{ __('Stop work') }}">
-                                <i class="zmdi zmdi-stop"></i>
-                            </button>
+                            @can('edit worklogs')
+                                @component('stift::worklog.edit_form', [
+                                                'worklog'  => $worklog,
+                                                'state'    => 'finished',
+                                                'btnTitle' => __('Stop Timer and log work')
+                                         ])
+                                @endcomponent
+                                <button type="button" data-toggle="modal" data-target="#worklog_form--{{ $worklog->id }}"
+                                        class="btn btn-xs btn-primary" title="{{ __('Stop work') }}">
+                                    <i class="zmdi zmdi-stop"></i>
+                                </button>
+                            @endcan
 
                             <span data-running="1" data-worklog_id="{{$worklog->id}}" data-worklog-human-text="{{$worklog->id}}" data-duration="{{ $worklog->started_at->diffInSeconds() }}">
                                 {{ duration_secs_to_human_readable($worklog->runningDuration(), true) }}
