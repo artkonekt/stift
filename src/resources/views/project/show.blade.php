@@ -21,7 +21,7 @@
             @endcomponent
         </div>
 
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-4">
             @component('appshell::widgets.card_with_icon', [
                     'icon' => enum_icon($project->customer->type),
                     'type' => $project->is_active ? 'success' : null

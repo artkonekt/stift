@@ -41,7 +41,7 @@
         <div class="card-block">
 
             <div class="row">
-                <div class="col-sm-6 col-md-3">
+                <div class="col-sm-6 col-md-4">
                     @component('appshell::widgets.card_with_icon', [
                             'icon' => 'time-interval',
                             'type' => 'info'
