@@ -25,7 +25,7 @@
 
             <div class="card-actionbar">
                 <form action="{{ route('stift.worklog.index') }}" class="form-inline">
-                    {!! Form::select('projects[]', $projects, null, ['class' => 'form-control form-control-sm', 'placeholder' => __('All projects')]) !!}
+                    {!! Form::select('projects[]', $projects, null, ['id' => 'projects', 'multiple'=>'multiple', 'class' => 'form-control form-control-sm']) !!}
                     &nbsp;
                     {!! Form::select('period', $periods, null, ['class' => 'form-control form-control-sm']) !!}
                     &nbsp;
@@ -60,4 +60,20 @@
         </div>
     </div>
 
+@stop
+
+@section('scripts')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet"/>
+
+    <script>
+        $(document).ready(function () {
+            $('#projects').select2({
+                'placeholder': '{{ __('All projects') }}',
+                'allowClear': true,
+                'theme': 'bootstrap'
+            });
+        });
+    </script>
 @stop

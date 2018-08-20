@@ -55,7 +55,15 @@ class TimeReport extends BaseReport
                 if (!$model = ProjectProxy::find($project)) {
                     throw new \Exception(sprintf('%s is not a valid project', $project));
                 }
-                $this->projects[] = $model;            }
+
+                if ($model instanceof Collection) {
+                    $model->each(function ($project) {
+                        $this->projects[] = $project;
+                    });
+                } else {
+                    $this->projects[] = $model;
+                }
+            }
         }
     }
 
