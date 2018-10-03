@@ -68,7 +68,7 @@
 
         </div>
         <div class="card-block">
-            {!! nl2br($issue->description) !!}
+            {!! $issue->getMarkdownDescriptionsAsHtml() !!}
         </div>
     </div>
 

@@ -15,7 +15,8 @@
     },
     "require": {
         "php": ">=7.0.0",
-        "konekt/appshell": ">=0.9.9"
+        "konekt/appshell": ">=0.9.9",
+        "erusev/parsedown": "^1.7"
     },
     "require-dev": {
         "orchestra/testbench": "^3.4.2",
