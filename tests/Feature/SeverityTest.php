@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Tests\Feature;
 
-
 use Konekt\Stift\Contracts\Severity as SeverityContract;
 use Konekt\Stift\Models\Severity;
 use Konekt\Stift\Models\SeverityProxy;
@@ -78,10 +77,9 @@ class SeverityTest extends TestCase
         $this->expectExceptionMessageRegExp('/Integrity constraint violation/');
 
         SeverityProxy::create([
-            'id'   => 'low',
-            'name' => 'Low 2',
+            'id'     => 'low',
+            'name'   => 'Low 2',
             'weight' => 3
         ]);
     }
-
 }

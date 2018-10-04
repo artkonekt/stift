@@ -92,5 +92,4 @@ class TestCase extends OrchestraTestCase
             Stift::class
         ]);
     }
-
 }

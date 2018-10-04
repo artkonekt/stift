@@ -12,8 +12,6 @@
 
 namespace Konekt\Stift\Contracts;
 
-
 interface Issue
 {
-
 }

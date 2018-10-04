@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Tests\Feature;
 
-
 use Konekt\Stift\Contracts\Project as ProjectContract;
 use Konekt\Stift\Models\Project;
 use Konekt\Stift\Models\ProjectProxy;
@@ -51,7 +50,7 @@ class ProjectTest extends TestCase
         $this->createTestClients();
 
         $project = ProjectProxy::create([
-            'name' => 'Bells',
+            'name'        => 'Bells',
             'customer_id' => $this->clientOne->id
         ]);
 

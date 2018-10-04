@@ -35,22 +35,22 @@ class IssueController extends BaseController
 
     public function create(Request $request)
     {
-        $issue = app(Issue::class);
+        $issue             = app(Issue::class);
         $issue->project_id = $request->get('forProject');
 
         return view('stift::issue.create', [
-            'issue'    => $issue,
-            'projects' => ProjectProxy::forUser(Auth::user())->get(),
-            'statuses' => ['todo', 'in-progress', 'done'],
+            'issue'      => $issue,
+            'projects'   => ProjectProxy::forUser(Auth::user())->get(),
+            'statuses'   => ['todo', 'in-progress', 'done'],
             'issueTypes' => IssueTypeProxy::all(),
             'severities' => SeverityProxy::all(),
-            'allUsers' => UserProxy::active()->get()
+            'allUsers'   => UserProxy::active()->get()
         ]);
     }
 
     public function store(CreateIssue $request)
     {
-        $data = $request->all();
+        $data               = $request->all();
         $data['created_by'] = Auth::user()->id;
 
         try {
@@ -81,9 +81,9 @@ class IssueController extends BaseController
         }
 
         return view('stift::issue.edit', [
-            'issue'    => $issue,
-            'projects' => ProjectProxy::forUser(Auth::user())->get(),
-            'statuses' => ['todo', 'in-progress', 'done'],
+            'issue'      => $issue,
+            'projects'   => ProjectProxy::forUser(Auth::user())->get(),
+            'statuses'   => ['todo', 'in-progress', 'done'],
             'issueTypes' => IssueTypeProxy::all(),
             'severities' => SeverityProxy::all()
         ]);
@@ -118,7 +118,6 @@ class IssueController extends BaseController
             $issue->delete();
 
             flash()->warning(__('Issue `:subject` has been deleted', ['subject' => $subject]));
-
         } catch (\Exception $e) {
             flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
         }

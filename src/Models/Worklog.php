@@ -95,7 +95,6 @@ class Worklog extends Model implements WorklogContract
     public function scopeLatest($q, $numEntries = 10)
     {
         return $q->orderBy('started_at', 'desc')->take($numEntries);
-
     }
 
     public function scopeOfUser($q, User $user)

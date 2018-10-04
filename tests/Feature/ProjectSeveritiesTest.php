@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Tests\Feature;
 
-
 use Konekt\Stift\Contracts\Project;
 use Konekt\Stift\Contracts\Severity;
 use Konekt\Stift\Models\ProjectProxy;

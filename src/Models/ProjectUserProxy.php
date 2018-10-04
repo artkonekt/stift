@@ -12,10 +12,8 @@
 
 namespace Konekt\Stift\Models;
 
-
 use Konekt\Concord\Proxies\ModelProxy;
 
 class ProjectUserProxy extends ModelProxy
 {
-
 }

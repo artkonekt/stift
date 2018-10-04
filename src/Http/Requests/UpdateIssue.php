@@ -41,5 +41,4 @@ class UpdateIssue extends FormRequest implements UpdateIssueContract
     {
         return true;
     }
-
 }

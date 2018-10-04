@@ -52,7 +52,7 @@ class DurationHumanizer
 
         $result = '';
 
-        foreach(['w', 'd', 'h', 'm'] as $part) {
+        foreach (['w', 'd', 'h', 'm'] as $part) {
             if ($values[$part]) {
                 $result .= sprintf('%d%s ', $values[$part], $part);
             }
@@ -65,7 +65,7 @@ class DurationHumanizer
     {
         $seconds = 0;
 
-        foreach(explode(' ', $value) as $part) {
+        foreach (explode(' ', $value) as $part) {
             if (ends_with(trim($part), 's')) {
                 $seconds = intval(($part));
             }
@@ -87,7 +87,7 @@ class DurationHumanizer
                 $result['d'] = intval($part);
             } elseif (ends_with(trim($part), 'm')) {
                 $result['m'] = intval($part);
-            }  elseif (ends_with(trim($part), 'w')) {
+            } elseif (ends_with(trim($part), 'w')) {
                 $result['w'] = intval($part);
             }
         }

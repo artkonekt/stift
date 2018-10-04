@@ -8,8 +8,8 @@ use Konekt\User\Models\UserProxy;
 trait CreatesTestUsers
 {
     // Test Users
-    static $TEST_USER1_EMAIL   = 'kube@rnetes.io';
-    static $TEST_USER2_EMAIL   = 'java@sun.com';
+    public static $TEST_USER1_EMAIL   = 'kube@rnetes.io';
+    public static $TEST_USER2_EMAIL   = 'java@sun.com';
 
     /** @var  User */
     private $user1;

@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Tests\Feature;
 
-
 use Konekt\Stift\Contracts\IssueType as IssueTypeContract;
 use Konekt\Stift\Models\IssueType;
 use Konekt\Stift\Models\IssueTypeProxy;
@@ -79,5 +78,4 @@ class IssueTypeTest extends TestCase
             'name' => 'Defect 2'
         ]);
     }
-
 }

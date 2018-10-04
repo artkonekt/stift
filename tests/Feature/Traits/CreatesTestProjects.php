@@ -19,12 +19,12 @@ trait CreatesTestProjects
     private function createTestProjects()
     {
         $this->project1 = ProjectProxy::create([
-            'name'      => 'R Like Ruby',
+            'name'        => 'R Like Ruby',
             'customer_id' => $this->clientOne->id
         ])->fresh();
 
         $this->project2 = ProjectProxy::create([
-            'name'      => 'Go Lang',
+            'name'        => 'Go Lang',
             'customer_id' => $this->clientTwo->id
         ])->fresh();
     }

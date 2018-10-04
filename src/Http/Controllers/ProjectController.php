@@ -63,7 +63,7 @@ class ProjectController extends BaseController
         }
 
         return view('stift::project.show', [
-            'project' => $project,
+            'project'              => $project,
             'durationCurrentMonth' => ProjectWorkingHours::create(PredefinedPeriodProxy::CURRENT_MONTH(), $project)->getDuration()
         ]);
     }
@@ -112,12 +112,10 @@ class ProjectController extends BaseController
             $project->delete();
 
             flash()->warning(__('The :name project has been deleted', ['name' => $name]));
-
         } catch (\Exception $e) {
             flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
         }
 
         return redirect(route('stift.project.index'));
     }
-
 }

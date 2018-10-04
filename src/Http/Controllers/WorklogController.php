@@ -28,7 +28,7 @@ class WorklogController extends BaseController
         $view = $request->has('print') ? 'print' : 'index';
 
         $reportsAllProjects = true;
-        $projects = ProjectProxy::query();
+        $projects           = ProjectProxy::query();
 
         if (!empty($ids = $request->getProjects())) {
             $projects->whereIn('id', $ids);
@@ -38,9 +38,9 @@ class WorklogController extends BaseController
         $projects = $projects->forUser(Auth::user())->get()->all();
 
         return view('stift::worklog.' . $view, [
-            'report' => TimeReport::create($request->getPeriod(), $projects),
-            'periods' => PredefinedPeriodProxy::choices(),
-            'projects' => ProjectProxy::forUser(Auth::user())->get()->pluck('name', 'id'),
+            'report'             => TimeReport::create($request->getPeriod(), $projects),
+            'periods'            => PredefinedPeriodProxy::choices(),
+            'projects'           => ProjectProxy::forUser(Auth::user())->get()->pluck('name', 'id'),
             'reportsAllProjects' => $reportsAllProjects
         ]);
     }
@@ -54,7 +54,7 @@ class WorklogController extends BaseController
 
     public function store(CreateWorklog $request)
     {
-        $data = $request->all();
+        $data            = $request->all();
         $data['user_id'] = Auth::user()->id;
 
         try {
@@ -100,12 +100,10 @@ class WorklogController extends BaseController
             $worklog->delete();
 
             flash()->warning(__('Worklog has been deleted'));
-
         } catch (\Exception $e) {
             flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
         }
 
         return redirect(route('stift.issue.show', $issue));
     }
-
 }

@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Contracts;
 
-
 use Konekt\User\Contracts\User;
 
 interface Project
@@ -25,5 +24,4 @@ interface Project
      * @return bool
      */
     public function visibleFor(User $user);
-
 }

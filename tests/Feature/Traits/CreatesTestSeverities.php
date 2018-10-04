@@ -8,10 +8,10 @@ use Konekt\Stift\Models\SeverityProxy;
 trait CreatesTestSeverities
 {
     // Severity keys
-    static $TEST_LOW_KEY      = 'low';
-    static $TEST_MEDIUM_KEY   = 'medium';
-    static $TEST_HIGH_KEY     = 'high';
-    static $TEST_CRITICAL_KEY = 'critical';
+    public static $TEST_LOW_KEY      = 'low';
+    public static $TEST_MEDIUM_KEY   = 'medium';
+    public static $TEST_HIGH_KEY     = 'high';
+    public static $TEST_CRITICAL_KEY = 'critical';
 
     /** @var  Severity */
     private $low;
@@ -54,7 +54,5 @@ trait CreatesTestSeverities
             'name'   => 'Critical',
             'weight' => 10
         ]);
-
     }
-
 }

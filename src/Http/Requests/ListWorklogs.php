@@ -27,8 +27,8 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
         return [
             'projects'   => 'sometimes',
             'start_date' => 'sometimes|date',
-            'end_date' => 'sometimes|date',
-            'period' => ['sometimes', Rule::in(PredefinedPeriodProxy::values())]
+            'end_date'   => 'sometimes|date',
+            'period'     => ['sometimes', Rule::in(PredefinedPeriodProxy::values())]
         ];
     }
 

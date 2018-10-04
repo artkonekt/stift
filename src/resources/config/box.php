@@ -2,7 +2,7 @@
 
 return [
     'event_listeners' => true,
-    'views' => [
+    'views'           => [
         'namespace' => 'stift'
     ],
     'routes' => [

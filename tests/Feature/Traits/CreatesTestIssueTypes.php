@@ -5,13 +5,12 @@ namespace Konekt\Stift\Tests\Feature\Traits;
 use Konekt\Stift\Models\IssueType;
 use Konekt\Stift\Models\IssueTypeProxy;
 
-
 trait CreatesTestIssueTypes
 {
     // Issue Type keys
-    static $TEST_BUG_KEY      = 'bug';
-    static $TEST_TASK_KEY     = 'task';
-    static $TEST_TICKET_KEY   = 'ticket';
+    public static $TEST_BUG_KEY      = 'bug';
+    public static $TEST_TASK_KEY     = 'task';
+    public static $TEST_TICKET_KEY   = 'ticket';
 
     /** @var  IssueType */
     private $bug;

@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Models;
 
-
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Konekt\Customer\Models\CustomerProxy;

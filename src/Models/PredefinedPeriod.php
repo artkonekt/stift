@@ -46,7 +46,7 @@ class PredefinedPeriod extends Enum implements PredefinedPeriodContract
     {
         $daily = new DateInterval('P1D');
 
-        switch($this->value()) {
+        switch ($this->value()) {
             case static::CURRENT_MONTH: {
                 return new DatePeriod(Carbon::now()->startOfMonth(), $daily, Carbon::now()->endOfMonth());
             }

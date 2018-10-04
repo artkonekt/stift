@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Tests\Feature;
 
-
 use Carbon\Carbon;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestIssueTypes;

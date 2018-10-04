@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Konekt\Stift\Contracts\Severity as SeverityContract;
 
@@ -37,5 +36,4 @@ class Severity extends Model implements SeverityContract
             'project_severities'
         );
     }
-
 }

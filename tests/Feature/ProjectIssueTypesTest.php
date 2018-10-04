@@ -24,7 +24,7 @@ class ProjectIssueTypesTest extends TestCase
     public function testIssueTypeCanBeAssignedToProject()
     {
         $this->project1->issueTypes()->create([
-            'id' => 'bug',
+            'id'   => 'bug',
             'name' => 'Microsoft Bug'
         ]);
 
@@ -41,12 +41,12 @@ class ProjectIssueTypesTest extends TestCase
     public function testSeveralIssueTypesCanBeAssignedToAProject()
     {
         $this->project1->issueTypes()->create([
-            'id' => 'fly',
+            'id'   => 'fly',
             'name' => 'Microsoft Fly Bug'
         ]);
 
         $this->project1->issueTypes()->create([
-            'id' => 'flee',
+            'id'   => 'flee',
             'name' => 'Microsoft Flee Bug'
         ]);
 

@@ -36,5 +36,4 @@ class UpdateProject extends FormRequest implements UpdateProjectContract
     {
         return true;
     }
-
 }

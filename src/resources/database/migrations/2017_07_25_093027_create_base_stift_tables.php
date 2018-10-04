@@ -24,10 +24,9 @@ class CreateBaseStiftTables extends Migration
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers');
-
         });
 
-        Schema::create('project_users', function(Blueprint $table) {
+        Schema::create('project_users', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('project_id')->unsigned();
             $table->integer('user_id')->unsigned();
@@ -41,7 +40,6 @@ class CreateBaseStiftTables extends Migration
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users');
-
         });
 
         Schema::create('issue_types', function (Blueprint $table) {
@@ -122,7 +120,6 @@ class CreateBaseStiftTables extends Migration
             $table->foreign('created_by')
                   ->references('id')
                   ->on('users');
-
         });
     }
 

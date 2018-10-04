@@ -36,5 +36,4 @@ class CreateProject extends FormRequest implements CreateProjectContract
     {
         return true;
     }
-
 }

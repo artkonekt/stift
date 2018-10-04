@@ -12,7 +12,6 @@
 
 namespace Konekt\Stift\Tests\Feature;
 
-
 use Konekt\Concord\Module\Kind;
 use Konekt\Stift\Tests\TestCase;
 
@@ -22,7 +21,7 @@ class ModuleTest extends TestCase
     {
         $modules = $this->concord
             ->getModules(true)
-            ->keyBy(function($module) {
+            ->keyBy(function ($module) {
                 return $module->getId();
             });
 
@@ -37,5 +36,4 @@ class ModuleTest extends TestCase
             'Concord Module Type Should be a box'
         );
     }
-
 }

@@ -55,7 +55,8 @@ class TimeReport extends BaseReport
                 if (!$model = ProjectProxy::find($project)) {
                     throw new \Exception(sprintf('%s is not a valid project', $project));
                 }
-                $this->projects[] = $model;            }
+                $this->projects[] = $model;
+            }
         }
     }
 
@@ -90,9 +91,9 @@ class TimeReport extends BaseReport
     public function getProjectTotals()
     {
         if (null === $this->projectTotals) {
-            $query = $this->getQuery()->cloneWithoutBindings(['select', 'order']);
+            $query                     = $this->getQuery()->cloneWithoutBindings(['select', 'order']);
             $query->getQuery()->orders = []; // Reset order by clauses
-            $this->projectTotals = $query
+            $this->projectTotals       = $query
                 ->select([])
                 ->selectRaw('issues.project_id, SUM(duration) as total')
                 ->groupBy('issues.project_id')
@@ -105,9 +106,9 @@ class TimeReport extends BaseReport
     public function getUsers(): array
     {
         if (null === $this->users) {
-            $query = $this->getQuery()->cloneWithoutBindings(['select', 'order']);
+            $query                     = $this->getQuery()->cloneWithoutBindings(['select', 'order']);
             $query->getQuery()->orders = []; // Reset order by clauses
-            $this->users = $query
+            $this->users               = $query
                 ->select(['user_id'])
                 ->groupBy('user_id')
                 ->get()
@@ -125,9 +126,9 @@ class TimeReport extends BaseReport
     public function getUserTotals()
     {
         if (null === $this->userTotals) {
-            $query = $this->getQuery()->cloneWithoutBindings(['select', 'order']);
+            $query                     = $this->getQuery()->cloneWithoutBindings(['select', 'order']);
             $query->getQuery()->orders = []; // Reset order by clauses
-            $this->userTotals = $query
+            $this->userTotals          = $query
                 ->select([])
                 ->selectRaw('user_id, SUM(duration) as total')
                 ->groupBy('user_id')
@@ -161,5 +162,4 @@ class TimeReport extends BaseReport
 
         return $query;
     }
-
 }

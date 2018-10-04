@@ -91,7 +91,7 @@ class WorklogTest extends TestCase
         $this->createTestIssues();
 
         $worklog = WorklogProxy::create([
-            'user_id' => $this->user2->id,
+            'user_id'  => $this->user2->id,
             'issue_id' => $this->taskMedium->id
         ]);
 

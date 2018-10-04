@@ -40,5 +40,4 @@ class CreateIssue extends FormRequest implements CreateIssueContract
     {
         return true;
     }
-
 }
