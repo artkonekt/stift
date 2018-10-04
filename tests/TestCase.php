@@ -54,9 +54,9 @@ class TestCase extends OrchestraTestCase
     {
         $app['config']->set('database.default', 'test');
         $app['config']->set('database.connections.test', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => ':memory:',
-            'prefix' => '',
+            'prefix'   => '',
         ]);
 
         $app['config']->set('view.paths', [__DIR__.'/resources/views']);
