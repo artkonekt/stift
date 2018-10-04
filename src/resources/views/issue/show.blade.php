@@ -68,7 +68,7 @@
 
         </div>
         <div class="card-block">
-            {!! $issue->getMarkdownDescriptionsAsHtml() !!}
+            {!! $issue->getMarkdownDescriptionAsHtml() !!}
         </div>
     </div>
 
