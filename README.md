@@ -1,7 +1,9 @@
-# Stift Is An Issue Handler For Developers
+# Stift Is An Issue Handler For Laravel Developers
 
-[![Latest Stable Version](https://poser.pugx.org/konekt/stift/version.png)](https://packagist.org/packages/konekt/stift)
-[![Total Downloads](https://poser.pugx.org/konekt/stift/downloads.png)](https://packagist.org/packages/konekt/stift)
-[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+[![Travis](https://img.shields.io/travis/vanilophp/cart.svg?style=flat-square)](https://travis-ci.org/vanilophp/cart)
+[![Packagist version](https://img.shields.io/packagist/v/konekt/stift.svg?style=flat-square)](https://packagist.org/packages/konekt/stift)
+[![Packagist downloads](https://img.shields.io/packagist/dt/konekt/stift.svg?style=flat-square)](https://packagist.org/packages/konekt/stift)
+[![StyleCI](https://styleci.io/repos/94370115/shield?branch=master)](https://styleci.io/repos/94370115)
+[![MIT Software License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE.md)
 
 This is an [AppShell](https://github.com/artkonekt/appshell) extension (and thus a [Concord](https://github.com/artkonekt/concord) box).
