@@ -103,6 +103,16 @@ class Issue extends Model implements IssueContract
     }
 
     /**
+     * Parses the description into html in order to display markdown.
+     *
+     * @return string
+     */
+    public function getMarkdownDescriptionsAsHtml()
+    {
+        return (new \Parsedown())->parse($this->description);
+    }
+
+    /**
      * Returns the total duration (seconds) of work logged (excluding running)
      */
     public function worklogsTotalDuration()
