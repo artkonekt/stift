@@ -6,9 +6,7 @@
  * @author      Attila Fulop
  * @license     MIT
  * @since       2017-06-14
- *
  */
-
 
 namespace Konekt\Stift\Tests;
 
@@ -16,12 +14,13 @@ use Konekt\AppShell\Providers\ModuleServiceProvider as AppShell;
 use Konekt\Concord\Contracts\Concord;
 use Konekt\Stift\Providers\ModuleServiceProvider as Stift;
 use Konekt\Concord\ConcordServiceProvider;
+use Konekt\Gears\Providers\GearsServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase
 {
-    /** @var  Concord */
+    /** @var Concord */
     protected $concord;
 
     public function setUp()
@@ -41,7 +40,8 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [
-            ConcordServiceProvider::class
+            ConcordServiceProvider::class,
+            GearsServiceProvider::class,
         ];
     }
 
@@ -54,9 +54,9 @@ class TestCase extends OrchestraTestCase
     {
         $app['config']->set('database.default', 'test');
         $app['config']->set('database.connections.test', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
 
         $app['config']->set('view.paths', [__DIR__.'/resources/views']);
@@ -82,14 +82,14 @@ class TestCase extends OrchestraTestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function resolveApplicationConfiguration($app)
     {
         parent::resolveApplicationConfiguration($app);
         $app['config']->set('concord.modules', [
             AppShell::class,
-            Stift::class
+            Stift::class,
         ]);
     }
 }

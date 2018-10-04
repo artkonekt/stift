@@ -131,6 +131,23 @@ class IssueTest extends TestCase
         );
     }
 
+    public function testMarkdownDescriptionAsHtml()
+    {
+        $issue = IssueProxy::create([
+            'project_id'    => $this->project1->id,
+            'issue_type_id' => $this->task->id,
+            'severity_id'   => $this->low->id,
+            'subject'       => 'My Description Is Markdown',
+            'status'        => '',
+            'description'   => "# Hello\n\nWhat's up?",
+            'created_by'    => $this->user1->id
+        ]);
+
+
+        $this->assertContains('<h1>Hello</h1>', $issue->getMarkdownDescriptionAsHtml());
+        $this->assertContains("<p>What's up?</p>", $issue->getMarkdownDescriptionAsHtml());
+    }
+
     protected function createTestData()
     {
         $this->createTestUsers();

@@ -101,12 +101,7 @@ class Issue extends Model implements IssueContract
         return $this->hasMany(WorklogProxy::modelClass());
     }
 
-    /**
-     * Parses the description into html in order to display markdown.
-     *
-     * @return string
-     */
-    public function getMarkdownDescriptionsAsHtml()
+    public function getMarkdownDescriptionAsHtml(): string
     {
         return (new \Parsedown())->parse($this->description);
     }
