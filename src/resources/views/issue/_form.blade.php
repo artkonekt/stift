@@ -80,10 +80,10 @@
 <div class="form-group row">
     <label class="form-control-label col-md-2">{{ __('Status') }}</label>
     <div class="col-md-10">
-        @foreach($statuses as $status)
+        @foreach($statuses as $status => $statusLabel)
             <label class="radio-inline" for="status_{{ $status }}">
-                {{ Form::radio('status', $status, $issue->status == $status, ['id' => "status_$status"]) }}
-                {{ $status }}
+                {{ Form::radio('status', $status, ($issue->status->value() == $status), ['id' => "status_$status"]) }}
+                {{ $statusLabel }}
                 &nbsp;
             </label>
         @endforeach

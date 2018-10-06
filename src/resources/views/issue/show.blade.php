@@ -26,7 +26,7 @@
         </div>
 
         <div class="col-sm-6 col-md-4">
-            @component('appshell::widgets.card_with_icon', ['icon' => 'account-circle'])
+            @component('appshell::widgets.card_with_icon')
                 @if ($issue->assignedTo)
                     <span title="{{ __('Assigned to :name', ['name' => $issue->assignedTo->name]) }}">
                         {{ $issue->assignedTo->name }}
@@ -34,6 +34,13 @@
                 @else
                     {{ __('Unassigned') }}
                 @endif
+
+                @slot('iconSlot')
+                    <img src="{{ avatar_image_url($issue->assignedTo) }}"
+                         alt="{{ $issue->createdBy->name }}"
+                         class="img-avatar img-avatar-35"
+                    >
+                @endslot
 
                 @slot('subtitle')
                     {{ __('Created by') }}
@@ -62,7 +69,8 @@
 
             <div class="card-actionbar">
                 @can('edit issues')
-                    <a href="{{ route('stift.issue.edit', $issue) }}" class="btn btn-outline-primary">{{ __('Edit issue') }}</a>
+                    <a href="{{ route('stift.issue.edit', $issue) }}"
+                       class="btn btn-outline-primary">{{ __('Edit issue') }}</a>
                 @endcan
             </div>
 
