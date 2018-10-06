@@ -44,10 +44,10 @@
 
         <div class="col-sm-6 col-md-4">
             @component('appshell::widgets.card_with_icon', [
-                    'icon' => 'folder-star',
-                    'type' => $issue->status == 'done' ? 'success' : null
+                    'icon' => enum_icon($issue->status),
+                    'type' => $issue->status->isOpen() ? null : 'success'
             ])
-                {{ $issue->project->name }}
+                {{ $issue->status->label() }}
                 @slot('subtitle')
                     {{ $issue->project->customer->name }}
                 @endslot

@@ -75,7 +75,7 @@
                         @endif
                     </td>
                     <td>{!! nl2br($worklog->description) !!}</td>
-                    <td>{{ $worklog->state->label() }}</td>
+                    <td><i class="zmdi zmdi-{{ enum_icon($worklog->state) }}" alt="{{ $worklog->state->label() }}" title="{{ $worklog->state->label() }}"></i></td>
                 </tr>
             @empty
                 <tr>

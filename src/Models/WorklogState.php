@@ -24,7 +24,7 @@ class WorklogState extends Enum implements WorklogStateContract
     const REJECTED  = 'rejected';
     const BILLED    = 'billed';
 
-    public static $labels = [];
+    protected static $labels = [];
 
     protected static function boot()
     {

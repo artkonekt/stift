@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Konekt\AppShell\Models\User;
+use Konekt\Enum\Eloquent\CastsEnums;
 use Konekt\Stift\Contracts\Issue as IssueContract;
 use Konekt\User\Models\UserProxy;
 
@@ -29,6 +30,12 @@ use Konekt\User\Models\UserProxy;
  */
 class Issue extends Model implements IssueContract
 {
+    use CastsEnums;
+
+    protected $enums = [
+        'status' => 'IssueStatusProxy@enumClass'
+    ];
+
     protected $dates = ['created_at', 'updated_at', 'due_on'];
 
     protected $fillable = [
@@ -116,7 +123,7 @@ class Issue extends Model implements IssueContract
 
     public function scopeOpen(Builder $query)
     {
-        return $query->whereIn('status', ['todo', 'in-progress']);
+        return $query->whereIn('status', IssueStatusProxy::getOpenStatuses());
     }
 
     public function visibleFor(User $user)

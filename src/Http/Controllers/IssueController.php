@@ -19,6 +19,7 @@ use Konekt\Stift\Contracts\Issue;
 use Konekt\Stift\Contracts\Requests\CreateIssue;
 use Konekt\Stift\Contracts\Requests\UpdateIssue;
 use Konekt\Stift\Models\IssueProxy;
+use Konekt\Stift\Models\IssueStatusProxy;
 use Konekt\Stift\Models\IssueTypeProxy;
 use Konekt\Stift\Models\ProjectProxy;
 use Konekt\Stift\Models\SeverityProxy;
@@ -41,7 +42,7 @@ class IssueController extends BaseController
         return view('stift::issue.create', [
             'issue'      => $issue,
             'projects'   => ProjectProxy::forUser(Auth::user())->get(),
-            'statuses'   => ['todo', 'in-progress', 'done'],
+            'statuses'   => IssueStatusProxy::choices(),
             'issueTypes' => IssueTypeProxy::all(),
             'severities' => SeverityProxy::all(),
             'allUsers'   => UserProxy::active()->get()
@@ -83,7 +84,7 @@ class IssueController extends BaseController
         return view('stift::issue.edit', [
             'issue'      => $issue,
             'projects'   => ProjectProxy::forUser(Auth::user())->get(),
-            'statuses'   => ['todo', 'in-progress', 'done'],
+            'statuses'   => IssueStatusProxy::choices(),
             'issueTypes' => IssueTypeProxy::all(),
             'severities' => SeverityProxy::all()
         ]);

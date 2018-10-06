@@ -9,7 +9,6 @@
  *
  */
 
-
 namespace Konekt\Stift\Providers;
 
 use Konekt\Concord\BaseBoxServiceProvider;
@@ -22,6 +21,8 @@ use Konekt\Stift\Http\Requests\UpdateIssue;
 use Konekt\Stift\Http\Requests\UpdateProject;
 use Konekt\Stift\Http\Requests\UpdateWorklog;
 use Konekt\Stift\Models\Issue;
+use Konekt\Stift\Models\IssueStatus;
+use Konekt\Stift\Models\IssueStatusProxy;
 use Konekt\Stift\Models\IssueType;
 use Konekt\Stift\Models\PredefinedPeriod;
 use Konekt\Stift\Models\Project;
@@ -29,6 +30,7 @@ use Konekt\Stift\Models\ProjectUser;
 use Konekt\Stift\Models\Severity;
 use Konekt\Stift\Models\Worklog;
 use Konekt\Stift\Models\WorklogState;
+use Konekt\Stift\Models\WorklogStateProxy;
 use Menu;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
@@ -54,7 +56,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
 
     protected $enums = [
         WorklogState::class,
-        PredefinedPeriod::class
+        PredefinedPeriod::class,
+        IssueStatus::class
     ];
 
     public function register()
@@ -70,6 +73,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
     {
         parent::boot();
 
+        $this->registerEnumIcons();
+
         if ($menu = Menu::get('appshell')) {
             $menu->addItem('stift', __('Stift'));
             $menu->addItem('projects', __('Projects'), ['route' => 'stift.project.index'])
@@ -83,5 +88,29 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
                 ->data('icon', 'collection-text')
                 ->allowIfUserCan('list worklogs');
         }
+    }
+
+    private function registerEnumIcons()
+    {
+        $this->app['appshell.icon']->registerEnumIcons(
+            WorklogStateProxy::enumClass(),
+            [
+                WorklogState::RUNNING => 'spinner',
+                WorklogState::PAUSED => 'pause',
+                WorklogState::FINISHED => 'calendar-check',
+                WorklogState::APPROVED => 'check-all',
+                WorklogState::REJECTED => 'flash',
+                WorklogState::BILLED => 'money'
+            ]
+        );
+
+        $this->app['appshell.icon']->registerEnumIcons(
+            IssueStatusProxy::enumClass(),
+            [
+                IssueStatus::TODO => 'circle-o',
+                IssueStatus::IN_PROGRESS => 'spinner',
+                IssueStatus::DONE => 'check-circle-u'
+            ]
+        );
     }
 }
