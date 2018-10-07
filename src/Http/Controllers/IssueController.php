@@ -50,7 +50,7 @@ class IssueController extends BaseController
 
         return view('stift::issue.index', [
             'issues'           => $issues->userHasAccessTo(Auth::user())->get(),
-            'projects'         => ProjectProxy::forUser(Auth::user())->get()->pluck('name', 'id'),
+            'projects'         => ProjectProxy::forUser(Auth::user())->get()->sortBy('name')->pluck('name', 'id'),
             'filteredProjects' => $filteredProjects,
             'statuses'         => [
                 'open_issues'         => __('Open Issues'),
@@ -66,7 +66,7 @@ class IssueController extends BaseController
 
         return view('stift::issue.create', [
             'issue'      => $issue,
-            'projects'   => ProjectProxy::forUser(Auth::user())->get(),
+            'projects'   => ProjectProxy::forUser(Auth::user())->get()->sortBy('name'),
             'statuses'   => IssueStatusProxy::choices(),
             'issueTypes' => IssueTypeProxy::all(),
             'severities' => SeverityProxy::all(),
@@ -109,7 +109,7 @@ class IssueController extends BaseController
 
         return view('stift::issue.edit', [
             'issue'      => $issue,
-            'projects'   => ProjectProxy::forUser(Auth::user())->get(),
+            'projects'   => ProjectProxy::forUser(Auth::user())->get()->sortBy('name'),
             'statuses'   => IssueStatusProxy::choices(),
             'issueTypes' => IssueTypeProxy::all(),
             'severities' => SeverityProxy::all()

@@ -40,7 +40,7 @@ class WorklogController extends BaseController
         return view('stift::worklog.' . $view, [
             'report'             => TimeReport::create($request->getPeriod(), $projects),
             'periods'            => PredefinedPeriodProxy::choices(),
-            'projects'           => ProjectProxy::forUser(Auth::user())->get()->pluck('name', 'id'),
+            'projects'           => ProjectProxy::forUser(Auth::user())->get()->sortBy('name')->pluck('name', 'id'),
             'reportsAllProjects' => $reportsAllProjects
         ]);
     }
