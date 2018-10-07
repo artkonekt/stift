@@ -11,7 +11,7 @@
         <div class="col-sm-6 col-md-4">
             @component('appshell::widgets.card_with_icon', [
                     'icon' => 'time-interval',
-                    'type' => $issue->worklogsTotalDuration() ? 'info' : 'warning'
+                    'type' => $issue->worklogsTotalDuration() ? 'info' : null
             ])
                 @if($issue->worklogsTotalDuration())
                     {{ show_duration_in_hours($issue->worklogsTotalDuration()) }}
@@ -26,7 +26,9 @@
         </div>
 
         <div class="col-sm-6 col-md-4">
-            @component('appshell::widgets.card_with_icon')
+            @component('appshell::widgets.card_with_icon', [
+                    'type' => $issue->assignedTo ? 'info' : null
+            ])
                 @if ($issue->assignedTo)
                     <span title="{{ __('Assigned to :name', ['name' => $issue->assignedTo->name]) }}">
                         {{ $issue->assignedTo->name }}
@@ -52,11 +54,11 @@
         <div class="col-sm-6 col-md-4">
             @component('appshell::widgets.card_with_icon', [
                     'icon' => enum_icon($issue->status),
-                    'type' => $issue->status->isOpen() ? null : 'success'
+                    'type' => $issue->status->isTodo() ? null : ($issue->status->isDone() ? 'success' : 'warning')
             ])
                 {{ $issue->status->label() }}
                 @slot('subtitle')
-                    {{ $issue->project->customer->name }}
+                    {{ $issue->project->name }}
                 @endslot
             @endcomponent
         </div>
