@@ -89,7 +89,7 @@ class IssueController extends BaseController
             return redirect()->back();
         }
 
-        return redirect(route('stift.issue.index'));
+        return redirect(route('stift.issue.index', ['status' => 'open_issues']));
     }
 
     public function show(Issue $issue)
@@ -150,6 +150,6 @@ class IssueController extends BaseController
             flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
         }
 
-        return redirect(route('stift.issue.index'));
+        return redirect(route('stift.issue.index', ['status' => 'open_issues']));
     }
 }
