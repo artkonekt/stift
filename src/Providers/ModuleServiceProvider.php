@@ -16,6 +16,7 @@ use Konekt\Stift\Helpers\DurationHumanizer;
 use Konekt\Stift\Http\Requests\CreateIssue;
 use Konekt\Stift\Http\Requests\CreateProject;
 use Konekt\Stift\Http\Requests\CreateWorklog;
+use Konekt\Stift\Http\Requests\ListIssues;
 use Konekt\Stift\Http\Requests\ListWorklogs;
 use Konekt\Stift\Http\Requests\UpdateIssue;
 use Konekt\Stift\Http\Requests\UpdateProject;
@@ -51,7 +52,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         UpdateIssue::class,
         CreateWorklog::class,
         UpdateWorklog::class,
-        ListWorklogs::class
+        ListWorklogs::class,
+        ListIssues::class
     ];
 
     protected $enums = [
@@ -81,7 +83,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
                 ->data('icon', 'folder-star')
                 ->allowIfUserCan('list projects');
 
-            $menu->addItem('issues', __('Issues'), ['route' => 'stift.issue.index'])
+            $menu->addItem('issues', __('Issues'), ['route' => ['stift.issue.index', 'status=open_issues']])
                 ->data('icon', 'check-circle-u')
                 ->allowIfUserCan('list issues');
             $menu->addItem('time_reports', __('Time Reports'), ['route' => 'stift.worklog.index'])

@@ -9,7 +9,6 @@
  *
  */
 
-
 namespace Konekt\Stift\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -17,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Konekt\AppShell\Http\Controllers\BaseController;
 use Konekt\Stift\Contracts\Issue;
 use Konekt\Stift\Contracts\Requests\CreateIssue;
+use Konekt\Stift\Contracts\Requests\ListIssues;
 use Konekt\Stift\Contracts\Requests\UpdateIssue;
 use Konekt\Stift\Models\IssueProxy;
 use Konekt\Stift\Models\IssueStatusProxy;
@@ -27,10 +27,35 @@ use Konekt\User\Models\UserProxy;
 
 class IssueController extends BaseController
 {
-    public function index()
+    public function index(ListIssues $request)
     {
+        try {
+            $filteredProjects = false;
+
+            $issues = IssueProxy::query();
+
+            if (!empty($projectIds = $request->getProjects())) {
+                $issues->whereIn('project_id', $projectIds);
+                $filteredProjects = ProjectProxy::whereIn('id', $projectIds)->get();
+            }
+
+            if (!empty($statuses = $request->getStatuses())) {
+                $issues->whereIn('status', $statuses);
+            }
+        } catch (\Exception $e) {
+            flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
+
+            return redirect()->back();
+        }
+
         return view('stift::issue.index', [
-            'issues' => IssueProxy::open()->userHasAccessTo(Auth::user())->get()
+            'issues'           => $issues->userHasAccessTo(Auth::user())->get(),
+            'projects'         => ProjectProxy::forUser(Auth::user())->get()->pluck('name', 'id'),
+            'filteredProjects' => $filteredProjects,
+            'statuses'         => [
+                'open_issues'         => __('Open Issues'),
+                __('Specific Status') => IssueStatusProxy::choices()
+            ]
         ]);
     }
 
@@ -60,6 +85,7 @@ class IssueController extends BaseController
             flash()->success(__('Issue has been created'));
         } catch (\Exception $e) {
             flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
+
             return redirect()->back();
         }
 
@@ -102,6 +128,7 @@ class IssueController extends BaseController
             flash()->success(__('Issue has been updated'));
         } catch (\Exception $e) {
             flash()->error(__('Error: :msg', ['msg' => $e->getMessage()]));
+
             return redirect()->back();
         }
 
