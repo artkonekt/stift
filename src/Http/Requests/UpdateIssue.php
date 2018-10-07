@@ -13,7 +13,9 @@
 namespace Konekt\Stift\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Konekt\Stift\Contracts\Requests\UpdateIssue as UpdateIssueContract;
+use Konekt\Stift\Models\IssueStatusProxy;
 
 class UpdateIssue extends FormRequest implements UpdateIssueContract
 {
@@ -23,14 +25,14 @@ class UpdateIssue extends FormRequest implements UpdateIssueContract
     public function rules()
     {
         return [
-            'subject'       => 'required|min:2|max:255',
-            'project_id'    => 'required|integer',
-            'issue_type_id' => 'required|alpha_dash',
-            'severity_id'   => 'required|alpha_dash',
-            'status'        => 'required|alpha_dash',
+            'subject'       => 'sometimes|min:2|max:255',
+            'project_id'    => 'sometimes|integer',
+            'issue_type_id' => 'sometimes|alpha_dash',
+            'severity_id'   => 'sometimes|alpha_dash',
+            'status'        => ['sometimes', Rule::in(IssueStatusProxy::values())],
             'priority'      => 'sometimes|integer',
             'due_on'        => 'sometimes|date_format:Y-m-d',
-            'assigned_to'   => 'sometimes|integer'
+            'assigned_to'   => 'sometimes|nullable|integer'
         ];
     }
 

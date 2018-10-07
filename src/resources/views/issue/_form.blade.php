@@ -39,7 +39,7 @@
 <div class="form-group{{ $errors->has('project_id') ? ' has-danger' : '' }}">
     @if($issue->project)
         @if($issue->project->users->count() > 1)
-            {{ Form::select('assigned_to', $issue->project->users->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Assignee')]) }}
+            {{ Form::select('assigned_to', $issue->project->users->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Unassigned')]) }}
         @elseif($issue->project->users->count() == 0)
             <div class="alert alert-warning">
                 <strong>{{ __("The project is not enabled for any user.") }}</strong>
@@ -57,7 +57,7 @@
             <label class="text-muted">{{ __('Assignee') }}: {{ $user->name }}</label>
         @endif
     @else
-        {{ Form::select('assigned_to', $allUsers->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Assignee')]) }}
+        {{ Form::select('assigned_to', $allUsers->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Unassigned')]) }}
     @endif
 
     @if ($errors->has('assigned_to'))

@@ -105,7 +105,7 @@ class IssueController extends BaseController
             return redirect()->back();
         }
 
-        return redirect(route('stift.issue.index'));
+        return redirect(route('stift.issue.show', $issue));
     }
 
     public function destroy(Issue $issue)

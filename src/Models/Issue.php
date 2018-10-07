@@ -135,4 +135,13 @@ class Issue extends Model implements IssueContract
     {
         return $query->whereIn('project_id', ProjectProxy::forUser($user)->get()->pluck('id'));
     }
+
+    public function getFormValue(string $key)
+    {
+        if ($this->isEnumAttribute($key)) {
+            return $this->{$key}->value();
+        }
+
+        return $this->{$key};
+    }
 }

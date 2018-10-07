@@ -69,6 +69,39 @@
 
             <div class="card-actionbar">
                 @can('edit issues')
+
+                    @if ($issue->status->isTodo())
+                        @component('stift::issue._mutate_state', [
+                            'issue' => $issue,
+                            'color' => 'info',
+                            'toStatus' => enum('issue_status')::IN_PROGRESS,
+                            'btnText' => __('Put in progress')
+                        ])
+                        @endcomponent
+                    @endif
+
+                    @if ($issue->status->isInProgress())
+                        @component('stift::issue._mutate_state', [
+                            'issue' => $issue,
+                            'color' => 'success',
+                            'toStatus' => enum('issue_status')::DONE,
+                            'btnText' => __('Mark as done')
+                        ])
+                        @endcomponent
+                    @endif
+
+                    @if ($issue->status->isDone())
+                        @component('stift::issue._mutate_state', [
+                            'issue' => $issue,
+                            'color' => 'warning',
+                            'toStatus' => enum('issue_status')::TODO,
+                            'btnText' => __('Reopen')
+                        ])
+                        @endcomponent
+                    @endif
+
+                    <span class="text-lg" style="border-right: 1px solid gray;">&nbsp;</span>&nbsp;
+
                     <a href="{{ route('stift.issue.edit', $issue) }}"
                        class="btn btn-outline-primary">{{ __('Edit issue') }}</a>
                 @endcan
