@@ -15,12 +15,12 @@
     },
     "require": {
         "php": ">=7.0.0",
-        "konekt/appshell": ">=0.9.9",
+        "konekt/appshell": "~1.0",
         "erusev/parsedown": "^1.7"
     },
     "require-dev": {
         "orchestra/testbench": "^3.4.2",
-        "phpunit/phpunit" : "6.2 - 7.3",
+        "phpunit/phpunit" : "6.2 - 7.4",
         "mockery/mockery": "^1.2"
     },
     "autoload": {
