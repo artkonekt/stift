@@ -97,21 +97,21 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         $this->app['appshell.icon']->registerEnumIcons(
             WorklogStateProxy::enumClass(),
             [
-                WorklogState::RUNNING => 'spinner',
-                WorklogState::PAUSED => 'pause',
+                WorklogState::RUNNING  => 'spinner',
+                WorklogState::PAUSED   => 'pause',
                 WorklogState::FINISHED => 'calendar-check',
                 WorklogState::APPROVED => 'check-all',
                 WorklogState::REJECTED => 'flash',
-                WorklogState::BILLED => 'money'
+                WorklogState::BILLED   => 'money'
             ]
         );
 
         $this->app['appshell.icon']->registerEnumIcons(
             IssueStatusProxy::enumClass(),
             [
-                IssueStatus::TODO => 'circle-o',
+                IssueStatus::TODO        => 'circle-o',
                 IssueStatus::IN_PROGRESS => 'spinner',
-                IssueStatus::DONE => 'check-circle-u'
+                IssueStatus::DONE        => 'check-circle-u'
             ]
         );
     }
