@@ -13,6 +13,7 @@
 namespace Konekt\Stift\Tests\Feature;
 
 use Carbon\Carbon;
+use Konekt\Stift\Models\IssueStatus;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestIssueTypes;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestProjects;
@@ -40,7 +41,7 @@ class IssueTest extends TestCase
             'severity_id'   => $this->critical->id,
             'subject'       => 'Whoa, this is a critical bug',
             'description'   => 'A fly peed on the vending machine',
-            'status'        => '',
+            'status'        => IssueStatus::defaultValue(),
             'created_by'    => $this->user1->id
         ]);
 
@@ -55,7 +56,7 @@ class IssueTest extends TestCase
             'severity_id'   => $this->medium->id,
             'subject'       => 'We need some more money',
             'description'   => 'Money is never enough. Could you please send us even more?',
-            'status'        => '',
+            'status'        => IssueStatus::defaultValue(),
             'created_by'    => $this->user1->id,
             'assigned_to'   => $this->user2->id
         ]);
@@ -88,7 +89,7 @@ class IssueTest extends TestCase
             'issue_type_id' => $this->task->id,
             'severity_id'   => $this->low->id,
             'subject'       => 'Buy some cranberries',
-            'status'        => '',
+            'status'        => IssueStatus::defaultValue(),
             'created_by'    => $this->user1->id
         ]);
 
@@ -99,7 +100,7 @@ class IssueTest extends TestCase
             'issue_type_id' => $this->task->id,
             'severity_id'   => $this->medium->id,
             'subject'       => 'Get some birthday gifts for Louis',
-            'status'        => '',
+            'status'        => IssueStatus::defaultValue(),
             'created_by'    => $this->user2->id,
             'due_on'        => '2017-09-26 23:59:59'
         ]);
@@ -117,7 +118,7 @@ class IssueTest extends TestCase
             'issue_type_id' => $this->task->id,
             'severity_id'   => $this->high->id,
             'subject'       => 'Go Shopping NOW!!',
-            'status'        => '',
+            'status'        => IssueStatus::defaultValue(),
             'created_by'    => $this->user1->id,
             'due_on'        => Carbon::parse('2017-06-11 12:00:00')
         ])->fresh();
@@ -138,7 +139,7 @@ class IssueTest extends TestCase
             'issue_type_id' => $this->task->id,
             'severity_id'   => $this->low->id,
             'subject'       => 'My Description Is Markdown',
-            'status'        => '',
+            'status'        => IssueStatus::defaultValue(),
             'description'   => "# Hello\n\nWhat's up?",
             'created_by'    => $this->user1->id
         ]);

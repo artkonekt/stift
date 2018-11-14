@@ -3,6 +3,7 @@
 namespace Konekt\Stift\Tests\Feature\Traits;
 
 use Konekt\Stift\Models\Issue;
+use Konekt\Stift\Models\IssueStatus;
 
 trait CreatesTestIssues
 {
@@ -22,7 +23,7 @@ trait CreatesTestIssues
             'issue_type_id' => $this->task->id,
             'severity_id'   => $this->medium->id,
             'subject'       => 'Medium Priority Task',
-            'status'        => 'new',
+            'status'        => IssueStatus::defaultValue(),
             'created_by'    => $this->user1->id
         ]);
 
@@ -31,7 +32,7 @@ trait CreatesTestIssues
             'issue_type_id' => $this->task->id,
             'severity_id'   => $this->low->id,
             'subject'       => 'Low Priority Task',
-            'status'        => 'new',
+            'status'        => IssueStatus::defaultValue(),
             'created_by'    => $this->user1->id
         ]);
 
@@ -40,7 +41,7 @@ trait CreatesTestIssues
             'issue_type_id' => $this->bug->id,
             'severity_id'   => $this->critical->id,
             'subject'       => 'Critical Bug',
-            'status'        => 'new',
+            'status'        => IssueStatus::defaultValue(),
             'created_by'    => $this->user2->id
         ]);
     }
