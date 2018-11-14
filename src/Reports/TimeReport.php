@@ -24,6 +24,9 @@ class TimeReport extends BaseReport
     /** @var Project[] */
     protected $projects = [];
 
+    /** @var array User[] */
+    protected $usersFilter = [];
+
     /** @var Collection|null */
     protected $worklogs;
 
@@ -39,14 +42,16 @@ class TimeReport extends BaseReport
     /** @var int|null */
     protected $userTotals;
 
-    public static function create(PredefinedPeriod $period, array $projects)
+    public static function create(PredefinedPeriod $period, array $projects, array $users = [])
     {
-        return new static($period->getDatePeriod(), $projects);
+        return new static($period->getDatePeriod(), $projects, $users);
     }
 
-    public function __construct(DatePeriod $period, array $projects)
+    public function __construct(DatePeriod $period, array $projects, array $users)
     {
         parent::__construct($period);
+
+        $this->usersFilter = $users;
 
         foreach ($projects as $project) {
             if ($project instanceof Project) {
@@ -159,6 +164,10 @@ class TimeReport extends BaseReport
                     ->orderBy('issues.project_id')
                     ->orderBy('issue_id')
                     ->orderBy('started_at');
+
+        if (!empty($this->usersFilter)) {
+            $query->ofUsers($this->usersFilter);
+        }
 
         return $query;
     }

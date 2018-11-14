@@ -20,6 +20,7 @@ use Konekt\Stift\Models\PredefinedPeriodProxy;
 use Konekt\Stift\Models\ProjectProxy;
 use Konekt\Stift\Models\WorklogProxy;
 use Konekt\Stift\Reports\TimeReport;
+use Konekt\User\Models\UserProxy;
 
 class WorklogController extends BaseController
 {
@@ -38,10 +39,11 @@ class WorklogController extends BaseController
         $projects = $projects->forUser(Auth::user())->get()->all();
 
         return view('stift::worklog.' . $view, [
-            'report'             => TimeReport::create($request->getPeriod(), $projects),
+            'report'             => TimeReport::create($request->getPeriod(), $projects, $request->getUsers()),
             'periods'            => PredefinedPeriodProxy::choices(),
             'projects'           => ProjectProxy::forUser(Auth::user())->get()->sortBy('name')->pluck('name', 'id'),
-            'reportsAllProjects' => $reportsAllProjects
+            'reportsAllProjects' => $reportsAllProjects,
+            'users'              => UserProxy::active()->get()->pluck('name', 'id')
         ]);
     }
 

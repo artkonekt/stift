@@ -102,6 +102,16 @@ class Worklog extends Model implements WorklogContract
         return $q->where('user_id', $user->id);
     }
 
+    public function scopeOfUsers($q, array $users)
+    {
+        $userIds = [];
+        foreach ($users as $user) {
+            $userIds[] = $user instanceof User ? $user->id : $user;
+        }
+
+        return $q->whereIn('user_id', $userIds);
+    }
+
     public function scopeOfProject($q, Project $project)
     {
         return $q->whereIn('issue_id', $project->issues->pluck('id'));

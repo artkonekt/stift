@@ -18,5 +18,7 @@ interface ListWorklogs extends BaseRequest
 {
     public function getPeriod(): PredefinedPeriod;
 
+    public function getUsers(): array;
+
     public function getProjects(): array;
 }

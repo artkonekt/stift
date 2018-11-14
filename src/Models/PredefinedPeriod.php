@@ -27,6 +27,8 @@ class PredefinedPeriod extends Enum implements PredefinedPeriodContract
     const YESTERDAY     = 'yesterday';
     const THIS_WEEK     = 'this_week';
     const LAST_WEEK     = 'last_week';
+    const CURRENT_YEAR  = 'current_year';
+    const PREVIOUS_YEAR = 'previous_year';
 
     protected static $labels = [];
 
@@ -38,7 +40,9 @@ class PredefinedPeriod extends Enum implements PredefinedPeriodContract
             self::TODAY         => __('Today'),
             self::YESTERDAY     => __('Yesterday'),
             self::THIS_WEEK     => __('This Week'),
-            self::LAST_WEEK     => __('Last Week')
+            self::LAST_WEEK     => __('Last Week'),
+            self::CURRENT_YEAR => __('Current Year'),
+            self::PREVIOUS_YEAR    => __('Previous Year'),
         ];
     }
 
@@ -64,6 +68,12 @@ class PredefinedPeriod extends Enum implements PredefinedPeriodContract
             }
             case static::YESTERDAY: {
                 return new DatePeriod(Carbon::parse('yesterday')->startOfDay(), $daily, Carbon::parse('yesterday')->endOfDay());
+            }
+            case static::CURRENT_YEAR: {
+                return new DatePeriod(Carbon::now()->startOfYear(), $daily, Carbon::now()->endOfYear());
+            }
+            case static::PREVIOUS_YEAR: {
+                return new DatePeriod(Carbon::parse('last year')->startOfYear(), $daily, Carbon::parse('last year')->endOfYear());
             }
             default: {
                 throw new \InvalidArgumentException(sprintf('Unknown period `%s`', $this->value()));

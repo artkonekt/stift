@@ -9,7 +9,6 @@
  *
  */
 
-
 namespace Konekt\Stift\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;

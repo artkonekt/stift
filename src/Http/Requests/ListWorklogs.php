@@ -45,6 +45,22 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
         return PredefinedPeriodProxy::create($this->get('period'));
     }
 
+    public function getUsers(): array
+    {
+        $users = $this->get('users');
+
+        if (null === $users) {
+            $result = [];
+        } else {
+            $result = is_array($users) ? $users : [$users];
+        }
+
+        // Remove invalid entries
+        return array_filter($result, function ($id) {
+            return is_int($id) || ctype_digit($id);
+        });
+    }
+
     public function getProjects(): array
     {
         $projects = $this->get('projects');
