@@ -35,13 +35,13 @@ class PredefinedPeriod extends Enum implements PredefinedPeriodContract
     protected static function boot()
     {
         static::$labels = [
-            self::CURRENT_MONTH => __('Current Month'),
-            self::LAST_MONTH    => __('Last Month'),
-            self::TODAY         => __('Today'),
-            self::YESTERDAY     => __('Yesterday'),
-            self::THIS_WEEK     => __('This Week'),
-            self::LAST_WEEK     => __('Last Week'),
-            self::CURRENT_YEAR => __('Current Year'),
+            self::CURRENT_MONTH    => __('Current Month'),
+            self::LAST_MONTH       => __('Last Month'),
+            self::TODAY            => __('Today'),
+            self::YESTERDAY        => __('Yesterday'),
+            self::THIS_WEEK        => __('This Week'),
+            self::LAST_WEEK        => __('Last Week'),
+            self::CURRENT_YEAR     => __('Current Year'),
             self::PREVIOUS_YEAR    => __('Previous Year'),
         ];
     }
