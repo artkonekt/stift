@@ -126,7 +126,7 @@ class ProjectController extends BaseController
 
     private function getProjectHoursLastXMonths(Project $project, int $numMonths): Collection
     {
-        $daily = new DateInterval('P1D');
+        $daily  = new DateInterval('P1D');
         $result = collect();
 
         for ($i = $numMonths; $i > 0; $i--) {
