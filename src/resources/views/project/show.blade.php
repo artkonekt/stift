@@ -1,7 +1,7 @@
 @extends('appshell::layouts.default')
 
 @section('title')
-    {{ __('The :name Project', ['name' => $project->name]) }}
+    {{ $project->name }}
 @stop
 
 @section('content')
@@ -40,32 +40,19 @@
             @endcomponent
         </div>
 
-        {{--<div class="col-sm-6 col-md-3">--}}
-            {{--@component('appshell::widgets.card_with_icon', ['icon' => 'time-countdown'])--}}
-                {{--@if ($user->last_login_at)--}}
-                    {{--{{ __('Last login') }}--}}
-                    {{--{{ $user->last_login_at->diffForHumans() }}--}}
-                {{--@else--}}
-                    {{--{{ __('never logged in') }}--}}
-                {{--@endif--}}
-
-                {{--@slot('subtitle')--}}
-                    {{--{{ __('Member since') }}--}}
-                    {{--{{ $user->created_at->format(__('Y-m-d H:i')) }}--}}
-
-                {{--@endslot--}}
-            {{--@endcomponent--}}
-        {{--</div>--}}
-
-        {{--<div class="col-sm-6 col-md-3">--}}
-            {{--@component('appshell::widgets.card_with_icon', ['icon' => 'star-circle'])--}}
-                {{--{{ $user->login_count }}--}}
-                {{--@slot('subtitle')--}}
-                    {{--{{ __('Login count') }}--}}
-                {{--@endslot--}}
-            {{--@endcomponent--}}
-        {{--</div>--}}
-
+        <div class="col-sm-12 col-md-5">
+            <div class="card text-white bg-info">
+                <div class="card-body pb-0">
+                    <div class="h1 text-muted float-right m-b-2">
+                        <i class="zmdi zmdi-timer"></i>
+                    </div>
+                    <div class="h4 m-b-0 text-uppercase">{{ __('Working Hours - last 12 months') }}</div>
+                </div>
+                <div class="chart-wrapper mt-3" style="height:60px;">
+                    <canvas class="chart" id="worklogChart" height="60"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 
     @include('stift::project._issues', ['issues' => $project->issues()->open()->get(), 'title' => __('Open Issues')])
@@ -78,4 +65,53 @@
         </div>
     </div>
 
+@stop
+
+@section('scripts')
+    @parent
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script>
+        $('document').ready(function () {
+            var ctx = document.getElementById("worklogChart");
+            var worklogChart = new Chart(ctx, {
+                "type": "line",
+                "data": {
+                    "labels": ["{!! $workingHoursInLast12Months->implode('month_name', '","') !!}"],
+                    "datasets": [
+                        {
+                            label: "{{ __('Hours') }}",
+                            backgroundColor: 'rgba(255,255,255,.2)',
+                            borderColor: 'rgba(255,255,255,.55)',
+                            "data": [{{ $workingHoursInLast12Months->implode('hours', ',') }}]
+                        }
+                    ]
+                },
+                "options": {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: false
+                        }],
+                        yAxes: [{
+                            display: false
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            borderWidth: 2
+                        },
+                        point: {
+                            radius: 0,
+                            hitRadius: 10,
+                            hoverRadius: 4
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
 @stop

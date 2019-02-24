@@ -12,6 +12,10 @@
 
 namespace Konekt\Stift\Http\Controllers;
 
+use Carbon\Carbon;
+use DateInterval;
+use DatePeriod;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Konekt\AppShell\Http\Controllers\BaseController;
 use Konekt\Customer\Models\CustomerProxy;
@@ -63,8 +67,9 @@ class ProjectController extends BaseController
         }
 
         return view('stift::project.show', [
-            'project'              => $project,
-            'durationCurrentMonth' => ProjectWorkingHours::create(PredefinedPeriodProxy::CURRENT_MONTH(), $project)->getDuration()
+            'project'                    => $project,
+            'durationCurrentMonth'       => ProjectWorkingHours::create(PredefinedPeriodProxy::CURRENT_MONTH(), $project)->getDuration(),
+            'workingHoursInLast12Months' => $this->getProjectHoursLastXMonths($project, 12)
         ]);
     }
 
@@ -117,5 +122,29 @@ class ProjectController extends BaseController
         }
 
         return redirect(route('stift.project.index'));
+    }
+
+    private function getProjectHoursLastXMonths(Project $project, int $numMonths): Collection
+    {
+        $daily = new DateInterval('P1D');
+        $result = collect();
+
+        for ($i = $numMonths; $i > 0; $i--) {
+            $period = new DatePeriod(
+                Carbon::now()->subMonths($i)->startOfMonth(),
+                $daily,
+                Carbon::now()->subMonths($i)->endOfMonth()
+            );
+
+            $report = new ProjectWorkingHours($project, $period);
+            $result->push([
+                'year'       => $report->getPeriod()->getStartDate()->format('Y'),
+                'month'      => $report->getPeriod()->getStartDate()->format('n'),
+                'month_name' => $report->getPeriod()->getStartDate()->format('M'),
+                'hours'      => $report->getWorkingHours()
+            ]);
+        }
+
+        return $result;
     }
 }

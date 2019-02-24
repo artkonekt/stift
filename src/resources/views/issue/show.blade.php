@@ -58,7 +58,13 @@
             ])
                 {{ $issue->status->label() }}
                 @slot('subtitle')
-                    {{ $issue->project->name }}
+                    @can('view projects')
+                        <a href="{{ route('stift.project.show', $issue->project) }}" class="text-muted">
+                            {{ $issue->project->name }}
+                        </a>
+                    @else
+                        {{ $issue->project->name }}
+                    @endcan
                 @endslot
             @endcomponent
         </div>
