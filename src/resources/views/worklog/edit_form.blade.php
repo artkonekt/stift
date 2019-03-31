@@ -13,7 +13,7 @@
             </div>
             <div class="modal-body">
                 @isset($state)
-                {{ Form::hidden('state', $state) }}
+                    {{ Form::hidden('state', $state) }}
                 @endisset
 
                 <div class="form-group row">
@@ -66,9 +66,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-link text-danger mr-auto" type="button" data-role="worklog-delete" data-worklog-id="{{ $worklog->id }}">{{ __('Delete') }}</button>
+                <button class="btn btn-link text-danger mr-auto" type="button"
+                        onclick="$('#worklog-delete-form--{{ $worklog->id }}').submit()"
+                >{{ __('Delete') }}</button>
                 <button class="btn btn-primary">{{ $btnTitle ?? __('Save') }}</button>
-                <button type="button" class="btn btn-link" data-dismiss="modal">{{ __('Close') }}</button>
+                <button type="button" class="btn btn-link"
+                        data-dismiss="modal">{{ __('Close') }}</button>
             </div>
             {!! Form::close() !!}
             {!! Form::open([
@@ -85,13 +88,3 @@
         </div>
     </div>
 </div>
-
-@section('scripts')
-    <script>
-        $(document).ready(function () {
-            $('[data-role="worklog-delete"]').on('click', function () {
-                $('#worklog-delete-form--' + $(this).data('worklog-id')).submit();
-            });
-        });
-    </script>
-@endsection
