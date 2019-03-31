@@ -6,7 +6,7 @@
         <div class="modal-content">
             {!! Form::model($worklog, ['route' => ['stift.worklog.update', $worklog], 'method' => 'PUT']) !!}
             <div class="modal-header">
-                <h5 class="modal-title" id="invoice-settings-title">{{ __('Worklog') }}</h5>
+                <h5 class="modal-title" id="worklog-modal-title">{{ __('Worklog') }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -66,10 +66,32 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-link text-danger mr-auto" type="button" data-role="worklog-delete" data-worklog-id="{{ $worklog->id }}">{{ __('Delete') }}</button>
                 <button class="btn btn-primary">{{ $btnTitle ?? __('Save') }}</button>
                 <button type="button" class="btn btn-link" data-dismiss="modal">{{ __('Close') }}</button>
             </div>
             {!! Form::close() !!}
+            {!! Form::open([
+                            'route' => ['stift.worklog.destroy', $worklog],
+                            'method' => 'DELETE',
+                            'id' => "worklog-delete-form--{$worklog->id}",
+                            'data-confirmation-text' => __("Are you sure to delete the worklog at :date for Issue ':issue'?", [
+                                    'date' => $worklog->started_at,
+                                    'issue' => $worklog->issue->subject
+                                ])
+                            ])
+                    !!}
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
+
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            $('[data-role="worklog-delete"]').on('click', function () {
+                $('#worklog-delete-form--' + $(this).data('worklog-id')).submit();
+            });
+        });
+    </script>
+@endsection
