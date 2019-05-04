@@ -79,7 +79,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
 
         if ($menu = Menu::get('appshell')) {
             $menu->addItem('stift', __('Stift'));
-            $menu->addItem('projects', __('Projects'), ['route' => 'stift.project.index'])
+            $menu->addItem('projects', __('Projects'), ['route' => ['stift.project.index', 'active=1']])
                 ->data('icon', 'folder-star')
                 ->allowIfUserCan('list projects');
 

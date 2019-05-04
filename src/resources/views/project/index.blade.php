@@ -12,12 +12,20 @@
             @yield('title')
 
             <div class="card-actionbar">
-                @can('create projects')
-                    <a href="{{ route('stift.project.create') }}" class="btn btn-sm btn-outline-success float-right">
-                        <i class="zmdi zmdi-plus"></i>
-                        {{ __('New Project') }}
-                    </a>
-                @endcan
+                <form action="{{ route('stift.project.index') }}" class="form-inline">
+
+                    {!! Form::select('active', $actives, $active, ['class' => 'form-control form-control-sm', 'placeholder' => __('--')]) !!}
+                    &nbsp;
+                    <button class="btn btn-sm btn-primary" type="submit">{{ __('Filter') }}</button>
+
+                    @can('create projects')
+                        <a href="{{ route('stift.project.create') }}" class="btn btn-sm btn-outline-success float-right">
+                            <i class="zmdi zmdi-plus"></i>
+                            {{ __('New Project') }}
+                        </a>
+                    @endcan
+                </form>
+
             </div>
 
         </div>

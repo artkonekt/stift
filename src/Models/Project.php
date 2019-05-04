@@ -79,6 +79,16 @@ class Project extends Model implements ProjectContract
         );
     }
 
+    public function scopeActives($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeInactives($query)
+    {
+        return $query->where('is_active', false);
+    }
+
     public function issues()
     {
         return $this->hasMany(IssueProxy::modelClass());

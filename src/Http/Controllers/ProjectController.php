@@ -15,6 +15,7 @@ namespace Konekt\Stift\Http\Controllers;
 use Carbon\Carbon;
 use DateInterval;
 use DatePeriod;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Konekt\AppShell\Http\Controllers\BaseController;
@@ -29,10 +30,27 @@ use Konekt\User\Models\UserProxy;
 
 class ProjectController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = ProjectProxy::forUser(Auth::user());
+
+        if ($request->get('active')) {
+            $active = 1;
+            $query->actives();
+        } elseif (null === $request->get('active')) {
+            $active = null;
+        } else {
+            $query->inactives();
+            $active = 0;
+        }
+
         return view('stift::project.index', [
-            'projects' => ProjectProxy::forUser(Auth::user())->get()
+            'projects' => $query->get(),
+            'actives' => [
+                1 => __('Active projects'),
+                0 => __('Inactive projects')
+            ],
+            'active' => $active
         ]);
     }
 
