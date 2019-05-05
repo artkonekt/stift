@@ -5,6 +5,7 @@
             @can('create worklogs')
                 {!! Form::open(['route' => 'stift.worklog.store', 'style' => 'display: inline;']) !!}
                 {{ Form::hidden('issue_id', $issue->id) }}
+                {{ Form::hidden('is_billable', $issue->project->is_billable ? '1' : '0') }}
                 <button class="btn btn-sm btn-primary float-right">
                     <i class="zmdi zmdi-play"></i>
                     {{ __('Start work') }}

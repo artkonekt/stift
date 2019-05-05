@@ -22,7 +22,19 @@ class Project extends Model implements ProjectContract
 {
     use Sluggable;
 
-    protected $fillable = ['name', 'slug', 'customer_id', 'is_active'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'customer_id',
+        'is_active',
+        'is_billable',
+        'pricing_model',
+        'pricing_configuration',
+    ];
+
+    protected $casts = [
+        'is_billable' => 'boolean',
+    ];
 
     /**
      * Every project has several issue types enabled for it

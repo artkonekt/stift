@@ -35,7 +35,7 @@
                 <thead>
                     <tr>
                         <th>{{ __('Name') }}</th>
-                        <th>{{ __('Client') }}</th>
+                        <th>{{ __('Billable') }}</th>
                         <th>{{ __('Hours This Month') }}</th>
                         <th>{{ __('Open Issues') }}</th>
                     </tr>
@@ -57,16 +57,29 @@
                     ?>
                     <tr>
                         <td>
+                            <span class="font-lg mb-3 font-weight-bold">
                             @can('view projects')
                                 <a href="{{ route('stift.project.show', $project) }}">{{ $project->name }}</a>
                             @else
                                 {{ $project->name }}
                             @endcan
+                            </span>
                             @unless($project->is_active)
                                 <span class="badge badge-warning">{{ __('Inactive') }}</span>
                             @endunless
+                            <div class="text-muted">
+                                @can('view customers')
+                                    <a href="{{ route('appshell.customer.show', $project->customer) }}">
+                                        {{ $project->customer->name }}
+                                    </a>
+                                @else
+                                    {{ $project->customer->name }}
+                                @endcan
+                            </div>
                         </td>
-                        <td>{{ $project->customer->name }}</td>
+                        <td class="text-{{ $project->is_billable ? 'success' : 'danger' }}">
+                            <i class="zmdi zmdi-{{ $project->is_billable ? 'check' : 'close' }}"></i>
+                        </td>
                         <td>{{ $hours }}h</td>
                         <td>{{ $project->issues()->open()->count() }}</td>
                     </tr>

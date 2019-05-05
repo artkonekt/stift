@@ -62,7 +62,7 @@
                     <div class="col-md-8">
                         {{ Form::hidden('is_billable', 0) }}
                         <label class="switch switch-icon switch-pill switch-primary">
-                            {{ Form::checkbox('is_billable', 1, true, ['class' => 'switch-input']) }}
+                            {{ Form::checkbox('is_billable', 1, $issue->project->is_billable, ['class' => 'switch-input']) }}
                             <span class="switch-label" data-on="&#xf26b;" data-off="&#xf136;"></span>
                             <span class="switch-handle"></span>
                         </label>
