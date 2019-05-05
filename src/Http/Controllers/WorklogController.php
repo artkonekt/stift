@@ -79,7 +79,7 @@ class WorklogController extends BaseController
             return redirect()->back();
         }
 
-        return redirect(route('stift.issue.show', $worklog->issue));
+        return redirect()->back();
     }
 
     public function destroy(Worklog $worklog)

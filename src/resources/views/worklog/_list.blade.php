@@ -32,7 +32,22 @@
             </tr>
         @endif
         <tr>
-            <td>{{ $worklog->started_at->format('Y-m-d') }}</td>
+            <td>
+                {{ $worklog->started_at->format('Y-m-d') }}
+                @can('edit worklogs')
+                    @if (!$worklog->isRunning())
+                    <span class="hide-on-print">
+                        @component('stift::worklog.edit_form', [
+                                            'worklog'  => $worklog,
+                                            'btnTitle' => __('Save')
+                                     ])
+                        @endcomponent
+                        <a href="javascript:;" data-toggle="modal" title="{{ __('Edit worklog') }}"
+                           data-target="#worklog_form--{{ $worklog->id }}"><i class="zmdi zmdi-edit"></i></a>
+                    </span>
+                    @endif
+                @endcan
+            </td>
             <td>{!! nl2br($worklog->description) !!}</td>
             <td>{{ $worklog->user->name }}</td>
             @if($report->reportsBothBillableAndNonBillableHours())
