@@ -168,6 +168,11 @@ class TimeReport extends BaseReport
         return $this->getProjectTotals()[$project->id];
     }
 
+    public function reportsBothBillableAndNonBillableHours(): bool
+    {
+        return is_null($this->billable);
+    }
+
     public function billableTotal()
     {
         if (null === $this->billableTotal) {

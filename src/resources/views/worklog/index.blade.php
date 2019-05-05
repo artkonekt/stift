@@ -25,9 +25,9 @@
 
             <div class="card-actionbar">
                 <form action="{{ route('stift.worklog.index') }}" class="form-inline">
-                    {!! Form::select('users[]', $filter->options('users'), $filter->value('users'), ['class' => 'form-control form-control-sm']) !!}
+                    {!! Form::select('users[]', $filter->options('users'), $filter->value('users'), ['class' => 'form-control form-control-sm', 'multiple' => 'multiple']) !!}
                     &nbsp;
-                    {!! Form::select('projects[]', $filter->options('projects'), $filter->value('projects'), ['class' => 'form-control form-control-sm']) !!}
+                    {!! Form::select('projects[]', $filter->options('projects'), $filter->value('projects'), ['class' => 'form-control form-control-sm', 'multiple' => 'multiple']) !!}
                     &nbsp;
                     {!! Form::select('period', $filter->options('period'), $filter->value('period')->value(), ['class' => 'form-control form-control-sm']) !!}
 
