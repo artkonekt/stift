@@ -27,6 +27,9 @@ class TimeReport extends BaseReport
     /** @var array User[] */
     protected $usersFilter = [];
 
+    /** @var bool|null */
+    protected $billable;
+
     /** @var Collection|null */
     protected $worklogs;
 
@@ -42,16 +45,17 @@ class TimeReport extends BaseReport
     /** @var int|null */
     protected $userTotals;
 
-    public static function create(PredefinedPeriod $period, array $projects, array $users = [])
+    public static function create(PredefinedPeriod $period, array $projects, array $users = [], bool $billable = null)
     {
-        return new static($period->getDatePeriod(), $projects, $users);
+        return new static($period->getDatePeriod(), $projects, $users, $billable);
     }
 
-    public function __construct(DatePeriod $period, array $projects, array $users)
+    public function __construct(DatePeriod $period, array $projects, array $users, bool $billable = null)
     {
         parent::__construct($period);
 
         $this->usersFilter = $users;
+        $this->billable    = $billable;
 
         foreach ($projects as $project) {
             if ($project instanceof Project) {
@@ -167,6 +171,14 @@ class TimeReport extends BaseReport
 
         if (!empty($this->usersFilter)) {
             $query->ofUsers($this->usersFilter);
+        }
+
+        if (null !== $this->billable) {
+            if ($this->billable) {
+                $query->billable();
+            } else {
+                $query->nonBillable();
+            }
         }
 
         return $query;

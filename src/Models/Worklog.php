@@ -42,6 +42,10 @@ class Worklog extends Model implements WorklogContract
         'state' => 'WorklogStateProxy@enumClass'
     ];
 
+    protected $casts = [
+        'is_billable' => 'boolean',
+    ];
+
     /**
      * Relation for the associated issue
      *
@@ -146,5 +150,15 @@ class Worklog extends Model implements WorklogContract
     public function scopeBefore($q, \DateTime $date)
     {
         return $q->where('started_at', '<=', $date->format('Y-m-d H:i:s'));
+    }
+
+    public function scopeBillable($query)
+    {
+        return $query->where('is_billable', true);
+    }
+
+    public function scopeNonBillable($query)
+    {
+        return $query->where('is_billable', false);
     }
 }

@@ -143,6 +143,48 @@ class WorklogTest extends TestCase
         $this->assertEquals($worklog->id, $this->bugCritical->worklogs->first()->id);
     }
 
+    /** @test */
+    public function worklogs_are_billable_by_default()
+    {
+        $worklog = Worklog::create(['user_id' => $this->user1->id])->fresh();
+
+        $this->assertTrue($worklog->is_billable);
+    }
+
+    /** @test */
+    public function worklogs_can_be_set_as_non_billable()
+    {
+        $worklog = Worklog::create([
+            'user_id' => $this->user1->id,
+            'is_billable' => false
+        ])->fresh();
+
+        $this->assertFalse($worklog->is_billable);
+
+        $worklog2 = new Worklog();
+        $worklog2->user_id = $this->user1->id;
+        $worklog2->is_billable = false;
+        $worklog2->save();
+
+        $this->assertFalse($worklog2->fresh()->is_billable);
+    }
+
+    /** @test */
+    public function worklogs_can_be_filtered_based_on_billable_flag()
+    {
+        Worklog::create(['user_id' => $this->user1->id, 'is_billable' => false]);
+        Worklog::create(['user_id' => $this->user1->id, 'is_billable' => false]);
+        Worklog::create(['user_id' => $this->user1->id, 'is_billable' => false]);
+        Worklog::create(['user_id' => $this->user1->id, 'is_billable' => true]);
+        Worklog::create(['user_id' => $this->user1->id, 'is_billable' => true]);
+        Worklog::create(['user_id' => $this->user1->id, 'is_billable' => true]);
+        Worklog::create(['user_id' => $this->user1->id, 'is_billable' => true]);
+
+        $this->assertCount(7, Worklog::get());
+        $this->assertCount(3, Worklog::nonBillable()->get());
+        $this->assertCount(4, Worklog::billable()->get());
+    }
+
     public function setUp()
     {
         parent::setUp();

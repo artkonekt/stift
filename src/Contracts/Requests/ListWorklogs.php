@@ -21,4 +21,6 @@ interface ListWorklogs extends BaseRequest
     public function getUsers(): array;
 
     public function getProjects(): array;
+
+    public function getBillable(): ?bool;
 }

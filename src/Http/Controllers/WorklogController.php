@@ -37,11 +37,17 @@ class WorklogController extends BaseController
         }
 
         $projects = $projects->forUser(Auth::user())->get()->all();
+        $billables = [
+            null => __('All hours'),
+            1    => __('Billable hours'),
+            0    => __('Non-billable hours')
+        ];
 
         return view('stift::worklog.' . $view, [
-            'report'             => TimeReport::create($request->getPeriod(), $projects, $request->getUsers()),
+            'report'             => TimeReport::create($request->getPeriod(), $projects, $request->getUsers(), $request->getBillable()),
             'periods'            => PredefinedPeriodProxy::choices(),
             'projects'           => ProjectProxy::forUser(Auth::user())->get()->sortBy('name')->pluck('name', 'id'),
+            'billables'          => $billables,
             'reportsAllProjects' => $reportsAllProjects,
             'users'              => UserProxy::active()->get()->pluck('name', 'id')
         ]);

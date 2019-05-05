@@ -30,6 +30,8 @@
                     {!! Form::select('projects[]', $projects, null, ['class' => 'form-control form-control-sm', 'placeholder' => __('All projects')]) !!}
                     &nbsp;
                     {!! Form::select('period', $periods, null, ['class' => 'form-control form-control-sm']) !!}
+
+                    {!! Form::select('billable', $billables, null, ['class' => 'form-control form-control-sm']) !!}
                     &nbsp;
                     <button class="btn btn-sm btn-primary" type="submit">{{ __('Filter') }}</button>
                     &nbsp;

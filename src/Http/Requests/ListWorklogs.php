@@ -76,4 +76,13 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
             return is_int($id) || ctype_digit($id);
         });
     }
+
+    public function getBillable(): ?bool
+    {
+        if (!$this->has('billable') || is_null($this->get('billable'))) {
+            return null;
+        }
+
+        return (bool) $this->get('billable');
+    }
 }

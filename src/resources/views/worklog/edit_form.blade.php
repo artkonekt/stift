@@ -55,6 +55,24 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label class="form-control-label col-md-4">{{ __('Billable') }}</label>
+                    <div class="col-md-8">
+                        {{ Form::hidden('is_billable', 0) }}
+                        <label class="switch switch-icon switch-pill switch-primary">
+                            {{ Form::checkbox('is_billable', 1, null, ['class' => 'switch-input']) }}
+                            <span class="switch-label" data-on="&#xf26b;" data-off="&#xf136;"></span>
+                            <span class="switch-handle"></span>
+                        </label>
+
+                        @if ($errors->has('is_billable'))
+                            <input type="text" hidden class="form-control is-invalid">
+                            <div class="invalid-feedback">{{ $errors->first('is_billable') }}</div>
+                        @endif
+
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-form-label">{{ __('Description') }}</label>
                     <div class="{{ $errors->has('description') ? ' has-danger' : '' }}">

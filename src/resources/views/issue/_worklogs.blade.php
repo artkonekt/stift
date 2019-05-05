@@ -30,6 +30,7 @@
                 <th>{{ __('Who') }}</th>
                 <th>{{ __('Duration') }}</th>
                 <th>{{ __('Description') }}</th>
+                <th>{{ __('Billable') }}</th>
                 <th>{{ __('State') }}</th>
             </tr>
             </thead>
@@ -75,6 +76,7 @@
                         @endif
                     </td>
                     <td>{!! nl2br($worklog->description) !!}</td>
+                    <td><i class="zmdi zmdi-{{ $worklog->is_billable ? 'check' : 'close' }} text-{{ $worklog->is_billable ? 'success' : 'danger' }}"></i></td>
                     <td><i class="zmdi zmdi-{{ enum_icon($worklog->state) }}" alt="{{ $worklog->state->label() }}" title="{{ $worklog->state->label() }}"></i></td>
                 </tr>
             @empty
