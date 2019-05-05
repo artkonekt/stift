@@ -16,11 +16,9 @@ use Konekt\Stift\Contracts\Requests\CreateWorklog;
 use Konekt\Stift\Contracts\Requests\ListWorklogs;
 use Konekt\Stift\Contracts\Requests\UpdateWorklog;
 use Konekt\Stift\Contracts\Worklog;
-use Konekt\Stift\Models\PredefinedPeriodProxy;
-use Konekt\Stift\Models\ProjectProxy;
+use Konekt\Stift\Filters\WorklogFilters;
 use Konekt\Stift\Models\WorklogProxy;
 use Konekt\Stift\Reports\TimeReport;
-use Konekt\User\Models\UserProxy;
 
 class WorklogController extends BaseController
 {
@@ -28,28 +26,11 @@ class WorklogController extends BaseController
     {
         $view = $request->has('print') ? 'print' : 'index';
 
-        $reportsAllProjects = true;
-        $projects           = ProjectProxy::query();
-
-        if (!empty($ids = $request->getProjects())) {
-            $projects->whereIn('id', $ids);
-            $reportsAllProjects = false;
-        }
-
-        $projects = $projects->forUser(Auth::user())->get()->all();
-        $billables = [
-            null => __('All hours'),
-            1    => __('Billable hours'),
-            0    => __('Non-billable hours')
-        ];
+        $filterSet = WorklogFilters::createFromRequest($request, Auth::user());
 
         return view('stift::worklog.' . $view, [
-            'report'             => TimeReport::create($request->getPeriod(), $projects, $request->getUsers(), $request->getBillable()),
-            'periods'            => PredefinedPeriodProxy::choices(),
-            'projects'           => ProjectProxy::forUser(Auth::user())->get()->sortBy('name')->pluck('name', 'id'),
-            'billables'          => $billables,
-            'reportsAllProjects' => $reportsAllProjects,
-            'users'              => UserProxy::active()->get()->pluck('name', 'id')
+            'report'             => TimeReport::create($request->getPeriod(), $request->getProjects(), $request->getUsers(), $request->getBillable()),
+            'filter'             => $filterSet,
         ]);
     }
 

@@ -13,7 +13,7 @@
             -
             {{ $report->getPeriod()->getEndDate()->format('M d, Y') }}
 
-            @if($reportsAllProjects)
+            @if($filter->isNotDefined('projects'))
                 <span class="badge badge-dark font-weight-normal">{{ __('All projects') }}</span>
             @else
                 @forelse($report->getProjects() as $project)
@@ -25,13 +25,13 @@
 
             <div class="card-actionbar">
                 <form action="{{ route('stift.worklog.index') }}" class="form-inline">
-                    {!! Form::select('users[]', $users, null, ['class' => 'form-control form-control-sm', 'placeholder' => __('All users')]) !!}
+                    {!! Form::select('users[]', $filter->options('users'), $filter->value('users'), ['class' => 'form-control form-control-sm']) !!}
                     &nbsp;
-                    {!! Form::select('projects[]', $projects, null, ['class' => 'form-control form-control-sm', 'placeholder' => __('All projects')]) !!}
+                    {!! Form::select('projects[]', $filter->options('projects'), $filter->value('projects'), ['class' => 'form-control form-control-sm']) !!}
                     &nbsp;
-                    {!! Form::select('period', $periods, null, ['class' => 'form-control form-control-sm']) !!}
+                    {!! Form::select('period', $filter->options('period'), $filter->value('period')->value(), ['class' => 'form-control form-control-sm']) !!}
 
-                    {!! Form::select('billable', $billables, null, ['class' => 'form-control form-control-sm']) !!}
+                    {!! Form::select('billable', $filter->options('billable'), $filter->value('billable'), ['class' => 'form-control form-control-sm']) !!}
                     &nbsp;
                     <button class="btn btn-sm btn-primary" type="submit">{{ __('Filter') }}</button>
                     &nbsp;

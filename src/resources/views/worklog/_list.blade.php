@@ -63,6 +63,25 @@
         </tr>
     @endif
 
+    @if ($report->nonBillableTotal()))
+        <tr>
+            <th colspan="4"><hr></th>
+        </tr>
+        <tr class="table-dark">
+            <th colspan="4">{{ __('Billing') }}</th>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+            <td>{{ __('Billable hours') }}:</td>
+            <td class="text-right">{{ show_duration_in_hours($report->billableTotal()) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+            <td>{{ __('Non-billable hours') }}:</td>
+            <td class="text-right">{{ show_duration_in_hours($report->nonBillableTotal()) }}</td>
+        </tr>
+    @endif
+
     <tr class="table-dark">
         <th colspan="4">{{ __('All work') }}</th>
     </tr>

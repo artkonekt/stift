@@ -12,6 +12,7 @@
 namespace Konekt\Stift\Reports;
 
 use DatePeriod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Konekt\Stift\Contracts\PredefinedPeriod;
 use Konekt\Stift\Contracts\Project;
@@ -23,6 +24,9 @@ class TimeReport extends BaseReport
 {
     /** @var Project[] */
     protected $projects = [];
+
+    /** @var array */
+    private $projectsFilter;
 
     /** @var array User[] */
     protected $usersFilter = [];
@@ -39,11 +43,17 @@ class TimeReport extends BaseReport
     /** @var int|null */
     protected $duration;
 
-    /** @var int|null */
+    /** @var array|null */
     protected $projectTotals;
 
-    /** @var int|null */
+    /** @var array|null */
     protected $userTotals;
+
+    /** @var int|null */
+    protected $billableTotal;
+
+    /** @var int|null */
+    protected $nonBillableTotal;
 
     public static function create(PredefinedPeriod $period, array $projects, array $users = [], bool $billable = null)
     {
@@ -55,6 +65,7 @@ class TimeReport extends BaseReport
         parent::__construct($period);
 
         $this->usersFilter = $users;
+        $this->projectsFilter = $projects;
         $this->billable    = $billable;
 
         foreach ($projects as $project) {
@@ -157,17 +168,42 @@ class TimeReport extends BaseReport
         return $this->getProjectTotals()[$project->id];
     }
 
-    protected function getQuery()
+    public function billableTotal()
+    {
+        if (null === $this->billableTotal) {
+            $query                     = $this->getQuery()->cloneWithoutBindings(['order']);
+            //$query->getQuery()->orders = []; // Reset order by clauses
+            $this->billableTotal       = $query->where('is_billable', true)->sum('duration');
+        }
+
+        return $this->billableTotal;
+    }
+
+    public function nonBillableTotal()
+    {
+        if (null === $this->nonBillableTotal) {
+            $query                     = $this->getQuery()->cloneWithoutBindings(['order']);
+            //$query->getQuery()->orders = []; // Reset order by clauses
+            $this->nonBillableTotal       = $query->where('is_billable', false)->sum('duration');
+        }
+
+        return $this->nonBillableTotal;
+    }
+
+    protected function getQuery(): Builder
     {
         $query = WorklogProxy::leftJoin('issues', 'worklogs.issue_id', '=', 'issues.id')
                     ->select('worklogs.*')
                     ->notRunning()
-                    ->ofProjects($this->projects)
                     ->after($this->period->start)
                     ->before($this->period->end)
                     ->orderBy('issues.project_id')
                     ->orderBy('issue_id')
                     ->orderBy('started_at');
+
+        if (!empty($this->projectsFilter)) {
+            $query->ofProjects($this->projects);
+        }
 
         if (!empty($this->usersFilter)) {
             $query->ofUsers($this->usersFilter);
