@@ -11,12 +11,12 @@
 
 namespace Konekt\Stift\Contracts\Requests;
 
+use DatePeriod;
 use Konekt\Concord\Contracts\BaseRequest;
-use Konekt\Stift\Contracts\PredefinedPeriod;
 
 interface ListWorklogs extends BaseRequest
 {
-    public function getPeriod(): PredefinedPeriod;
+    public function getPeriod(): DatePeriod;
 
     public function getUsers(): array;
 

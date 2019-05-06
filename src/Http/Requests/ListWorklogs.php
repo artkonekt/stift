@@ -11,9 +11,10 @@
 
 namespace Konekt\Stift\Http\Requests;
 
+use Carbon\Carbon;
+use DatePeriod;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Konekt\Stift\Contracts\PredefinedPeriod;
 use Konekt\Stift\Contracts\Requests\ListWorklogs as ListWorklogsContract;
 use Konekt\Stift\Models\PredefinedPeriodProxy;
 
@@ -28,7 +29,8 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
             'projects'   => 'sometimes',
             'start_date' => 'sometimes|date',
             'end_date'   => 'sometimes|date',
-            'period'     => ['sometimes', Rule::in(PredefinedPeriodProxy::values())]
+            //@todo: fix this shortcut
+            //'period'     => ['sometimes', Rule::in(PredefinedPeriodProxy::values())]
         ];
     }
 
@@ -40,9 +42,13 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
         return true;
     }
 
-    public function getPeriod(): PredefinedPeriod
+    public function getPeriod(): DatePeriod
     {
-        return PredefinedPeriodProxy::create($this->get('period'));
+        if (is_null($this->get('period')) || PredefinedPeriodProxy::has($this->get('period'))) {
+            return PredefinedPeriodProxy::create($this->get('period'))->getDatePeriod();
+        }
+
+        return $this->parsePeriod($this->get('period'));
     }
 
     public function getUsers(): array
@@ -84,5 +90,22 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
         }
 
         return (bool) $this->get('billable');
+    }
+
+    public function parsePeriod($period): DatePeriod
+    {
+        // Whole Year eg "2018"
+        if (preg_match('/^[12][0-9]{3}$/', $period, $matches)) {
+            $start = Carbon::create($matches[0], 1, 1, 0, 0, 0)->startOfYear();
+            return new DatePeriod($start, new \DateInterval('P1D'), $start->copy()->endOfYear());
+        }
+        // Year + month eg. "2018-05"
+        if (preg_match('/^([12][0-9]{3})-([01][0-9])/', $period, $matches)) {
+            $start = Carbon::create($matches[1], intval($matches[2]), 1, 0, 0, 0)->startOfMonth();
+            return new DatePeriod($start, new \DateInterval('P1D'), $start->copy()->endOfMonth());
+        }
+
+        // Default fallback, Bullshit, actually
+        return new DatePeriod(new \DateTime(), new \DateInterval('P1D'), new \DateTime('tomorrow'));
     }
 }

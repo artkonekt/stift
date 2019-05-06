@@ -29,7 +29,7 @@
                     &nbsp;
                     {!! Form::select('projects[]', $filter->options('projects'), $filter->value('projects'), ['class' => 'form-control form-control-sm', 'multiple' => 'multiple']) !!}
                     &nbsp;
-                    {!! Form::select('period', $filter->options('period'), $filter->value('period')->value(), ['class' => 'form-control form-control-sm']) !!}
+                    {!! Form::select('period', $filter->options('period'), $filter->value('period')->getStartDate()->format('Y'), ['class' => 'form-control form-control-sm']) !!}
 
                     {!! Form::select('billable', $filter->options('billable'), $filter->value('billable'), ['class' => 'form-control form-control-sm']) !!}
                     &nbsp;

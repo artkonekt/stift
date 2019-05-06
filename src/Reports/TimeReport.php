@@ -14,7 +14,6 @@ namespace Konekt\Stift\Reports;
 use DatePeriod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Konekt\Stift\Contracts\PredefinedPeriod;
 use Konekt\Stift\Contracts\Project;
 use Konekt\Stift\Models\ProjectProxy;
 use Konekt\Stift\Models\WorklogProxy;
@@ -55,9 +54,9 @@ class TimeReport extends BaseReport
     /** @var int|null */
     protected $nonBillableTotal;
 
-    public static function create(PredefinedPeriod $period, array $projects, array $users = [], bool $billable = null)
+    public static function create(DatePeriod $period, array $projects, array $users = [], bool $billable = null)
     {
-        return new static($period->getDatePeriod(), $projects, $users, $billable);
+        return new static($period, $projects, $users, $billable);
     }
 
     public function __construct(DatePeriod $period, array $projects, array $users, bool $billable = null)

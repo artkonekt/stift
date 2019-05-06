@@ -11,19 +11,20 @@
 
 namespace Konekt\Stift\Filters;
 
-use Konekt\Stift\Contracts\PredefinedPeriod;
+use DatePeriod;
+use DatePeriodPeriod;
 use Konekt\Stift\Models\PredefinedPeriodProxy;
 
 class Period
 {
     private $value;
 
-    public function __construct(?PredefinedPeriod $value = null)
+    public function __construct(?DatePeriod $value = null)
     {
         $this->value = $value;
     }
 
-    public function getValue(): PredefinedPeriod
+    public function getValue(): DatePeriod
     {
         return $this->value;
     }

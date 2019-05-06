@@ -11,8 +11,8 @@
 
 namespace Konekt\Stift\Filters;
 
+use DatePeriod;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Konekt\Stift\Contracts\PredefinedPeriod;
 use Konekt\Stift\Contracts\Requests\ListWorklogs;
 
 class WorklogFilters
@@ -46,7 +46,7 @@ class WorklogFilters
     public function __construct(
         Authenticatable $user,
         array $users = [],
-        ?PredefinedPeriod $period = null,
+        ?DatePeriod $period = null,
         array $projects = [],
         ?bool $billable = null
     )
