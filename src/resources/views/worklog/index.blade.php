@@ -9,14 +9,15 @@
     <div class="card card-accent-secondary">
 
         <div class="card-header">
-            {{ $report->getPeriod()->getStartDate()->format('M d') }}
+            {{ $filter->value('period')->getStartDate()->format('M d') }}
             -
-            {{ $report->getPeriod()->getEndDate()->format('M d, Y') }}
+            {{ $filter->value('period')->getEndDate()->format('M d, Y') }}
 
             @if($filter->isNotDefined('projects'))
                 <span class="badge badge-dark font-weight-normal">{{ __('All projects') }}</span>
             @else
-                @forelse($report->getProjects() as $project)
+                <?php $projects = $report ? $report->getProjects() : []; ?>
+                @forelse($projects as $project)
                     <span class="badge badge-dark font-weight-normal">{{ $project->name }}</span>
                 @empty
                     <span class="badge badge-warning font-weight-normal">{{ __('No projects included in report') }}</span>
@@ -50,7 +51,7 @@
                             'icon' => 'time-interval',
                             'type' => 'info'
                     ])
-                        {{ show_duration_in_hours($report->getDuration()) }}
+                        {{ show_duration_in_hours($report ? $report->getDuration() : 0) }}
 
                         @slot('subtitle')
                             {{ __('Total Work logged') }}
@@ -59,7 +60,8 @@
                 </div>
             </div>
 
-            @include('stift::worklog._list')
+
+            @includeWhen($report, 'stift::worklog._list')
 
         </div>
     </div>

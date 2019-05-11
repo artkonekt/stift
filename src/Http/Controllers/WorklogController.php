@@ -17,6 +17,7 @@ use Konekt\Stift\Contracts\Requests\ListWorklogs;
 use Konekt\Stift\Contracts\Requests\UpdateWorklog;
 use Konekt\Stift\Contracts\Worklog;
 use Konekt\Stift\Filters\WorklogFilters;
+use Konekt\Stift\Models\ProjectProxy;
 use Konekt\Stift\Models\WorklogProxy;
 use Konekt\Stift\Reports\TimeReport;
 
@@ -27,9 +28,22 @@ class WorklogController extends BaseController
         $view = $request->has('print') ? 'print' : 'index';
 
         $filterSet = WorklogFilters::createFromRequest($request, Auth::user());
+        $projectsAllowedForUser = ProjectProxy::forUser(Auth::user())->get()->pluck('id')->all();
+        $projectsRequested = $request->getProjects();
+
+        if (empty($projectsRequested)) {
+            $projectsToFilter = $projectsAllowedForUser;
+        } else {
+            $projectsToFilter = array_intersect($request->getProjects(), $projectsAllowedForUser);
+        }
+
+        $timeReport = null;
+        if (!empty($projectsToFilter)) {
+            $timeReport = TimeReport::create($request->getPeriod(), $projectsToFilter, $request->getUsers(), $request->getBillable());
+        }
 
         return view('stift::worklog.' . $view, [
-            'report'             => TimeReport::create($request->getPeriod(), $request->getProjects(), $request->getUsers(), $request->getBillable()),
+            'report'             => $timeReport,
             'filter'             => $filterSet,
         ]);
     }
