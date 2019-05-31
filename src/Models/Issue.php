@@ -126,6 +126,15 @@ class Issue extends Model implements IssueContract
         return $query->whereIn('status', IssueStatusProxy::getOpenStatuses());
     }
 
+    public function scopeSort($query)
+    {
+        return $query->orderBy('priority');
+    }
+    public function scopeSortReverse($query)
+    {
+        return $query->orderBy('priority', 'desc');
+    }
+
     public function visibleFor(User $user)
     {
         return ProjectUserProxy::forUser($user)->get()->contains('project_id', $this->project_id);

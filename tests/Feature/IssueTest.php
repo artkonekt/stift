@@ -13,6 +13,7 @@
 namespace Konekt\Stift\Tests\Feature;
 
 use Carbon\Carbon;
+use Konekt\Stift\Models\Issue;
 use Konekt\Stift\Models\IssueStatus;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestClients;
 use Konekt\Stift\Tests\Feature\Traits\CreatesTestIssueTypes;
@@ -147,6 +148,29 @@ class IssueTest extends TestCase
 
         $this->assertContains('<h1>Hello</h1>', $issue->getMarkdownDescriptionAsHtml());
         $this->assertContains("<p>What's up?</p>", $issue->getMarkdownDescriptionAsHtml());
+    }
+
+    /** @test */
+    public function issues_can_be_sorted_by_priority()
+    {
+        factory(Issue::class)->create(['priority' => 1, 'subject' => 'Task 1']);
+        factory(Issue::class)->create(['priority' => 3, 'subject' => 'Task 3']);
+        factory(Issue::class)->create(['priority' => 2, 'subject' => 'Task 2']);
+
+        $issues = Issue::sort()->get()->pluck('subject')->toArray();
+        $this->assertEquals(['Task 1', 'Task 2', 'Task 3'], $issues);
+    }
+
+    /** @test */
+    public function issues_can_be_reverse_sorted_by_priority()
+    {
+        factory(Issue::class)->create(['priority' => 54, 'subject' => 'Task 3']);
+        factory(Issue::class)->create(['priority' => 77, 'subject' => 'Task 1']);
+        factory(Issue::class)->create(['priority' => 55, 'subject' => 'Task 2']);
+        factory(Issue::class)->create(['priority' => 22, 'subject' => 'Task 4']);
+
+        $issues = Issue::sortReverse()->get()->pluck('subject')->toArray();
+        $this->assertEquals(['Task 1', 'Task 2', 'Task 3', 'Task 4'], $issues);
     }
 
     protected function createTestData()

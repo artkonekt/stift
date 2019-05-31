@@ -30,6 +30,7 @@ class TestCase extends OrchestraTestCase
         $this->concord = $this->app->concord;
 
         $this->setUpDatabase($this->app);
+        $this->withFactories(__DIR__ . '/factories');
     }
 
     /**
