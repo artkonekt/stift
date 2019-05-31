@@ -78,6 +78,21 @@
 <hr>
 
 <div class="form-group row">
+    <label class="form-control-label col-md-2">{{ __('Priority') }}</label>
+    <div class="col-md-10">
+
+        {{ Form::number('priority', null, ['class' => 'form-control form-control-sm', 'placeholder' => __('Value 1-99 or leave empty')]) }}
+
+        @if ($errors->has('priority'))
+            <div class="invalid-feedback">{{ $errors->first('priority') }}</div>
+        @endif
+    </div>
+</div>
+
+
+<hr>
+
+<div class="form-group row">
     <label class="form-control-label col-md-2">{{ __('Status') }}</label>
     <div class="col-md-10">
         @foreach($statuses as $status => $statusLabel)
