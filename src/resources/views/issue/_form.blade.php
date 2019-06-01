@@ -1,4 +1,4 @@
-<div class="form-group{{ $errors->has('subject') ? ' has-danger' : '' }}">
+<div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">
             <i class="zmdi zmdi-info-outline"></i>
@@ -8,15 +8,19 @@
             'placeholder' => __('Subject')
             ])
         }}
+        @if ($errors->has('subject'))
+            <div class="invalid-tooltip">{{ $errors->first('subject') }}</div>
+        @endif
     </div>
-    @if ($errors->has('subject'))
-        <div class="invalid-feedback">{{ $errors->first('subject') }}</div>
-    @endif
 </div>
 
-<div class="form-group{{ $errors->has('project_id') ? ' has-danger' : '' }}">
+<div class="form-group">
     @if($projects->count() > 1)
-        {{ Form::select('project_id', $projects->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Project')]) }}
+        {{ Form::select('project_id', $projects->pluck('name', 'id'), null, [
+                'class' => 'form-control' . ($errors->has('project_id') ? ' is-invalid' : ''),
+                'placeholder' => __('Project')
+            ])
+        }}
     @elseif($projects->count() == 0)
         <div class="alert alert-warning">
             <strong>{{ __("There's no project in the system.") }}</strong>
@@ -36,14 +40,18 @@
     @endif
 
     @if ($errors->has('project_id'))
-        <div class="form-control-feedback">{{ $errors->first('project_id') }}</div>
+        <div class="invalid-feedback">{{ $errors->first('project_id') }}</div>
     @endif
 </div>
 
-<div class="form-group{{ $errors->has('project_id') ? ' has-danger' : '' }}">
+<div class="form-group">
     @if($issue->project)
         @if($issue->project->users->count() > 1)
-            {{ Form::select('assigned_to', $issue->project->users->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => __('Unassigned')]) }}
+            {{ Form::select('assigned_to', $issue->project->users->pluck('name', 'id'), null, [
+                    'class' => 'form-control'  . ($errors->has('assigned_to') ? ' is-invalid' : ''),
+                    'placeholder' => __('Unassigned')
+                ])
+            }}
         @elseif($issue->project->users->count() == 0)
             <div class="alert alert-warning">
                 <strong>{{ __("The project is not enabled for any user.") }}</strong>
@@ -65,17 +73,21 @@
     @endif
 
     @if ($errors->has('assigned_to'))
-        <div class="form-control-feedback">{{ $errors->first('assigned_to') }}</div>
+        <div class="invalid-feedback">{{ $errors->first('assigned_to') }}</div>
     @endif
 </div>
 
-<div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
+<div class="form-group">
 
     <label class="form-control-label">{{ __('Description') }}</label>
-    {{ Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => __('Type issue details')]) }}
+    {{ Form::textarea('description', null, [
+            'class' => 'form-control'  . ($errors->has('description') ? ' is-invalid' : ''),
+            'placeholder' => __('Type issue details')
+        ])
+    }}
 
     @if ($errors->has('description'))
-        <div class="form-control-feedback">{{ $errors->first('description') }}</div>
+        <div class="invalid-feedback">{{ $errors->first('description') }}</div>
     @endif
 </div>
 
@@ -97,7 +109,6 @@
     </div>
 </div>
 
-
 <hr>
 
 <div class="form-group row">
@@ -105,7 +116,11 @@
     <div class="col-md-10">
         @foreach($statuses as $status => $statusLabel)
             <label class="radio-inline" for="status_{{ $status }}">
-                {{ Form::radio('status', $status, ($issue->status->value() == $status), ['id' => "status_$status"]) }}
+                {{ Form::radio('status', $status, ($issue->status->value() == $status), [
+                        'id' => "status_$status",
+                        'class' => ''  . ($errors->has('status') ? ' is-invalid' : '')
+                    ])
+                }}
                 {{ $statusLabel }}
                 &nbsp;
             </label>
@@ -118,22 +133,22 @@
 </div>
 
 <div class="form-group row">
-
     <label class="form-control-label col-md-2">{{ __('Type') }}</label>
     <div class="col-md-10">
         @foreach($issueTypes as $type)
-            <label class="radio-inline" for="type_{{ $type->id }}">
-                {{ Form::radio('issue_type_id', $type->id, ($issue->type && $issue->type->id == $type->id), ['id' => "type_{$type->id}"]) }}
-                {{ $type->name }}
-                &nbsp;
-            </label>
+            <div class="form-check form-check-inline">
+                {{ Form::radio('issue_type_id', $type->id, ($issue->type && $issue->type->id == $type->id), [
+                        'id' => "type_{$type->id}",
+                        'class' => 'form-check-input'  . ($errors->has('issue_type_id') ? ' is-invalid' : '')
+                    ])
+                }}
+                <label class="form-check-label" for="type_{{ $type->id }}">{{ $type->name }}</label>
+            </div>
         @endforeach
-
         @if ($errors->has('issue_type_id'))
             <div class="invalid-feedback">{{ $errors->first('issue_type_id') }}</div>
         @endif
     </div>
-
 </div>
 
 <div class="form-group row">
@@ -152,32 +167,3 @@
         @endif
     </div>
 </div>
-
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-{{--<div class="form-group row {{ $errors->has('permissions') ? ' has-danger' : '' }}">--}}
-
-    {{--@foreach($permissions as $permission)--}}
-        {{--<div class="col-6 col-sm-2 @unless(($loop->index + 5) % 5)offset-sm-1 @endunless">--}}
-            {{--{{ $permission->name }}--}}
-            {{--<label class="switch switch-icon switch-pill switch-primary">--}}
-                {{--{{ Form::checkbox("permissions[{$permission->name}]", 1, $role->hasPermissionTo($permission), ['class' => 'switch-input']) }}--}}
-                {{--<span class="switch-label" data-on="&#xf26b;" data-off="&#xf136;"></span>--}}
-                {{--<span class="switch-handle"></span>--}}
-            {{--</label>--}}
-        {{--</div>--}}
-    {{--@endforeach--}}
-
-    {{--@if ($errors->has('permissions'))--}}
-        {{--<div class="form-control-feedback">{{ $errors->first('permissions') }}</div>--}}
-    {{--@endif--}}
-
-{{--</div>--}}
