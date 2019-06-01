@@ -19,9 +19,8 @@ use Konekt\Stift\Models\IssueStatusProxy;
 
 class UpdateIssue extends FormRequest implements UpdateIssueContract
 {
-    /**
-     * @inheritDoc
-     */
+    use ValidatesPriority;
+
     public function rules()
     {
         return [
@@ -30,15 +29,12 @@ class UpdateIssue extends FormRequest implements UpdateIssueContract
             'issue_type_id' => 'sometimes|alpha_dash',
             'severity_id'   => 'sometimes|alpha_dash',
             'status'        => ['sometimes', Rule::in(IssueStatusProxy::values())],
-            'priority'      => 'sometimes|integer',
+            'priority'      => $this->getPriorityValidationRule(),
             'due_on'        => 'sometimes|date_format:Y-m-d',
             'assigned_to'   => 'sometimes|nullable|integer'
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function authorize()
     {
         return true;

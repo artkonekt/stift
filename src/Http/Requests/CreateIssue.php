@@ -18,9 +18,8 @@ use Konekt\Stift\Models\IssueStatusProxy;
 
 class CreateIssue extends FormRequest implements CreateIssueContract
 {
-    /**
-     * @inheritDoc
-     */
+    use ValidatesPriority;
+
     public function rules()
     {
         return [
@@ -29,15 +28,12 @@ class CreateIssue extends FormRequest implements CreateIssueContract
             'issue_type_id' => 'required|alpha_dash',
             'severity_id'   => 'required|alpha_dash',
             'status'        => ['required', Rule::in(IssueStatusProxy::values())],
-            'priority'      => 'sometimes|integer',
+            'priority'      => $this->getPriorityValidationRule(),
             'due_on'        => 'sometimes|date_format:Y-m-d',
             'assigned_to'   => 'sometimes|nullable|integer'
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function authorize()
     {
         return true;

@@ -3,10 +3,14 @@
         <span class="input-group-addon">
             <i class="zmdi zmdi-info-outline"></i>
         </span>
-        {{ Form::text('subject', null, ['class' => 'form-control form-control-lg', 'placeholder' => __('Subject')]) }}
+        {{ Form::text('subject', null, [
+            'class' => 'form-control form-control-lg' . ($errors->has('subject') ? ' is-invalid' : ''),
+            'placeholder' => __('Subject')
+            ])
+        }}
     </div>
     @if ($errors->has('subject'))
-        <div class="form-control-feedback">{{ $errors->first('subject') }}</div>
+        <div class="invalid-feedback">{{ $errors->first('subject') }}</div>
     @endif
 </div>
 
@@ -81,7 +85,11 @@
     <label class="form-control-label col-md-2">{{ __('Priority') }}</label>
     <div class="col-md-10">
 
-        {{ Form::number('priority', null, ['class' => 'form-control form-control-sm', 'placeholder' => __('Value 1-99 or leave empty')]) }}
+        {{ Form::number('priority', null, [
+                'class' => 'form-control form-control-sm' . ($errors->has('priority') ? ' is-invalid' : ''),
+                'placeholder' => __('Value 1-99 or leave empty')
+            ])
+        }}
 
         @if ($errors->has('priority'))
             <div class="invalid-feedback">{{ $errors->first('priority') }}</div>

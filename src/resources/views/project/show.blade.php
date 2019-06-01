@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    @include('stift::project._issues', ['issues' => $project->issues()->open()->get(), 'title' => __('Open Issues')])
+    @include('stift::project._issues', ['issues' => $project->issues()->open()->sort()->get(), 'title' => __('Open Issues')])
 
     <div class="card">
         <div class="card-block">

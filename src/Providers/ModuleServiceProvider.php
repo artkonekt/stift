@@ -12,6 +12,8 @@
 namespace Konekt\Stift\Providers;
 
 use Konekt\Concord\BaseBoxServiceProvider;
+use Konekt\Gears\Defaults\SimpleSetting;
+use Konekt\Gears\Facades\Settings;
 use Konekt\Stift\Helpers\DurationHumanizer;
 use Konekt\Stift\Http\Requests\CreateIssue;
 use Konekt\Stift\Http\Requests\CreateProject;
@@ -32,6 +34,7 @@ use Konekt\Stift\Models\Severity;
 use Konekt\Stift\Models\Worklog;
 use Konekt\Stift\Models\WorklogState;
 use Konekt\Stift\Models\WorklogStateProxy;
+use Konekt\Stift\Settings\DefaultStiftSettings;
 use Menu;
 
 class ModuleServiceProvider extends BaseBoxServiceProvider
@@ -76,6 +79,7 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         parent::boot();
 
         $this->registerEnumIcons();
+        $this->registerSettings();
 
         if ($menu = Menu::get('appshell')) {
             $menu->addItem('stift', __('Stift'));
@@ -90,6 +94,10 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
                 ->data('icon', 'collection-text')
                 ->allowIfUserCan('list worklogs');
         }
+
+        $this->app->singleton('stift.duration_humanizer', function () {
+            return new DurationHumanizer(Settings::get('stift.worklogs.hours_per_day'));
+        });
     }
 
     private function registerEnumIcons()
@@ -114,5 +122,27 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
                 IssueStatus::DONE        => 'check-circle-u'
             ]
         );
+    }
+
+    private function registerSettings()
+    {
+        $this->app->get('gears.settings_registry')
+                  ->add(new SimpleSetting('stift.worklogs.hours_per_day', DefaultStiftSettings::HOURS_PER_DAY));
+        $this->app->get('gears.settings_registry')
+                  ->add(new SimpleSetting('stift.issues.default_priority', DefaultStiftSettings::ISSUE_PRIORITY_DEFAULT));
+        $this->app->get('gears.settings_registry')
+                  ->add(new SimpleSetting('stift.issues.min_priority', DefaultStiftSettings::ISSUE_PRIORITY_MINIMUM));
+        $this->app->get('gears.settings_registry')
+                  ->add(new SimpleSetting('stift.issues.max_priority', DefaultStiftSettings::ISSUE_PRIORITY_MAXIMUM));
+
+        $stiftSettingNode = $this->app->get('appshell.settings_tree_builder')->addRootNode('stift', __('Stift'), 110);
+        $stiftSettingNode
+            ->addChildNode('stift', 'stift_worklogs', __('Worklogs'))
+            ->addSettingItem('stift_worklogs', ['text', ['label' => __('Hours Per Day')]], 'stift.worklogs.hours_per_day');
+
+        $issuesChildNote = $stiftSettingNode->addChildNode('stift', 'stift_issues', __('Issues'));
+        $issuesChildNote->addSettingItem('stift_issues', ['text', ['label' => __('Default Priority')]], 'stift.issues.default_priority');
+        $issuesChildNote->addSettingItem('stift_issues', ['text', ['label' => __('Minimum Priority')]], 'stift.issues.min_priority');
+        $issuesChildNote->addSettingItem('stift_issues', ['text', ['label' => __('Maximum Priority')]], 'stift.issues.max_priority');
     }
 }
