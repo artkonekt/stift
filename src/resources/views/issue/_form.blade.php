@@ -135,17 +135,23 @@
 <div class="form-group row">
     <label class="form-control-label col-md-2">{{ __('Type') }}</label>
     <div class="col-md-10">
+        @if ($errors->has('issue_type_id'))
+            <div class="form-control is-invalid">
+        @endif
         @foreach($issueTypes as $type)
             <div class="form-check form-check-inline">
-                {{ Form::radio('issue_type_id', $type->id, ($issue->type && $issue->type->id == $type->id), [
-                        'id' => "type_{$type->id}",
-                        'class' => 'form-check-input'  . ($errors->has('issue_type_id') ? ' is-invalid' : '')
-                    ])
-                }}
-                <label class="form-check-label" for="type_{{ $type->id }}">{{ $type->name }}</label>
+                <label class="form-check-label" for="type_{{ $type->id }}">
+                    {{ Form::radio('issue_type_id', $type->id, ($issue->type && $issue->type->id == $type->id), [
+                            'id' => "type_{$type->id}",
+                            'class' => 'form-check-input'  . ($errors->has('issue_type_id') ? ' is-invalid' : '')
+                        ])
+                    }}
+                    {{ $type->name }}
+                </label>
             </div>
         @endforeach
         @if ($errors->has('issue_type_id'))
+            </div>
             <div class="invalid-feedback">{{ $errors->first('issue_type_id') }}</div>
         @endif
     </div>
@@ -154,15 +160,22 @@
 <div class="form-group row">
     <label class="form-control-label col-md-2">{{ __('Severity') }}</label>
     <div class="col-md-10">
+        @if ($errors->has('severity_id'))
+            <div class="form-control is-invalid">
+        @endif
         @foreach($severities as $severity)
-            <label class="radio-inline" for="severity_{{ $severity->id }}">
-                {{ Form::radio('severity_id', $severity->id, ($issue->severity && $issue->severity->id == $severity->id), ['id' => "{$severity}_{$severity->id}"]) }}
+            <label class="form-check-label" for="type_{{ $severity->id }}">
+                {{ Form::radio('severity_id', $severity->id, ($issue->severity && $issue->severity->id == $severity->id), [
+                        'id' => "{$severity}_{$severity->id}",
+                        'class' => 'form-check-input'  . ($errors->has('severity_id') ? ' is-invalid' : '')
+                    ])
+                }}
                 {{ $severity->name }}
-                &nbsp;
             </label>
         @endforeach
 
         @if ($errors->has('severity_id'))
+            </div>
             <div class="invalid-feedback">{{ $errors->first('severity_id') }}</div>
         @endif
     </div>
