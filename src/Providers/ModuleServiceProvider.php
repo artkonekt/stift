@@ -83,16 +83,18 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
 
         if ($menu = Menu::get('appshell')) {
             $menu->addItem('stift', __('Stift'));
-            $menu->addItem('projects', __('Projects'), ['route' => ['stift.project.index', 'active=1']])
-                ->data('icon', 'folder-star')
-                ->allowIfUserCan('list projects');
+            $menu->addItem('projects', __('Projects'),
+                ['route' => ['stift.project.index', 'active=1']])
+                 ->data('icon', 'folder-star')
+                 ->allowIfUserCan('list projects');
 
-            $menu->addItem('issues', __('Issues'), ['route' => ['stift.issue.index', 'status=open_issues']])
-                ->data('icon', 'check-circle-u')
-                ->allowIfUserCan('list issues');
+            $menu->addItem('issues', __('Issues'),
+                ['route' => ['stift.issue.index', 'status=open_issues']])
+                 ->data('icon', 'check-circle-u')
+                 ->allowIfUserCan('list issues');
             $menu->addItem('time_reports', __('Time Reports'), ['route' => 'stift.worklog.index'])
-                ->data('icon', 'collection-text')
-                ->allowIfUserCan('list worklogs');
+                 ->data('icon', 'collection-text')
+                 ->allowIfUserCan('list worklogs');
         }
 
         $this->app->singleton('stift.duration_humanizer', function () {
@@ -127,22 +129,26 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
     private function registerSettings()
     {
         $this->app->get('gears.settings_registry')
-                  ->add(new SimpleSetting('stift.worklogs.hours_per_day', DefaultStiftSettings::HOURS_PER_DAY));
+                  ->add(new SimpleSetting('stift.worklogs.hours_per_day',
+                      DefaultStiftSettings::HOURS_PER_DAY));
         $this->app->get('gears.settings_registry')
-                  ->add(new SimpleSetting('stift.issues.default_priority', DefaultStiftSettings::ISSUE_PRIORITY_DEFAULT));
+                  ->add(new SimpleSetting('stift.issues.default_priority',
+                      DefaultStiftSettings::ISSUE_PRIORITY_DEFAULT));
         $this->app->get('gears.settings_registry')
-                  ->add(new SimpleSetting('stift.issues.min_priority', DefaultStiftSettings::ISSUE_PRIORITY_MINIMUM));
+                  ->add(new SimpleSetting('stift.issues.min_priority',
+                      DefaultStiftSettings::ISSUE_PRIORITY_MINIMUM));
         $this->app->get('gears.settings_registry')
-                  ->add(new SimpleSetting('stift.issues.max_priority', DefaultStiftSettings::ISSUE_PRIORITY_MAXIMUM));
+                  ->add(new SimpleSetting('stift.issues.max_priority',
+                      DefaultStiftSettings::ISSUE_PRIORITY_MAXIMUM));
 
-        $stiftSettingNode = $this->app->get('appshell.settings_tree_builder')->addRootNode('stift', __('Stift'), 110);
-        $stiftSettingNode
+        $ui = $this->app->get('appshell.settings_tree_builder');
+        $ui->addRootNode('stift', __('Stift'), 110)
             ->addChildNode('stift', 'stift_worklogs', __('Worklogs'))
-            ->addSettingItem('stift_worklogs', ['text', ['label' => __('Hours Per Day')]], 'stift.worklogs.hours_per_day');
-
-        $issuesChildNote = $stiftSettingNode->addChildNode('stift', 'stift_issues', __('Issues'));
-        $issuesChildNote->addSettingItem('stift_issues', ['text', ['label' => __('Default Priority')]], 'stift.issues.default_priority');
-        $issuesChildNote->addSettingItem('stift_issues', ['text', ['label' => __('Minimum Priority')]], 'stift.issues.min_priority');
-        $issuesChildNote->addSettingItem('stift_issues', ['text', ['label' => __('Maximum Priority')]], 'stift.issues.max_priority');
+            ->addSettingItem('stift_worklogs', ['text', ['label' => __('Hours Per Day')]], 'stift.worklogs.hours_per_day')
+            ->addChildNode('stift', 'stift_issues', __('Issues'))
+            ->addSettingItem('stift_issues', ['text', ['label' => __('Default Priority')]], 'stift.issues.default_priority')
+            ->addSettingItem('stift_issues', ['text', ['label' => __('Minimum Priority')]], 'stift.issues.min_priority')
+            ->addSettingItem('stift_issues', ['text', ['label' => __('Maximum Priority')]], 'stift.issues.max_priority')
+        ;
     }
 }

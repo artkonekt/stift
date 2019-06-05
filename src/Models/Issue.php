@@ -145,6 +145,13 @@ class Issue extends Model implements IssueContract
         return $query->whereIn('project_id', ProjectProxy::forUser($user)->get()->pluck('id'));
     }
 
+    public function scopeBelongsTo(Builder $query, User $user)
+    {
+        return $query
+            ->where('assigned_to', $user->id)
+            ->orWhere('created_by', $user->id);
+    }
+
     public function getFormValue(string $key)
     {
         if ($this->isEnumAttribute($key)) {
