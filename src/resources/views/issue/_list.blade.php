@@ -21,6 +21,11 @@
                     @endcan
                 </span>
                 <span class="text-muted font-sm">#{{$issue->id}}</span>
+                <span class="text-muted font-sm" title="{{__('Priority') }}">
+                        &nbsp;
+                        <i class="zmdi zmdi-sort-amount-desc" ></i>
+                        {{ $issue->priority }}
+                    </span>
                 <div class="text-muted">
                     @if( Auth::user()->can('view projects') && $issue->project->visibleFor(Auth::user()) )
                         <a href="{{ route('stift.project.show', $issue->project) }}">
@@ -29,6 +34,7 @@
                     @else
                         {{ $issue->project->name }}
                     @endif
+
                 </div>
             </td>
             <td><i class="zmdi zmdi-{{ enum_icon($issue->status) }}"

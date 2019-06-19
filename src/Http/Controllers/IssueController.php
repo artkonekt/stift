@@ -50,7 +50,7 @@ class IssueController extends BaseController
         }
 
         return view('stift::issue.index', [
-            'issues'           => $issues->userHasAccessTo(Auth::user())->get(),
+            'issues'           => $issues->userHasAccessTo(Auth::user())->sort()->get(),
             'projects'         => ProjectProxy::forUser(Auth::user())->get()->sortBy('name')->pluck('name', 'id'),
             'filteredProjects' => $filteredProjects,
             'statuses'         => [
