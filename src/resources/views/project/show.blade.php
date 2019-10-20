@@ -55,9 +55,19 @@
         </div>
     </div>
 
-    @include('stift::project._labels', ['labels' => $project->labels])
-
     @include('stift::project._issues', ['issues' => $project->issues()->open()->sort()->get(), 'title' => __('Open Issues')])
+
+    @can('view labels')
+    <div class="card">
+        <div class="card-header">
+            <h5>{{ __('Project Labels') }}</h5>
+        </div>
+        <div class="card-block">
+            @include('stift::project._labels', ['labels' => $project->labels])
+        </div>
+    </div>
+    @endcan
+
 
     <div class="card">
         <div class="card-block">

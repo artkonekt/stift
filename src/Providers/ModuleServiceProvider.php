@@ -16,11 +16,13 @@ use Konekt\Gears\Defaults\SimpleSetting;
 use Konekt\Gears\Facades\Settings;
 use Konekt\Stift\Helpers\DurationHumanizer;
 use Konekt\Stift\Http\Requests\CreateIssue;
+use Konekt\Stift\Http\Requests\CreateLabel;
 use Konekt\Stift\Http\Requests\CreateProject;
 use Konekt\Stift\Http\Requests\CreateWorklog;
 use Konekt\Stift\Http\Requests\ListIssues;
 use Konekt\Stift\Http\Requests\ListWorklogs;
 use Konekt\Stift\Http\Requests\UpdateIssue;
+use Konekt\Stift\Http\Requests\UpdateLabel;
 use Konekt\Stift\Http\Requests\UpdateProject;
 use Konekt\Stift\Http\Requests\UpdateWorklog;
 use Konekt\Stift\Models\Issue;
@@ -60,7 +62,9 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         CreateWorklog::class,
         UpdateWorklog::class,
         ListWorklogs::class,
-        ListIssues::class
+        ListIssues::class,
+        CreateLabel::class,
+        UpdateLabel::class
     ];
 
     protected $enums = [
