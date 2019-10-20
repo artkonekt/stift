@@ -29,7 +29,6 @@ class LabelController extends BaseController
         $this->theme = app('appshell.theme');
     }
 
-
     public function create(Project $project)
     {
         $label             = app(Label::class);

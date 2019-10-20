@@ -17,12 +17,14 @@ class CreateIssueLabelsTable extends Migration
             $table->foreign('issue_id')
                   ->references('id')
                   ->on('issues')
-                  ->onDelete('cascade');;
+                  ->onDelete('cascade');
+            ;
 
             $table->foreign('label_id')
                   ->references('id')
                   ->on('labels')
-                  ->onDelete('cascade');;
+                  ->onDelete('cascade');
+            ;
         });
     }
 

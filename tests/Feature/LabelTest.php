@@ -23,10 +23,10 @@ class LabelTest extends TestCase
         $project = factory(Project::class)->create();
 
         $label = Label::create([
-            'title' => 'Hello',
-            'slug' => 'hello',
+            'title'      => 'Hello',
+            'slug'       => 'hello',
             'project_id' => $project->id,
-            'color' => 'red'
+            'color'      => 'red'
         ]);
 
         $this->assertEquals('Hello', $label->title);
@@ -41,9 +41,9 @@ class LabelTest extends TestCase
         $project = factory(Project::class)->create();
 
         $label = Label::create([
-            'title' => 'János Dénes',
+            'title'      => 'János Dénes',
             'project_id' => $project->id,
-            'color' => 'red'
+            'color'      => 'red'
         ]);
 
         $this->assertEquals('janos-denes', $label->slug);
@@ -57,9 +57,9 @@ class LabelTest extends TestCase
         ]);
 
         $label = Label::create([
-            'title' => 'Orbán Déenes',
+            'title'      => 'Orbán Déenes',
             'project_id' => $project->id,
-            'color' => 'orange'
+            'color'      => 'orange'
         ]);
 
         $this->assertEquals($label->project->name, 'Udvari Kobzos');
@@ -73,45 +73,45 @@ class LabelTest extends TestCase
         $project2 = factory(Project::class)->create();
 
         Label::create([
-            'title' => 'First Label',
+            'title'      => 'First Label',
             'project_id' => $project1->id,
-            'color' => 'orange'
+            'color'      => 'orange'
         ]);
 
         Label::create([
-            'title' => 'Second Label',
+            'title'      => 'Second Label',
             'project_id' => $project1->id,
-            'color' => 'green'
+            'color'      => 'green'
         ]);
 
         Label::create([
-            'title' => 'Third Label',
+            'title'      => 'Third Label',
             'project_id' => $project1->id,
-            'color' => 'orange'
+            'color'      => 'orange'
         ]);
 
         Label::create([
-            'title' => 'Blue Label',
+            'title'      => 'Blue Label',
             'project_id' => $project2->id,
-            'color' => 'blue'
+            'color'      => 'blue'
         ]);
 
         Label::create([
-            'title' => 'Purple Label',
+            'title'      => 'Purple Label',
             'project_id' => $project2->id,
-            'color' => 'purple'
+            'color'      => 'purple'
         ]);
 
         Label::create([
-            'title' => 'Khaki Label',
+            'title'      => 'Khaki Label',
             'project_id' => $project2->id,
-            'color' => 'khaki'
+            'color'      => 'khaki'
         ]);
 
         Label::create([
-            'title' => 'Turquoise Label',
+            'title'      => 'Turquoise Label',
             'project_id' => $project2->id,
-            'color' => 'turquoise'
+            'color'      => 'turquoise'
         ]);
 
         $this->assertCount(3, $project1->labels);
@@ -124,9 +124,9 @@ class LabelTest extends TestCase
         $project = factory(Project::class)->create();
 
         $label = Label::create([
-            'title' => 'Turquoise Label',
+            'title'      => 'Turquoise Label',
             'project_id' => $project->id,
-            'color' => '#1f2d00'
+            'color'      => '#1f2d00'
         ]);
 
         $this->assertEquals('#1f2d00', $label->colorAsHex());
@@ -138,9 +138,9 @@ class LabelTest extends TestCase
         $project = factory(Project::class)->create();
 
         $label = Label::create([
-            'title' => 'Turquoise Label',
+            'title'      => 'Turquoise Label',
             'project_id' => $project->id,
-            'color' => 'primary'
+            'color'      => 'primary'
         ]);
 
         $this->assertEquals('#026c7c', $label->colorAsHex());

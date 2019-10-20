@@ -74,5 +74,4 @@ class Label extends Model implements LabelContract
             ]
         ];
     }
-
 }
