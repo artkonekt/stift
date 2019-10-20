@@ -19,6 +19,7 @@ use Konekt\Stift\Contracts\Issue;
 use Konekt\Stift\Contracts\Requests\CreateIssue;
 use Konekt\Stift\Contracts\Requests\ListIssues;
 use Konekt\Stift\Contracts\Requests\UpdateIssue;
+use Konekt\Stift\Contracts\Requests\UpdateIssueLabels;
 use Konekt\Stift\Models\IssueProxy;
 use Konekt\Stift\Models\IssueStatusProxy;
 use Konekt\Stift\Models\IssueTypeProxy;
@@ -153,5 +154,12 @@ class IssueController extends BaseController
         }
 
         return redirect(route('stift.issue.index', ['status' => 'open_issues']));
+    }
+
+    public function labels(UpdateIssueLabels $request, Issue $issue)
+    {
+        $issue->labels()->sync($request->getLabelIds());
+
+        return redirect(route('stift.issue.show', $issue));
     }
 }

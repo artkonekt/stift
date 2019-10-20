@@ -121,6 +121,8 @@
         </div>
     </div>
 
+    @include('stift::issue._labels')
+
     @include('stift::issue._worklogs')
 
 @stop

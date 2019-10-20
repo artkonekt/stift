@@ -22,6 +22,7 @@ use Konekt\Stift\Http\Requests\CreateWorklog;
 use Konekt\Stift\Http\Requests\ListIssues;
 use Konekt\Stift\Http\Requests\ListWorklogs;
 use Konekt\Stift\Http\Requests\UpdateIssue;
+use Konekt\Stift\Http\Requests\UpdateIssueLabels;
 use Konekt\Stift\Http\Requests\UpdateLabel;
 use Konekt\Stift\Http\Requests\UpdateProject;
 use Konekt\Stift\Http\Requests\UpdateWorklog;
@@ -64,7 +65,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         ListWorklogs::class,
         ListIssues::class,
         CreateLabel::class,
-        UpdateLabel::class
+        UpdateLabel::class,
+        UpdateIssueLabels::class
     ];
 
     protected $enums = [
