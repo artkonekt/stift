@@ -27,13 +27,6 @@ class IssueTest extends TestCase
 {
     use CreatesTestIssueTypes, CreatesTestSeverities, CreatesTestUsers, CreatesTestClients, CreatesTestProjects;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->createTestData();
-    }
-
     public function testIssueCanBeCreated()
     {
         $criticalBug = IssueProxy::create([
@@ -47,6 +40,13 @@ class IssueTest extends TestCase
         ]);
 
         $this->assertGreaterThan(0, $criticalBug->id);
+    }
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->createTestData();
     }
 
     public function testIssueHoldsAssociatedEntities()
@@ -146,8 +146,8 @@ class IssueTest extends TestCase
         ]);
 
 
-        $this->assertContains('<h1>Hello</h1>', $issue->getMarkdownDescriptionAsHtml());
-        $this->assertContains("<p>What's up?</p>", $issue->getMarkdownDescriptionAsHtml());
+        $this->assertStringContainsString('<h1>Hello</h1>', $issue->getMarkdownDescriptionAsHtml());
+        $this->assertStringContainsString("<p>What's up?</p>", $issue->getMarkdownDescriptionAsHtml());
     }
 
     /** @test */

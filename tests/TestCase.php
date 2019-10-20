@@ -12,6 +12,7 @@ namespace Konekt\Stift\Tests;
 
 use Konekt\AppShell\Providers\ModuleServiceProvider as AppShell;
 use Konekt\Concord\Contracts\Concord;
+use Konekt\LaravelMigrationCompatibility\LaravelMigrationCompatibilityProvider;
 use Konekt\Stift\Providers\ModuleServiceProvider as Stift;
 use Konekt\Concord\ConcordServiceProvider;
 use Konekt\Gears\Providers\GearsServiceProvider;
@@ -23,7 +24,7 @@ class TestCase extends OrchestraTestCase
     /** @var Concord */
     protected $concord;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,6 +44,7 @@ class TestCase extends OrchestraTestCase
         return [
             ConcordServiceProvider::class,
             GearsServiceProvider::class,
+            LaravelMigrationCompatibilityProvider::class
         ];
     }
 

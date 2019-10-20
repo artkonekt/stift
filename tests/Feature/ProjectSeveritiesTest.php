@@ -141,7 +141,7 @@ class ProjectSeveritiesTest extends TestCase
         $this->assertArrayNotHasKey(self::$TEST_CRITICAL_KEY, $this->project1->severities->keyBy('id')->all());
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

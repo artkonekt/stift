@@ -185,7 +185,7 @@ class WorklogTest extends TestCase
         $this->assertCount(4, Worklog::billable()->get());
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

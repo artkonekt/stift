@@ -124,7 +124,7 @@ class ProjectIssueTypesTest extends TestCase
         $this->assertArrayNotHasKey(self::$TEST_BUG_KEY, $this->project1->issueTypes->keyBy('id')->all());
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
