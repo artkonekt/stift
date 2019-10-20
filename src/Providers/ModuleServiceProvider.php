@@ -24,6 +24,7 @@ use Konekt\Stift\Http\Requests\UpdateIssue;
 use Konekt\Stift\Http\Requests\UpdateProject;
 use Konekt\Stift\Http\Requests\UpdateWorklog;
 use Konekt\Stift\Models\Issue;
+use Konekt\Stift\Models\IssueLabel;
 use Konekt\Stift\Models\IssueStatus;
 use Konekt\Stift\Models\IssueStatusProxy;
 use Konekt\Stift\Models\IssueType;
@@ -47,7 +48,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         Severity::class,
         Issue::class,
         Worklog::class,
-        Label::class
+        Label::class,
+        IssueLabel::class
     ];
 
     protected $requests = [

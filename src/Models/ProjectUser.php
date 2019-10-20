@@ -21,7 +21,6 @@ class ProjectUser extends Model implements ProjectUserContract
 {
     protected $fillable = ['project_id', 'user_id'];
 
-
     /**
      * Get the user
      *

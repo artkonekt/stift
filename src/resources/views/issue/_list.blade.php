@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th>{{ __('Subject') }}</th>
+        <th>{{ __('Labels') }}</th>
         <th>{{ __('Status') }}</th>
         <th>{{ __('Assigned to') }}</th>
         <th>{{ __('Created at') }}</th>
@@ -36,6 +37,11 @@
                     @endif
 
                 </div>
+            </td>
+            <td>
+                @foreach($issue->labels as $label)
+                    <span class="badge badge-pill" style="background-color: {{ $label->colorAsHex() }}">{{ $label->title }}</span>
+                @endforeach
             </td>
             <td><i class="zmdi zmdi-{{ enum_icon($issue->status) }}"
                    alt="{{ $issue->status->label() }}" title="{{ $issue->status->label() }}"></i>

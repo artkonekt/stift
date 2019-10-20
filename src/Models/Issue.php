@@ -73,6 +73,11 @@ class Issue extends Model implements IssueContract
         return $this->hasOne(IssueTypeProxy::modelClass(), 'id', 'issue_type_id');
     }
 
+    public function labels()
+    {
+        return $this->belongsToMany(LabelProxy::modelClass(), 'issue_labels');
+    }
+
     /**
      * Relation for the associated severity
      *
