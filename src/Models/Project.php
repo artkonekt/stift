@@ -66,6 +66,11 @@ class Project extends Model implements ProjectContract
         return $this->belongsToMany(UserProxy::modelClass(), 'project_users');
     }
 
+    public function labels()
+    {
+        return $this->hasMany(LabelProxy::modelClass(), 'project_id', 'id');
+    }
+
     /**
      * The customer the project belongs to
      *

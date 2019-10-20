@@ -27,6 +27,7 @@ use Konekt\Stift\Models\Issue;
 use Konekt\Stift\Models\IssueStatus;
 use Konekt\Stift\Models\IssueStatusProxy;
 use Konekt\Stift\Models\IssueType;
+use Konekt\Stift\Models\Label;
 use Konekt\Stift\Models\PredefinedPeriod;
 use Konekt\Stift\Models\Project;
 use Konekt\Stift\Models\ProjectUser;
@@ -45,7 +46,8 @@ class ModuleServiceProvider extends BaseBoxServiceProvider
         IssueType::class,
         Severity::class,
         Issue::class,
-        Worklog::class
+        Worklog::class,
+        Label::class
     ];
 
     protected $requests = [
