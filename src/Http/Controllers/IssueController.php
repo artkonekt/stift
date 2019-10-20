@@ -83,7 +83,7 @@ class IssueController extends BaseController
         $data['priority']   = empty($data['priority']) ? Settings::get('stift.issues.default_priority') : $data['priority'];
 
         try {
-            IssueProxy::create($data);
+            $issue = IssueProxy::create($data);
 
             flash()->success(__('Issue has been created'));
         } catch (\Exception $e) {
@@ -92,7 +92,7 @@ class IssueController extends BaseController
             return redirect()->back();
         }
 
-        return redirect(route('stift.issue.index', ['status' => 'open_issues']));
+        return redirect(route('stift.project.show', $issue->project));
     }
 
     public function show(Issue $issue)
