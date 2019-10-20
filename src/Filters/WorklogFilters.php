@@ -49,8 +49,7 @@ class WorklogFilters
         ?DatePeriod $period = null,
         array $projects = [],
         ?bool $billable = null
-    )
-    {
+    ) {
         $this->user     = $user;
         $this->users    = new Users($users);
         $this->period   = new Period($period);

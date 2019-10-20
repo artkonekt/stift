@@ -77,9 +77,9 @@ class IssueController extends BaseController
 
     public function store(CreateIssue $request)
     {
-        $data = $request->all();
+        $data               = $request->all();
         $data['created_by'] = Auth::user()->id;
-        $data['priority'] = empty($data['priority']) ? Settings::get('stift.issues.default_priority') : $data['priority'];
+        $data['priority']   = empty($data['priority']) ? Settings::get('stift.issues.default_priority') : $data['priority'];
 
         try {
             IssueProxy::create($data);

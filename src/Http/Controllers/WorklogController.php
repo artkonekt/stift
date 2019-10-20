@@ -27,9 +27,9 @@ class WorklogController extends BaseController
     {
         $view = $request->has('print') ? 'print' : 'index';
 
-        $filterSet = WorklogFilters::createFromRequest($request, Auth::user());
+        $filterSet              = WorklogFilters::createFromRequest($request, Auth::user());
         $projectsAllowedForUser = ProjectProxy::forUser(Auth::user())->get()->pluck('id')->all();
-        $projectsRequested = $request->getProjects();
+        $projectsRequested      = $request->getProjects();
 
         if (empty($projectsRequested)) {
             $projectsToFilter = $projectsAllowedForUser;

@@ -155,14 +155,14 @@ class WorklogTest extends TestCase
     public function worklogs_can_be_set_as_non_billable()
     {
         $worklog = Worklog::create([
-            'user_id' => $this->user1->id,
+            'user_id'     => $this->user1->id,
             'is_billable' => false
         ])->fresh();
 
         $this->assertFalse($worklog->is_billable);
 
-        $worklog2 = new Worklog();
-        $worklog2->user_id = $this->user1->id;
+        $worklog2              = new Worklog();
+        $worklog2->user_id     = $this->user1->id;
         $worklog2->is_billable = false;
         $worklog2->save();
 

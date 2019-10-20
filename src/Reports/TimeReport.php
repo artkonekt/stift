@@ -63,9 +63,9 @@ class TimeReport extends BaseReport
     {
         parent::__construct($period);
 
-        $this->usersFilter = $users;
+        $this->usersFilter    = $users;
         $this->projectsFilter = $projects;
-        $this->billable    = $billable;
+        $this->billable       = $billable;
 
         foreach ($projects as $project) {
             if ($project instanceof Project) {

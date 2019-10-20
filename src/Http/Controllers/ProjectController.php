@@ -46,7 +46,7 @@ class ProjectController extends BaseController
 
         return view('stift::project.index', [
             'projects' => $query->get(),
-            'actives' => [
+            'actives'  => [
                 1 => __('Active projects'),
                 0 => __('Inactive projects')
             ],

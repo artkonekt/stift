@@ -19,7 +19,7 @@ $factory->define(Issue::class, function (Faker $faker) {
         'severity_id'   => function () {
             return factory(Severity::class)->create()->id;
         },
-        'subject'       => $faker->words(mt_rand(1,7)),
+        'subject'       => $faker->words(mt_rand(1, 7)),
         'status'        => IssueStatus::defaultValue(),
         'priority'      => $faker->randomNumber(2),
         'created_by'    => function () {
