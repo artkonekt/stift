@@ -32,6 +32,19 @@ class PredefinedPeriod extends Enum implements PredefinedPeriodContract
 
     protected static $labels = [];
 
+    public static function reverseLookup(DatePeriod $period): ?PredefinedPeriodContract
+    {
+        foreach (static::values() as $value) {
+            $instance = static::create($value);
+            $defPeriod = $instance->getDatePeriod();
+            if ($defPeriod->start == $period->start && $defPeriod->end == $period->end) {
+                return $instance;
+            }
+        }
+
+        return null;
+    }
+
     protected static function boot()
     {
         static::$labels = [

@@ -37,6 +37,11 @@ class Users
         return !$this->isNotDefined();
     }
 
+    public function getDisplayText(): string
+    {
+        return implode(', ', $this->value);
+    }
+
     public function getOptions(): array
     {
         return [

@@ -23,6 +23,13 @@ class Billable
         return $this->value;
     }
 
+    public function getDisplayText(): string
+    {
+        $value = is_null($this->value) ? null : ($this->value ? 1 : 0);
+
+        return $this->getOptions()[$value];
+    }
+
     public function isNotDefined(): bool
     {
         return is_null($this->value);

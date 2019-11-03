@@ -6,12 +6,18 @@
 
 @section('content')
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                {{ $error }}<br/>
+            @endforeach
+        </div>
+    @endif
+
     <div class="card card-accent-secondary">
 
         <div class="card-header">
-            {{ $filter->value('period')->getStartDate()->format('M d') }}
-            -
-            {{ $filter->value('period')->getEndDate()->format('M d, Y') }}
+            {{ $filter->getDisplayText('period') }}
 
             @if($filter->isNotDefined('projects'))
                 <span class="badge badge-dark font-weight-normal">{{ __('All projects') }}</span>
@@ -30,7 +36,7 @@
                     &nbsp;
                     {!! Form::select('projects[]', $filter->options('projects'), $filter->value('projects'), ['class' => 'form-control form-control-sm', 'multiple' => 'multiple']) !!}
                     &nbsp;
-                    {!! Form::select('period', $filter->options('period'), $filter->value('period')->getStartDate()->format('Y'), ['class' => 'form-control form-control-sm']) !!}
+                    {!! Form::select('period', $filter->options('period'), $filter->value('period'), ['class' => 'form-control form-control-sm', 'autocomplete' => 'off']) !!}
 
                     {!! Form::select('billable', $filter->options('billable'), $filter->value('billable'), ['class' => 'form-control form-control-sm']) !!}
                     &nbsp;

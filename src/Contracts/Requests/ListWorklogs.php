@@ -16,7 +16,7 @@ use Konekt\Concord\Contracts\BaseRequest;
 
 interface ListWorklogs extends BaseRequest
 {
-    public function getPeriod(): DatePeriod;
+    public function getPeriod(): ?DatePeriod;
 
     public function getUsers(): array;
 

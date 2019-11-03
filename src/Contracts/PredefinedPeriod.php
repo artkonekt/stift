@@ -15,5 +15,7 @@ use DatePeriod;
 
 interface PredefinedPeriod
 {
+    public static function reverseLookup(DatePeriod $period): ?PredefinedPeriod;
+
     public function getDatePeriod(): DatePeriod;
 }

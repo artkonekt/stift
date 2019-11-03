@@ -43,8 +43,8 @@ class WorklogController extends BaseController
         }
 
         return view('stift::worklog.' . $view, [
-            'report'             => $timeReport,
-            'filter'             => $filterSet,
+            'report' => $timeReport,
+            'filter' => $filterSet,
         ]);
     }
 

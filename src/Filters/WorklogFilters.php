@@ -76,4 +76,9 @@ class WorklogFilters
     {
         return $this->{$filter}->isNotDefined();
     }
+
+    public function getDisplayText(string $filter): string
+    {
+        return $this->{$filter}->getDisplayText();
+    }
 }
