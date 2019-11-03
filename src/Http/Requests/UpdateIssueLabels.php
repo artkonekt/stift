@@ -21,7 +21,7 @@ class UpdateIssueLabels extends FormRequest implements UpdateIssueLabelsContract
     {
         return [
             'issue_id' => 'int|exists:issues,id',
-            'labels' => 'sometimes|array'
+            'labels'   => 'sometimes|array'
         ];
     }
 

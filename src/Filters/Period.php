@@ -78,7 +78,7 @@ class Period
         $result = PredefinedPeriodProxy::choices();
 
         if (null === $this->getPredefinedValue($this->value)) {
-            $customValue = $this->datePeriodToString($this->value);
+            $customValue          = $this->datePeriodToString($this->value);
             $result[$customValue] = $customValue;
         }
 
@@ -109,7 +109,7 @@ class Period
     private function isExactlyOneDay(DatePeriod $period): bool
     {
         $start = Carbon::instance($period->start);
-        $end = Carbon::instance($period->end);
+        $end   = Carbon::instance($period->end);
 
         return
             $start->isStartOfDay()
@@ -122,7 +122,7 @@ class Period
     private function isExactlyOneMonth(DatePeriod $period): bool
     {
         $start = Carbon::instance($period->start);
-        $end = Carbon::instance($period->end);
+        $end   = Carbon::instance($period->end);
 
         return
             $start->copy()->startOfMonth()->eq($start)
@@ -135,7 +135,7 @@ class Period
     private function isExactlyOneYear(DatePeriod $period): bool
     {
         $start = Carbon::instance($period->start);
-        $end = Carbon::instance($period->end);
+        $end   = Carbon::instance($period->end);
 
         return
             $start->copy()->startOfYear()->eq($start)

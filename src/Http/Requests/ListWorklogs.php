@@ -29,7 +29,7 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
             'projects'   => 'sometimes',
             'start_date' => 'sometimes|date',
             'end_date'   => 'sometimes|date',
-            'period'     => ['sometimes', function($attribute, $value, $fail) {
+            'period'     => ['sometimes', function ($attribute, $value, $fail) {
                 if (null === $this->getPeriod($value)) {
                     $fail("Invalid period `$value`. Examples: 2018, 2019-10, 2019-10-11, 2019-01-2019-14, 2019-02-01-2019-03-15");
                 }
@@ -118,14 +118,14 @@ class ListWorklogs extends FormRequest implements ListWorklogsContract
         // Start date - End date eg. "2019-09-2019-12"
         if (preg_match('/^([12][0-9]{3})-([01][0-9])-([12][0-9]{3})-([01][0-9])$/', $period, $matches)) {
             $start = Carbon::create($matches[1], intval($matches[2]), 1, 0, 0, 0)->startOfMonth();
-            $end = Carbon::create($matches[3], intval($matches[4]), 1, 0, 0, 0)->endOfMonth();
+            $end   = Carbon::create($matches[3], intval($matches[4]), 1, 0, 0, 0)->endOfMonth();
             return new DatePeriod($start, new \DateInterval('P1D'), $end);
         }
 
         // Start date - End date eg. "2019-10-21-2019-10-23"
         if (preg_match('/^([12][0-9]{3})-([01][0-9])-([0123][0-9])-([12][0-9]{3})-([01][0-9])-([0123][0-9])$/', $period, $matches)) {
             $start = Carbon::create($matches[1], intval($matches[2]), intval($matches[3]), 0, 0, 0)->startOfDay();
-            $end = Carbon::create($matches[4], intval($matches[5]), intval($matches[6]), 0, 0, 0)->endOfDay();
+            $end   = Carbon::create($matches[4], intval($matches[5]), intval($matches[6]), 0, 0, 0)->endOfDay();
             return new DatePeriod($start, new \DateInterval('P1D'), $end);
         }
 
