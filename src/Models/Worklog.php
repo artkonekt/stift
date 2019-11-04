@@ -96,7 +96,7 @@ class Worklog extends Model implements WorklogContract
         return $q->where('state', '<>', 'running');
     }
 
-    public function scopeLatest($q, $numEntries = 10)
+    public function scopeRecent($q, $numEntries = 10)
     {
         return $q->orderBy('started_at', 'desc')->take($numEntries);
     }
